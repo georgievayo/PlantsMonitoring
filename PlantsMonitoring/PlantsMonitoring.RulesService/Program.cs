@@ -11,7 +11,7 @@ namespace PlantsMonitoring.RulesService
     internal static class Program
     {
         private const string ENDPOINT_URL = "https://plants-monitoring.documents.azure.com:443/";
-        private const string PRIMARY_KEY = "ima6sUPQ97PtEfvz76LL2Ch9LaBnsMmycyRCNOCUWVzJ83vS0fRgDxUG8oIXGV9QoZEKqzrwQBwvfeLV6cbREA==";
+        private const string PRIMARY_KEY = "";
 
         private static void Main()
         {
