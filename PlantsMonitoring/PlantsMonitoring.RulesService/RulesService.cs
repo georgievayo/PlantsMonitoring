@@ -21,10 +21,10 @@ namespace PlantsMonitoring.RulesService
             this.dbContext = dbContext;
         }
 
-        public List<Rule> GetAllRules()
+        public Task<List<Rule>> GetAllRules()
         {
-            return this.dbContext.GetAllRules()
-                .ToList();
+            return Task.FromResult(this.dbContext.GetAllRules()
+                .ToList());
         }
 
         public async Task PostRule(Rule rule)

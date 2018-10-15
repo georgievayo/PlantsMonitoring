@@ -9,6 +9,6 @@ namespace PlantsMonitoring.TelemetryService
     {
         Task PostMeasurement(Measurement measurement);
 
-        //List<Measurement> GetLastMeasurements(string deviceId);
+        Task<List<Measurement>> GetLastMeasurements(string deviceId);
     }
 }

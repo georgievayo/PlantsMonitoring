@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using Autofac;
+using Autofac.Core;
 using Autofac.Integration.ServiceFabric;
 using Microsoft.Azure.Documents.Client;
 using PlantsMonitoring.Data;
@@ -19,12 +21,14 @@ namespace PlantsMonitoring.RulesService
             {
                 var builder = new ContainerBuilder();
 
-                builder.RegisterType<DbContext>()
-                    .As<IDbContext>()
-                    .InstancePerRequest();
                 builder.Register(c => new DocumentClient(new Uri(ENDPOINT_URL), PRIMARY_KEY))
                     .AsSelf()
                     .InstancePerLifetimeScope();
+
+                builder.RegisterType<DbContext>()
+                    .As<IDbContext>()
+                    .InstancePerLifetimeScope();
+                
 
                 builder.RegisterServiceFabricSupport();
                 builder.RegisterStatelessService<RulesService>("PlantsMonitoring.RulesServiceType");

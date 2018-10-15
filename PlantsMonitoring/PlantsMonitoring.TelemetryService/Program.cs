@@ -19,12 +19,12 @@ namespace PlantsMonitoring.TelemetryService
             {
                 var builder = new ContainerBuilder();
 
-                builder.RegisterType<DbContext>()
-                    .As<IDbContext>()
-                    .InstancePerRequest();
                 builder.Register(c => new DocumentClient(new Uri(ENDPOINT_URL), PRIMARY_KEY))
-                    .AsSelf()
-                    .InstancePerRequest();
+                    .AsSelf();
+
+                builder.RegisterType<DbContext>()
+                    .As<IDbContext>();
+                
                 builder.RegisterServiceFabricSupport();
                 builder.RegisterStatelessService<TelemetryService>("PlantsMonitoring.TelemetryServiceType");
 

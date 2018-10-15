@@ -21,7 +21,7 @@ namespace PlantsMonitoring.WebApi.Controllers
         public async Task<IHttpActionResult> Post([FromBody] Measurement measurement)
         {
             await this.service.PostMeasurement(measurement);
-          
+
             return Ok();
         }
     }

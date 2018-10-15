@@ -21,12 +21,12 @@ namespace PlantsMonitoring.TelemetryService
             this.dbContext = dbContext;
         }
 
-        public List<Measurement> GetLastMeasurements(string deviceId)
+        public Task<List<Measurement>> GetLastMeasurements(string deviceId)
         {
             var result = this.dbContext.GetLastDocuments(deviceId, DB_COLLECTION_NAME)
                .ToList();
 
-            return result;
+            return Task.FromResult(result);
         }
 
         public async Task PostMeasurement(Measurement measurement)
