@@ -25,9 +25,9 @@ namespace PlantsMonitoring.WebApi.Controllers
             return Ok();
         }
 
-        public IHttpActionResult Get()
+        public IHttpActionResult Get([FromUri]string groupId)
         {
-            var rules = this.service.GetAllRules();
+            var rules = this.service.GetAllRules(groupId);
 
             return Ok(rules);
         }

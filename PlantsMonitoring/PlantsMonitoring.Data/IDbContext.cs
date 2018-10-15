@@ -12,5 +12,7 @@ namespace PlantsMonitoring.Data
         IQueryable<Measurement> GetLastDocuments(string id, string collectionName);
 
         IQueryable<Rule> GetAllRules();
+
+        IQueryable<Device> GetAllDevices();
     }
 }

@@ -115,6 +115,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\DevicesController.cs" />
     <Compile Include="Controllers\RulesController.cs" />
     <Compile Include="Controllers\TelemetryController.cs" />
     <Compile Include="IOwinAppBuilder.cs" />
@@ -133,6 +134,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\PlantsMonitoring.DevicesService\PlantsMonitoring.DevicesService.csproj">
+      <Project>{796950E5-1393-4C75-ACD0-64CFD1272B7D}</Project>
+      <Name>PlantsMonitoring.DevicesService</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PlantsMonitoring.Models\PlantsMonitoring.Models.csproj">
       <Project>{F4FFD56C-6299-49D7-AC6C-E9FD6278B082}</Project>
       <Name>PlantsMonitoring.Models</Name>

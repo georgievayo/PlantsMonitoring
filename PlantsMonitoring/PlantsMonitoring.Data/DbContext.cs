@@ -10,6 +10,8 @@ namespace PlantsMonitoring.Data
     {
         private const string DATABASE_ID = "";
         private const string RULES_COLLECTION_NAME = "Rules";
+        private const string DEVICES_COLLECTION_NAME = "Devices";
+
         private readonly DocumentClient client;
 
         public DbContext(DocumentClient client)
@@ -29,6 +31,13 @@ namespace PlantsMonitoring.Data
             var collectionUri = UriFactory.CreateDocumentCollectionUri(DATABASE_ID, RULES_COLLECTION_NAME);
 
             return this.client.CreateDocumentQuery<Rule>(collectionUri);
+        }
+
+        public IQueryable<Device> GetAllDevices()
+        {
+            var collectionUri = UriFactory.CreateDocumentCollectionUri(DATABASE_ID, DEVICES_COLLECTION_NAME);
+
+            return this.client.CreateDocumentQuery<Device>(collectionUri);
         }
 
         public IQueryable<Measurement> GetLastDocuments(string id, string collectionName)
