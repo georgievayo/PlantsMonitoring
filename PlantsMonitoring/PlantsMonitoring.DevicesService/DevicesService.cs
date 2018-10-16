@@ -23,7 +23,7 @@ namespace PlantsMonitoring.DevicesService
 
         public async Task CreateDevice(Device device)
         {
-            await this.dbContext.AddEntry(device, DEVICES_COLLECTION_NAME);
+            var result = await this.dbContext.AddEntry(device, DEVICES_COLLECTION_NAME);
         }
 
         public Task<List<Device>> GetAll()

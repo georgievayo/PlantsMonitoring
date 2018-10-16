@@ -8,7 +8,7 @@ namespace PlantsMonitoring.Data
 {
     public class DbContext : IDbContext
     {
-        private const string DATABASE_ID = "";
+        private const string DATABASE_ID = "PlantsMonitoring";
         private const string RULES_COLLECTION_NAME = "Rules";
         private const string DEVICES_COLLECTION_NAME = "Devices";
 
