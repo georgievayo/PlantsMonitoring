@@ -1,0 +1,1 @@
+export const getResult = (response) => response.Result || response.result || [];
