@@ -1,6 +1,7 @@
 ﻿using Owin;
 using System.Fabric;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace PlantsMonitoring.WebApi
 {
@@ -22,6 +23,8 @@ namespace PlantsMonitoring.WebApi
                 routeTemplate: "api/{controller}",
                 defaults: new { controller = "TelemetryController" }
             );
+            var corsAttr = new EnableCorsAttribute("http://localhost:3000", "*", "*");
+            config.EnableCors(corsAttr);
 
             appBuilder.UseWebApi(config);
         }

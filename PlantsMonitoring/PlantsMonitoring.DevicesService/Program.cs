@@ -11,7 +11,7 @@ namespace PlantsMonitoring.DevicesService
     internal static class Program
     {
         private const string ENDPOINT_URL = "https://plants-monitoring.documents.azure.com:443/";
-        private const string PRIMARY_KEY = "";
+        private const string PRIMARY_KEY = "qMOb3RHXfFlBjhDsplS0lPDm6DjCaZjtZCr9GtGzYxbqP1ImOSGegOMXybCKCLMDk9nu1qp6qZzUtbULphRmyw==";
 
         private static void Main()
         {
