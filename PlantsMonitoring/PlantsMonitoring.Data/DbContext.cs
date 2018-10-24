@@ -11,6 +11,7 @@ namespace PlantsMonitoring.Data
         private const string DATABASE_ID = "PlantsMonitoring";
         private const string RULES_COLLECTION_NAME = "Rules";
         private const string DEVICES_COLLECTION_NAME = "Devices";
+        private const string GROUPS_COLLECTION_NAME = "Groups";
 
         private readonly DocumentClient client;
 
@@ -47,6 +48,13 @@ namespace PlantsMonitoring.Data
             return this.client.CreateDocumentQuery<Measurement>(collectionUri)
                 .Where(entry => entry.DeviceId == id)
                 .OrderByDescending(entry => entry.ReceivedAt);
+        }
+
+        public IQueryable<Group> GetAllGroups()
+        {
+            var collectionUri = UriFactory.CreateDocumentCollectionUri(DATABASE_ID, GROUPS_COLLECTION_NAME);
+
+            return this.client.CreateDocumentQuery<Group>(collectionUri);
         }
     }
 }

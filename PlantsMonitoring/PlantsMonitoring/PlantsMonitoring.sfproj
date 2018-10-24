@@ -33,6 +33,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PlantsMonitoring.DevicesService\PlantsMonitoring.DevicesService.csproj" />
+    <ProjectReference Include="..\PlantsMonitoring.GroupsService\PlantsMonitoring.GroupsService.csproj" />
     <ProjectReference Include="..\PlantsMonitoring.RulesService\PlantsMonitoring.RulesService.csproj" />
     <ProjectReference Include="..\PlantsMonitoring.TelemetryService\PlantsMonitoring.TelemetryService.csproj" />
     <ProjectReference Include="..\PlantsMonitoring.WebApi\PlantsMonitoring.WebApi.csproj" />

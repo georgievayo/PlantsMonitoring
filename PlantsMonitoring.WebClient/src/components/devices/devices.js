@@ -1,14 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { CreateDevice } from '../createDevice';
 import * as devicesActions from '../../actions/devices.actions';
 
 class Devices extends Component {
   state = {
-    devices: []
+    devices: [],
+    showCreateDevice: false
   }
 
-  componentDidMount() {
+  openCreateDeviceSection = () => {
+    this.setState({ showCreateDevice: true });
+  }
 
+  closeCreateDeviceSection = () => {
+    this.setState({ showCreateDevice: false });
   }
 
   render() {
@@ -30,13 +36,23 @@ class Devices extends Component {
             <span className="navbar-toggler-bar navbar-kebab"></span>
             <span className="navbar-toggler-bar navbar-kebab"></span>
           </button>
+          <div className="collapse navbar-collapse justify-content-end" id="navigation">
+            <ul className="navbar-nav">
+              <li className="nav-item">
+                <button className="nav-link" id="new-device-btn" onClick={this.openCreateDeviceSection}>
+                  <i className="now-ui-icons ui-1_simple-add"></i>
+                  New Device
+                </button>
+              </li>
+            </ul>
+          </div>
         </div>
       </nav>,
       <div key="panel-header" className="panel-header panel-header-sm">
       </div>,
       <div key="content" className="content">
         <div className="row">
-          <div className="col-md-12">
+          <div className={this.state.showCreateDevice ? "col-md-8" : "col-md-12"}>
             <div className="card">
               <div className="card-header">
                 <h4 className="card-title"> Your devices</h4>
@@ -45,7 +61,7 @@ class Devices extends Component {
                 <div className="table-responsive">
                   <table className="table">
                     <tbody>
-                      <tr className=" text-primary">
+                      <tr className="text-primary">
                         <th>
                           Id
                       </th>
@@ -53,7 +69,7 @@ class Devices extends Component {
                           Name
                       </th>
                         <th>
-                          Group
+                          Plant Type
                       </th>
                         <th className="text-right">
                           Status
@@ -81,6 +97,7 @@ class Devices extends Component {
               </div>
             </div>
           </div>
+          {this.state.showCreateDevice && <CreateDevice close={this.closeCreateDeviceSection} />}
         </div>
       </div>]
     );

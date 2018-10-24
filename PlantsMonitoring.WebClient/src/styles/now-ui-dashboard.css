@@ -3892,3 +3892,16 @@ Created using IcoMoon - icomoon.io
     -webkit-overflow-scrolling: touch; } }
 
 /*# sourceMappingURL=now-ui-dashboard.css.map */
+
+#new-device-btn, #new-device-btn:focus {
+  background-color: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+#close-btn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}

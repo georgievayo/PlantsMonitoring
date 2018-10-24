@@ -4,7 +4,6 @@ export const toDevicesModel = (response) => getResult(response)
     .map(toDeviceModel);
 
 export const toDeviceModel = (response = {}) => {
-    debugger;
     return {
         id: response.Id,
         name: response.Name,

@@ -14,5 +14,7 @@ namespace PlantsMonitoring.Data
         IQueryable<Rule> GetAllRules();
 
         IQueryable<Device> GetAllDevices();
+
+        IQueryable<Group> GetAllGroups();
     }
 }
