@@ -1,5 +1,5 @@
 import { HttpClient, api } from '../httpClient';
-import { toDevicesModel } from '../models/devices';
+import { toDevicesModel, toDeviceModel } from '../models/devices';
 
 export function getAllDevices() {
     return function (dispatch) {
@@ -9,9 +9,25 @@ export function getAllDevices() {
     };
 }
 
+export function postDevice(device) {
+    return function (dispatch) {
+        debugger;
+        return HttpClient.post(api.DEVICES, device)
+            .then(toDeviceModel)
+            .then(createdDevice => dispatch(postDeviceSuccess(device)));
+    }
+}
+
 function getAllDevicesSuccess(devices) {
     return {
         type: 'GET_DEVICES_SUCCESS',
         devices
+    };
+}
+
+function postDeviceSuccess(device) {
+    return {
+        type: 'POST_DEVICE_SUCCESS',
+        device
     };
 }

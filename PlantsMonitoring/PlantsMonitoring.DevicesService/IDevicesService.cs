@@ -7,7 +7,7 @@ namespace PlantsMonitoring.DevicesService
 {
     public interface IDevicesService : IService
     {
-        Task CreateDevice(Device device);
+        Task<Device> CreateDevice(Device device);
 
         Task<List<Device>> GetAll();
     }

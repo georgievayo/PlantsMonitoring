@@ -2,6 +2,7 @@
 using PlantsMonitoring.DevicesService;
 using PlantsMonitoring.Models;
 using System;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
 
@@ -31,12 +32,12 @@ namespace PlantsMonitoring.WebApi.Controllers
             }
         }
 
-        public IHttpActionResult Post([FromBody]Device device)
+        public async Task<IHttpActionResult> Post([FromBody]Device device)
         {
             try
             {
-                this.service.CreateDevice(device);
-                return Ok();
+                var createdDevice = await this.service.CreateDevice(device);
+                return Ok(createdDevice);
             }
             catch(Exception)
             {

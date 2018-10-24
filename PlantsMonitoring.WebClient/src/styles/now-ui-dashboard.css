@@ -3900,7 +3900,7 @@ Created using IcoMoon - icomoon.io
   cursor: pointer;
 }
 
-#close-btn {
+.create-device-btn {
   background-color: transparent;
   border: none;
   cursor: pointer;
