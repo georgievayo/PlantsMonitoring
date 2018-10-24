@@ -14,7 +14,8 @@ const HttpClient = {
             method: 'POST',
             body: JSON.stringify(body),
             headers: headers
-        });
+        })
+        .then(response => response.json());
     }
 };
 

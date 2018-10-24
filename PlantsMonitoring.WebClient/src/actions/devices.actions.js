@@ -11,7 +11,6 @@ export function getAllDevices() {
 
 export function postDevice(device) {
     return function (dispatch) {
-        debugger;
         return HttpClient.post(api.DEVICES, device)
             .then(toDeviceModel)
             .then(createdDevice => dispatch(postDeviceSuccess(createdDevice)));
