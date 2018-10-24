@@ -14,7 +14,7 @@ export function postDevice(device) {
         debugger;
         return HttpClient.post(api.DEVICES, device)
             .then(toDeviceModel)
-            .then(createdDevice => dispatch(postDeviceSuccess(device)));
+            .then(createdDevice => dispatch(postDeviceSuccess(createdDevice)));
     }
 }
 

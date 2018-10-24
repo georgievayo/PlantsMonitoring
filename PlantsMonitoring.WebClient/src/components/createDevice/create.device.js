@@ -86,7 +86,7 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch, ownProps) {
   return {
     getGroups: dispatch(groupsActions.getAllGroups()),
-    createDevice: dispatch((device) => devicesActions.postDevice(device))
+    createDevice: (device) => dispatch(devicesActions.postDevice(device))
   };
 }
 
