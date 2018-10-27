@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
@@ -12,6 +13,7 @@ namespace PlantsMonitoring.Data
         private const string RULES_COLLECTION_NAME = "Rules";
         private const string DEVICES_COLLECTION_NAME = "Devices";
         private const string GROUPS_COLLECTION_NAME = "Groups";
+        private const string TELEMETRY_COLLECTION_NAME = "Telemetry";
 
         private readonly DocumentClient client;
 
@@ -48,6 +50,15 @@ namespace PlantsMonitoring.Data
             return this.client.CreateDocumentQuery<Measurement>(collectionUri)
                 .Where(entry => entry.DeviceId == id)
                 .OrderByDescending(entry => entry.ReceivedAt);
+        }
+
+        public IQueryable<Measurement> GetTelemetry()
+        {
+            var collectionUri = UriFactory.CreateDocumentCollectionUri(DATABASE_ID, TELEMETRY_COLLECTION_NAME);
+            var minDate = DateTime.Now.Subtract(new TimeSpan(7, 0, 0, 0));
+
+            return this.client.CreateDocumentQuery<Measurement>(collectionUri)
+                .Where(m => m.ReceivedAt >= minDate);
         }
 
         public IQueryable<Group> GetAllGroups()

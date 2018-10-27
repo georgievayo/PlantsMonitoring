@@ -24,5 +24,12 @@ namespace PlantsMonitoring.WebApi.Controllers
 
             return Ok();
         }
+
+        public async Task<IHttpActionResult> Get()
+        {
+            var result = await this.service.GetSummarizedTelemetry();
+
+            return Ok(result);
+        }
     }
 }

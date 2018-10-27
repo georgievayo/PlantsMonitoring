@@ -1,10 +1,9 @@
-export default function groups(state = { groups: [] }, action) {
+export default function groups(state = [], action) {
     switch (action.type) {
         case 'GET_GROUPS_SUCCESS':
-            return {
-                ...state,
-                groups: action.groups
-            };
+            return [
+                ...action.groups
+            ];
         default:
             return state;
     }

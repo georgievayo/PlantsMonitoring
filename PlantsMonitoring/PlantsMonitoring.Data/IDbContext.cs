@@ -16,5 +16,7 @@ namespace PlantsMonitoring.Data
         IQueryable<Device> GetAllDevices();
 
         IQueryable<Group> GetAllGroups();
+
+        IQueryable<Measurement> GetTelemetry();
     }
 }
