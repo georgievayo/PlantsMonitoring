@@ -18,6 +18,8 @@ namespace PlantsMonitoring.Models
 
         public string Operator { get; set; }
 
+        public double Value { get; set; }
+
         public RuleType Type { get; set; }
     }
 }

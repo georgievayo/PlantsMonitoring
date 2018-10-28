@@ -3,6 +3,7 @@
     public enum RuleType
     {
         Critical,
-        Information
+        Information,
+        Warning
     }
 }

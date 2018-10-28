@@ -13,9 +13,7 @@ export const emptyData = { temperature: { datasets: [] }, humidity: { datasets: 
 
 export const extractChartData = (devices, telemetry) => {
     let data = emptyData;
-    debugger;
     if (telemetry.length > 0 && devices.length > 0) {
-        debugger;
         devices.forEach(device => {
             const temperatureTelemetry = telemetry.filter(t => t.deviceId === device.id)
                 .map(t => {
