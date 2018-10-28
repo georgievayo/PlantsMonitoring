@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PlantsMonitoring.Models
+﻿namespace PlantsMonitoring.Models
 {
     public class Rule
     {
@@ -13,6 +7,8 @@ namespace PlantsMonitoring.Models
         public string Description { get; set; }
 
         public string GroupId { get; set; }
+
+        public Group Group { get; set; }
 
         public string Field { get; set; }
 

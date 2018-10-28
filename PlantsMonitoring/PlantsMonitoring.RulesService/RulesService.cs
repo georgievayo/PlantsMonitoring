@@ -21,11 +21,17 @@ namespace PlantsMonitoring.RulesService
             this.dbContext = dbContext;
         }
 
-        public Task<List<Rule>> GetAllRules(string groupId)
+        public Task<List<Rule>> GetAllRules()
         {
-            return Task.FromResult(this.dbContext.GetAllRules()
-                .Where(r => r.GroupId == groupId)
-                .ToList());
+            var rules = this.dbContext.GetAllRules()
+                .ToList();
+
+            foreach (var rule in rules)
+            {
+                rule.Group = this.dbContext.GetGroupById(rule.GroupId);
+            }
+
+            return Task.FromResult(rules);
         }
 
         public async Task PostRule(Rule rule)

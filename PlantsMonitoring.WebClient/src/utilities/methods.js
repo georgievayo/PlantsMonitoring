@@ -12,7 +12,7 @@ export const getRandomColor = () => {
 export const emptyData = { temperature: { datasets: [] }, humidity: { datasets: [] }, light: { datasets: [] } };
 
 export const extractChartData = (devices, telemetry) => {
-    let data = emptyData;
+    let data = JSON.parse(JSON.stringify(emptyData));
     if (telemetry.length > 0 && devices.length > 0) {
         devices.forEach(device => {
             const temperatureTelemetry = telemetry.filter(t => t.deviceId === device.id)
@@ -70,9 +70,9 @@ export const extractChartData = (devices, telemetry) => {
             data.humidity.datasets.push(humidityDataset);
             data.light.datasets.push(lightDataset);
         });
-
-        return data;
     }
+
+    return data;
 }
 
 export const lineOptions = {

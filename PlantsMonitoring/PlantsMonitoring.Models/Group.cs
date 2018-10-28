@@ -1,7 +1,10 @@
-﻿namespace PlantsMonitoring.Models
+﻿using Newtonsoft.Json;
+
+namespace PlantsMonitoring.Models
 {
     public class Group
     {
+        [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
 
         public string Name { get; set; }

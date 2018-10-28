@@ -7,6 +7,7 @@ using PlantsMonitoring.Models;
 using System.Threading.Tasks;
 using PlantsMonitoring.Data;
 using System.Linq;
+using System;
 
 namespace PlantsMonitoring.DevicesService
 {
@@ -31,10 +32,27 @@ namespace PlantsMonitoring.DevicesService
 
         public Task<List<Device>> GetAll()
         {
-            var result = this.dbContext.GetAllDevices()
+            var minTime = DateTime.Now.Subtract(new TimeSpan(0, 20, 0));
+            var devices = this.dbContext.GetAllDevices()
                 .ToList();
 
-            return Task.FromResult(result);
+            foreach (var device in devices)
+            {
+                var lastMeasurement = this.dbContext.GetLastMessage(device.Id);
+                var group = this.dbContext.GetGroupById(device.GroupId);
+                device.LastMeasurement = lastMeasurement;
+                device.Group = group;
+                if(lastMeasurement == null || lastMeasurement.ReceivedAt < minTime)
+                {
+                    device.Status = DeviceStatus.Offline;
+                }
+                else
+                {
+                    device.Status = DeviceStatus.Online;
+                }
+            }
+
+            return Task.FromResult(devices);
         }
 
         protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners()

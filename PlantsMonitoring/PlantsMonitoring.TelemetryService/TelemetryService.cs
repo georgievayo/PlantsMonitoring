@@ -71,6 +71,18 @@ namespace PlantsMonitoring.TelemetryService
             return Task.FromResult(result);
         }
 
+        public Task<bool> IsOnline(string deviceId)
+        {
+            var lastMessage = this.dbContext.GetLastMessage(deviceId);
+            var time = DateTime.Now.Subtract(new TimeSpan(0, 20, 0));
+            if(lastMessage == null || lastMessage.ReceivedAt < time)
+            {
+                return Task.FromResult(false);
+            }
+
+            return Task.FromResult(true);
+        }
+
         public async Task PostMeasurement(Measurement measurement)
         {
             await this.dbContext.AddEntry(measurement, DB_COLLECTION_NAME);

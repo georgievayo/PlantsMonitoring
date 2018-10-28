@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Select from 'react-select'
 import { connect } from 'react-redux';
 import * as groupsActions from '../../actions/groups.actions';
-import * as devicesActions from '../../actions/devices.actions';
+import * as rulesActions from '../../actions/rules.actions';
 
 const importanceOptions = [
     { label: 'Critical', option: 'Critical' }, 
@@ -171,7 +171,7 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch, ownProps) {
     return {
         getGroups: () => dispatch(groupsActions.getAllGroups()),
-        createDevice: (device) => dispatch(devicesActions.postDevice(device))
+        createRule: (rule) => dispatch(rulesActions.postRule(rule))
     };
 }
 

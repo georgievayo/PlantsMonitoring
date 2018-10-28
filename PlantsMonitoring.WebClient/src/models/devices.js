@@ -5,9 +5,9 @@ export const toDevicesModel = (response) => getResult(response)
 
 export const toDeviceModel = (response = {}) => {
     return {
-        id: response.Id,
+        id: response.id,
         name: response.Name,
         status: response.Status === 1 ? 'Offline' : 'Online',
-        group: response.GroupId
+        group: response.Group.Name
     };
 } 

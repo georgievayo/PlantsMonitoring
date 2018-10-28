@@ -31,5 +31,18 @@ namespace PlantsMonitoring.WebApi.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet]
+        public async Task<IHttpActionResult> Status(string deviceId)
+        {
+            if (string.IsNullOrEmpty(deviceId))
+            {
+                return BadRequest("Device id is required.");
+            }
+
+            var isOnline = await this.service.IsOnline(deviceId);
+
+            return Ok(new { Status = isOnline });
+        }
     }
 }

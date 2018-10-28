@@ -67,5 +67,26 @@ namespace PlantsMonitoring.Data
 
             return this.client.CreateDocumentQuery<Group>(collectionUri);
         }
+
+        public Measurement GetLastMessage(string deviceId)
+        {
+            var collectionUri = UriFactory.CreateDocumentCollectionUri(DATABASE_ID, TELEMETRY_COLLECTION_NAME);
+
+            return this.client.CreateDocumentQuery<Measurement>(collectionUri)
+                .Where(entry => entry.DeviceId == deviceId)
+                .OrderByDescending(entry => entry.ReceivedAt)
+                .ToList()
+                .FirstOrDefault();
+        }
+
+        public Group GetGroupById(string groupId)
+        {
+            var collectionUri = UriFactory.CreateDocumentCollectionUri(DATABASE_ID, GROUPS_COLLECTION_NAME);
+
+            return this.client.CreateDocumentQuery<Group>(collectionUri)
+                .Where(entry => entry.Id == groupId)
+                .ToList()
+                .FirstOrDefault();
+        }
     }
 }

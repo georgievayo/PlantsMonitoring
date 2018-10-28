@@ -25,9 +25,9 @@ namespace PlantsMonitoring.WebApi.Controllers
             return Ok();
         }
 
-        public IHttpActionResult Get([FromUri]string groupId)
+        public async Task<IHttpActionResult> Get()
         {
-            var rules = this.service.GetAllRules(groupId);
+            var rules = await this.service.GetAllRules();
 
             return Ok(rules);
         }

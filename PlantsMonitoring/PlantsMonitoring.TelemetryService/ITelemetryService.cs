@@ -12,5 +12,7 @@ namespace PlantsMonitoring.TelemetryService
         Task<List<Measurement>> GetLastMeasurements(string deviceId);
 
         Task<List<Measurement>> GetSummarizedTelemetry();
+
+        Task<bool> IsOnline(string deviceId);
     }
 }

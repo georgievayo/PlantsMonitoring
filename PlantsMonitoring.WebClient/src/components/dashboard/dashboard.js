@@ -13,7 +13,7 @@ class Dashboard extends Component {
 
     render() {
         const { telemetry, devices } = this.props;
-        const data = telemetry.length > 0 ? extractChartData(devices, telemetry) : emptyData;
+        const data = telemetry.length > 0 ? extractChartData(devices, telemetry) : {...emptyData};
 
         return (
             [
