@@ -7,7 +7,7 @@ namespace PlantsMonitoring.RulesService
 {
     public interface IRulesService : IService
     {
-        Task PostRule(Rule rule);
+        Task<Rule> PostRule(Rule rule);
 
         Task<List<Rule>> GetAllRules();
     }

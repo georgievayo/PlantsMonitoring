@@ -20,9 +20,9 @@ namespace PlantsMonitoring.WebApi.Controllers
 
         public async Task<IHttpActionResult> Post([FromBody] Rule rule)
         {
-            await this.service.PostRule(rule);
+            var createdRule = await this.service.PostRule(rule);
 
-            return Ok();
+            return Ok(createdRule);
         }
 
         public async Task<IHttpActionResult> Get()

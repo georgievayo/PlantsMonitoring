@@ -34,9 +34,13 @@ namespace PlantsMonitoring.RulesService
             return Task.FromResult(rules);
         }
 
-        public async Task PostRule(Rule rule)
+        public async Task<Rule> PostRule(Rule rule)
         {
-            await this.dbContext.AddEntry(rule, DB_COLLECTION_NAME);
+            var result = await this.dbContext.AddEntry(rule, DB_COLLECTION_NAME);
+            rule.Id = result.Id;
+            rule.Group = this.dbContext.GetGroupById(rule.GroupId);
+
+            return rule;
         }
 
         protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners()
