@@ -18,7 +18,8 @@ namespace PlantsMonitoring.WebApi.Controllers
             this.service = ServiceProxy.Create<IDevicesService>(new Uri(DEVICES_SERVICE_URI));
         }
 
-        public IHttpActionResult Get()
+        [HttpGet]
+        public IHttpActionResult All()
         {
             try
             {
@@ -33,7 +34,8 @@ namespace PlantsMonitoring.WebApi.Controllers
         }
 
         [Route("{id}")]
-        public IHttpActionResult Get(string id)
+        [HttpGet]
+        public IHttpActionResult Details(string id)
         {
             try
             {
@@ -63,6 +65,13 @@ namespace PlantsMonitoring.WebApi.Controllers
             {
                 return BadRequest();
             }
+        }
+
+        public async Task<IHttpActionResult> Telemetry()
+        {
+            var result = await this.service.GetSummarizedTelemetry();
+
+            return Ok(result);
         }
     }
 }

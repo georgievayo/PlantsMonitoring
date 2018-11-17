@@ -15,13 +15,14 @@ export const toDeviceModel = (response = {}) => {
 } 
 
 export const toDeviceExtendedModel = (response) => {
+    const device = response.Result;
     return {
-        id: response.id,
-        name: response.Name,
-        status: response.Status === 1 ? 'Offline' : 'Online',
-        group: response.Group.Name,
-        telemetry: toTelemetryModel(response.Telemetry),
-        rules: toRulesModel(response.Rules)
+        id: device.id,
+        name: device.Name,
+        status: device.Status === 1 ? 'Offline' : 'Online',
+        group: device.Group.Name,
+        telemetry: toTelemetryModel(device.Telemetry),
+        rules: toRulesModel(device.Rules)
         // alarms
     };
 }

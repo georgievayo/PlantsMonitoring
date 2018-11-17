@@ -43,6 +43,7 @@ namespace PlantsMonitoring.DevicesService
             var device = this.devicesManager.GetDeviceById(deviceId);
             if(device != null)
             {
+                device.Group = this.groupsManager.GetGroupById(device.GroupId);
                 device.Telemetry = this.devicesManager.GetDeviceTelemetry(deviceId);
                 device.Rules = this.rulesManager.GetGroupRules(device.GroupId);
             }

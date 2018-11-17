@@ -19,7 +19,7 @@ export function postDevice(device) {
 
 export function getDeviceDetails(deviceId) {
     return function (dispatch) {
-        return HttpClient.get(`${api.DEVICES}/${deviceId}`)
+        return HttpClient.get(`${api.DEVICES}?id=${deviceId}`)
         .then(toDeviceExtendedModel)
         .then(device => dispatch(getDeviceDetailsSuccess(device)));
     }

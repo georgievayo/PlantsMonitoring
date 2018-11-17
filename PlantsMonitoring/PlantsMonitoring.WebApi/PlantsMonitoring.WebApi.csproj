@@ -124,7 +124,6 @@
     <Compile Include="Controllers\DevicesController.cs" />
     <Compile Include="Controllers\GroupsController.cs" />
     <Compile Include="Controllers\RulesController.cs" />
-    <Compile Include="Controllers\TelemetryController.cs" />
     <Compile Include="IOwinAppBuilder.cs" />
     <Compile Include="OwinCommunicationListener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

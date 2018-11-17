@@ -46,7 +46,7 @@ namespace PlantsMonitoring.Data.Devices
 
         public List<Measurement> GetDeviceTelemetry(string deviceId)
         {
-            var minDate = DateTime.Now.Subtract(new TimeSpan(1, 0, 0, 0));
+            var minDate = DateTime.Now.Subtract(new TimeSpan(500,0, 0, 0, 0));
 
             return this.client.CreateDocumentQuery<Measurement>(telemetryUri)
                 .Where(m => m.ReceivedAt >= minDate && m.DeviceId == deviceId)

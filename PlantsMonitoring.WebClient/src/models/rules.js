@@ -2,12 +2,11 @@ export const toRulesModel = (response) => response
     .map(toRuleModel);
 
 export const toRuleModel = (response = {}) => {
-    debugger;
     return {
         id: response.id,
         name: response.Name,
         description: response.Description,
-        group: response.Group.Name,
+        group: !!response.Group ? response.Group.Name : '',
         operator: response.Operator,
         value: response.Value,
         field: response.Field,

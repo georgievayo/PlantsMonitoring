@@ -21,9 +21,9 @@ namespace PlantsMonitoring.WebApi
             config.Routes.MapHttpRoute(
                 name: "PlantsMonitoringApi",
                 routeTemplate: "api/{controller}",
-                defaults: new { controller = "TelemetryController" }
+                defaults: new { controller = "DevicesController" }
             );
-            var corsAttr = new EnableCorsAttribute("http://localhost:3000", "*", "*");
+            var corsAttr = new EnableCorsAttribute("*", "*", "*");
             config.EnableCors(corsAttr);
 
             appBuilder.UseWebApi(config);
