@@ -1,5 +1,5 @@
 import { HttpClient, api } from '../httpClient';
-import { toDevicesModel, toDeviceModel } from '../models/devices';
+import { toDevicesModel, toDeviceModel, toDeviceExtendedModel } from '../models/devices';
 
 export function getAllDevices() {
     return function (dispatch) {
@@ -17,6 +17,14 @@ export function postDevice(device) {
     }
 }
 
+export function getDeviceDetails(deviceId) {
+    return function (dispatch) {
+        return HttpClient.get(`${api.DEVICES}/${deviceId}`)
+        .then(toDeviceExtendedModel)
+        .then(device => dispatch(getDeviceDetailsSuccess(device)));
+    }
+}
+
 function getAllDevicesSuccess(devices) {
     return {
         type: 'GET_DEVICES_SUCCESS',
@@ -27,6 +35,13 @@ function getAllDevicesSuccess(devices) {
 function postDeviceSuccess(device) {
     return {
         type: 'POST_DEVICE_SUCCESS',
+        device
+    };
+}
+
+function getDeviceDetailsSuccess(device) {
+    return {
+        type: 'GET_DEVICE_SUCCESS',
         device
     };
 }

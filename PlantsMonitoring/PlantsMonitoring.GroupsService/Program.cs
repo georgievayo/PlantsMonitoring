@@ -10,22 +10,13 @@ namespace PlantsMonitoring.GroupsService
 {
     internal static class Program
     {
-        private const string ENDPOINT_URL = "https://plants-monitoring.documents.azure.com:443/";
-        private const string PRIMARY_KEY = "";
-
         private static void Main()
         {
             try
             {
                 var builder = new ContainerBuilder();
 
-                builder.Register(c => new DocumentClient(new Uri(ENDPOINT_URL), PRIMARY_KEY))
-                    .AsSelf()
-                    .InstancePerLifetimeScope();
-
-                builder.RegisterType<DbContext>()
-                    .As<IDbContext>()
-                    .InstancePerLifetimeScope();
+                ManagersConfigurator.Configure(builder);
 
                 builder.RegisterServiceFabricSupport();
                 builder.RegisterStatelessService<GroupsService>("PlantsMonitoring.GroupsServiceType");

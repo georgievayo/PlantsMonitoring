@@ -11,7 +11,7 @@ namespace PlantsMonitoring.TelemetryService
     internal static class Program
     {
         private const string ENDPOINT_URL = "https://plants-monitoring.documents.azure.com:443/";
-        private const string PRIMARY_KEY = "";
+        private const string PRIMARY_KEY = "9yLXTENQq8n8OPNe8IapKVUlue0Al5M8Ygps2bk0GYgfaPHNDM9kF9onsTdEk9SIEXHIVcWGMlLoN05w1FvjBQ==";
 
         private static void Main()
         {

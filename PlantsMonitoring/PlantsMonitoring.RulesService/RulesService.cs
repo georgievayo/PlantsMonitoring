@@ -1,34 +1,36 @@
 ﻿using System.Collections.Generic;
 using System.Fabric;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Remoting.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
-using PlantsMonitoring.Data;
+using PlantsMonitoring.Data.Groups;
+using PlantsMonitoring.Data.Rules;
 using PlantsMonitoring.Models;
 
 namespace PlantsMonitoring.RulesService
 {
     public class RulesService : StatelessService, IRulesService
     {
-        private const string DB_COLLECTION_NAME = "Rules";
-        private readonly IDbContext dbContext;
+        private readonly IRulesManager rulesManager;
+        private readonly IGroupsManager groupsManager;
 
-        public RulesService(StatelessServiceContext context, IDbContext dbContext)
+        public RulesService(StatelessServiceContext context, 
+            IRulesManager rulesManager, 
+            IGroupsManager groupsManager)
             : base(context)
         {
-            this.dbContext = dbContext;
+            this.rulesManager = rulesManager;
+            this.groupsManager = groupsManager;
         }
 
         public Task<List<Rule>> GetAllRules()
         {
-            var rules = this.dbContext.GetAllRules()
-                .ToList();
+            var rules = this.rulesManager.GetAll();
 
             foreach (var rule in rules)
             {
-                rule.Group = this.dbContext.GetGroupById(rule.GroupId);
+                rule.Group = this.groupsManager.GetGroupById(rule.GroupId);
             }
 
             return Task.FromResult(rules);
@@ -36,9 +38,9 @@ namespace PlantsMonitoring.RulesService
 
         public async Task<Rule> PostRule(Rule rule)
         {
-            var result = await this.dbContext.AddEntry(rule, DB_COLLECTION_NAME);
+            var result = await this.rulesManager.Add(rule);
             rule.Id = result.Id;
-            rule.Group = this.dbContext.GetGroupById(rule.GroupId);
+            rule.Group = this.groupsManager.GetGroupById(rule.GroupId);
 
             return rule;
         }

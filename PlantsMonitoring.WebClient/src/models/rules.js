@@ -2,6 +2,7 @@ export const toRulesModel = (response) => response
     .map(toRuleModel);
 
 export const toRuleModel = (response = {}) => {
+    debugger;
     return {
         id: response.id,
         name: response.Name,

@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Device.cs" />
+    <Compile Include="DeviceExtended.cs" />
     <Compile Include="DeviceStatus.cs" />
     <Compile Include="Group.cs" />
     <Compile Include="Measurement.cs" />

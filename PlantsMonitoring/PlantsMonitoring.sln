@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.28010.2041
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{A07B5EB6-E848-4116-A8D0-A826331D98C6}") = "PlantsMonitoring", "PlantsMonitoring\PlantsMonitoring.sfproj", "{1404E065-4FA3-4944-96AE-7D709C80AD3F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlantsMonitoring.TelemetryService", "PlantsMonitoring.TelemetryService\PlantsMonitoring.TelemetryService.csproj", "{8FFCFB22-9CF7-4C39-A3DF-B1621616A015}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlantsMonitoring.WebApi", "PlantsMonitoring.WebApi\PlantsMonitoring.WebApi.csproj", "{A99D3E1C-420C-4EB6-ACB1-273F92D2C3C8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlantsMonitoring.Models", "PlantsMonitoring.Models\PlantsMonitoring.Models.csproj", "{F4FFD56C-6299-49D7-AC6C-E9FD6278B082}"
@@ -37,13 +35,6 @@ Global
 		{1404E065-4FA3-4944-96AE-7D709C80AD3F}.Release|x64.ActiveCfg = Release|x64
 		{1404E065-4FA3-4944-96AE-7D709C80AD3F}.Release|x64.Build.0 = Release|x64
 		{1404E065-4FA3-4944-96AE-7D709C80AD3F}.Release|x64.Deploy.0 = Release|x64
-		{8FFCFB22-9CF7-4C39-A3DF-B1621616A015}.Debug|Any CPU.ActiveCfg = Debug|x64
-		{8FFCFB22-9CF7-4C39-A3DF-B1621616A015}.Debug|Any CPU.Build.0 = Debug|x64
-		{8FFCFB22-9CF7-4C39-A3DF-B1621616A015}.Debug|x64.ActiveCfg = Debug|x64
-		{8FFCFB22-9CF7-4C39-A3DF-B1621616A015}.Debug|x64.Build.0 = Debug|x64
-		{8FFCFB22-9CF7-4C39-A3DF-B1621616A015}.Release|Any CPU.ActiveCfg = Release|x64
-		{8FFCFB22-9CF7-4C39-A3DF-B1621616A015}.Release|x64.ActiveCfg = Release|x64
-		{8FFCFB22-9CF7-4C39-A3DF-B1621616A015}.Release|x64.Build.0 = Release|x64
 		{A99D3E1C-420C-4EB6-ACB1-273F92D2C3C8}.Debug|Any CPU.ActiveCfg = Debug|x64
 		{A99D3E1C-420C-4EB6-ACB1-273F92D2C3C8}.Debug|Any CPU.Build.0 = Debug|x64
 		{A99D3E1C-420C-4EB6-ACB1-273F92D2C3C8}.Debug|x64.ActiveCfg = Debug|x64

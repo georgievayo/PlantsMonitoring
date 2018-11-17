@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { CreateDevice } from '../createDevice';
 import * as devicesActions from '../../actions/devices.actions';
@@ -78,7 +79,9 @@ class Devices extends Component {
                                             {this.props.devices.map(device =>
                                                 <tr key={device.id}>
                                                     <td>
-                                                        {device.id}
+                                                        <Link to={"/devices/" + device.id}>
+                                                            {device.id}
+                                                        </Link>
                                                     </td>
                                                     <td>
                                                         {device.name}
@@ -106,7 +109,7 @@ class Devices extends Component {
 
 function mapStateToProps(state, ownProps) {
     return {
-        devices: state.devices
+        devices: state.devices.entities
     };
 }
 

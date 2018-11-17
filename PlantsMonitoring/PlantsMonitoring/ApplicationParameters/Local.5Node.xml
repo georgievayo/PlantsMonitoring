@@ -5,6 +5,5 @@
     <Parameter Name="PlantsMonitoring.DevicesService_InstanceCount" Value="1" />
     <Parameter Name="PlantsMonitoring.RulesService_InstanceCount" Value="1" />
     <Parameter Name="PlantsMonitoring.WebApi_InstanceCount" Value="1" />
-    <Parameter Name="PlantsMonitoring.TelemetryService_InstanceCount" Value="1" />
   </Parameters>
 </Application>

@@ -3,7 +3,13 @@ import { connect } from 'react-redux';
 import { Line, Bar } from 'react-chartjs-2';
 import * as telemetryActions from '../../actions/dashboard.actions';
 import * as devicesActions from '../../actions/devices.actions';
-import { extractChartData, emptyData, lineOptions } from '../../utilities/methods';
+import {
+    extractChartData,
+    emptyData,
+    lineOptions,
+    bigDashboardChartData,
+    bigDashboardChartOptions
+} from '../../utilities/methods';
 
 class Dashboard extends Component {
     componentDidMount() {
@@ -13,7 +19,7 @@ class Dashboard extends Component {
 
     render() {
         const { telemetry, devices } = this.props;
-        const data = telemetry.length > 0 ? extractChartData(devices, telemetry) : {...emptyData};
+        const data = telemetry.length > 0 ? extractChartData(devices, telemetry) : { ...emptyData };
 
         return (
             [
@@ -37,7 +43,7 @@ class Dashboard extends Component {
                     </div>
                 </nav>,
                 <div key="header" className="panel-header panel-header-lg">
-                    <canvas id="bigDashboardChart"></canvas>
+                    <Line id="bigDashboardChart" data={bigDashboardChartData} options={bigDashboardChartOptions} />
                 </div>,
                 <div key="content" className="content">
                     <div className="row">

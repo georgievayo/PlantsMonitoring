@@ -4,7 +4,6 @@ using PlantsMonitoring.Models;
 using System;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Http.Cors;
 
 namespace PlantsMonitoring.WebApi.Controllers
 {
@@ -13,6 +12,7 @@ namespace PlantsMonitoring.WebApi.Controllers
         private const string DEVICES_SERVICE_URI = "fabric:/PlantsMonitoring/PlantsMonitoring.DevicesService";
 
         private readonly IDevicesService service;
+
         public DevicesController()
         {
             this.service = ServiceProxy.Create<IDevicesService>(new Uri(DEVICES_SERVICE_URI));
@@ -27,6 +27,26 @@ namespace PlantsMonitoring.WebApi.Controllers
                 return Ok(devices);
             }
             catch(Exception)
+            {
+                return BadRequest();
+            }
+        }
+
+        [Route("{id}")]
+        public IHttpActionResult Get(string id)
+        {
+            try
+            {
+                var device = this.service.GetDetails(id);
+
+                if(device == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(device);
+            }
+            catch (Exception)
             {
                 return BadRequest();
             }

@@ -5,7 +5,6 @@
     <Parameter Name="PlantsMonitoring.DevicesService_InstanceCount" DefaultValue="-1" />
     <Parameter Name="PlantsMonitoring.RulesService_InstanceCount" DefaultValue="-1" />
     <Parameter Name="PlantsMonitoring.WebApi_InstanceCount" DefaultValue="-1" />
-    <Parameter Name="PlantsMonitoring.TelemetryService_InstanceCount" DefaultValue="-1" />
   </Parameters>
   <!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion 
        should match the Name and Version attributes of the ServiceManifest element defined in the 
@@ -24,10 +23,6 @@
   </ServiceManifestImport>
   <ServiceManifestImport>
     <ServiceManifestRef ServiceManifestName="PlantsMonitoring.WebApiPkg" ServiceManifestVersion="1.0.0" />
-    <ConfigOverrides />
-  </ServiceManifestImport>
-  <ServiceManifestImport>
-    <ServiceManifestRef ServiceManifestName="PlantsMonitoring.TelemetryServicePkg" ServiceManifestVersion="1.0.0" />
     <ConfigOverrides />
   </ServiceManifestImport>
   <DefaultServices>
@@ -53,11 +48,6 @@
     </Service>
     <Service Name="PlantsMonitoring.WebApi" ServicePackageActivationMode="ExclusiveProcess">
       <StatelessService ServiceTypeName="PlantsMonitoring.WebApiType" InstanceCount="[PlantsMonitoring.WebApi_InstanceCount]">
-        <SingletonPartition />
-      </StatelessService>
-    </Service>
-    <Service Name="PlantsMonitoring.TelemetryService" ServicePackageActivationMode="ExclusiveProcess">
-      <StatelessService ServiceTypeName="PlantsMonitoring.TelemetryServiceType" InstanceCount="[PlantsMonitoring.TelemetryService_InstanceCount]">
         <SingletonPartition />
       </StatelessService>
     </Service>

@@ -5,7 +5,7 @@ export const toGroupsModel = (response) => getResult(response)
 
 export const toGroupModel = (response = {}) => {
     return {
-        id: response.Id,
+        id: response.id,
         name: response.Name,
         description: response.Description
     };

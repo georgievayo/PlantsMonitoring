@@ -54,6 +54,7 @@ class CreateRule extends Component {
     }
 
     selectGroup = (group) => {
+        debugger;
         this.setState({ newRule: { ...this.state.newRule, groupId: group.option } });
     }
 
