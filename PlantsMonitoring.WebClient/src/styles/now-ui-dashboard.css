@@ -22,6 +22,12 @@ Licensed under the MIT license - http://opensource.org/licenses/MIT
 
 Copyright (c) 2015 Daniel Eden
 */
+
+.icon-big {
+  font-size: 3em;
+  min-height: 64px; }
+  .icon-big i {
+    line-height: 59px; }
 .animated {
   -webkit-animation-duration: 1s;
   animation-duration: 1s;

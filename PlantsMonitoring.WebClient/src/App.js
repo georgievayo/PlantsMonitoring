@@ -8,6 +8,10 @@ import {DeviceDetails} from './components/devices';
 import './styles/now-ui-dashboard.css';
 import './styles/demo.css';
 import 'bootstrap/dist/css/bootstrap.css';
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faStroopwafel } from '@fortawesome/free-solid-svg-icons'
+
+library.add(faStroopwafel);
 
 class App extends Component {
   render() {

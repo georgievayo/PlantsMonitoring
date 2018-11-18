@@ -8,38 +8,14 @@ import {
     Row,
     Col
 } from "reactstrap";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Line, Pie } from "react-chartjs-2";
-import {lineChart, pieChart} from './charts.config';
-
+import { lineChart, pieChart } from './charts.config';
 import * as devicesActions from '../../actions/devices.actions';
 
 class DeviceDetails extends Component {
     render() {
         const { device } = this.props;
-        let temperatureData, humidityData, lightData;
-        if(device.telemetry)
-        {
-            debugger;
-            temperatureData  = device.telemetry.map(t => {
-                return {
-                    x: t.receivedAt.split('T')[0],
-                    y: t.temperature
-                }
-            });
-            humidityData = device.telemetry.map(t => {
-                return {
-                    x: t.receivedAt.split('T')[0],
-                    y: t.humidity
-                }
-            });
-            lightData = device.telemetry.map(t => {
-                return {
-                    x: t.receivedAt.split('T')[0],
-                    y: t.light
-                }
-            });
-        }
-        
         return (
             [<nav key="nav" className="navbar navbar-expand-lg fixed-top navbar-transparent  bg-primary  navbar-absolute">
                 <div className="container-fluid">
@@ -86,6 +62,65 @@ class DeviceDetails extends Component {
                                     </div>
                                 </div>
                                 <Row>
+                                    <Col xs={12} sm={6} md={6} lg={4}>
+                                        <Card className="card-stats">
+                                            <CardBody>
+                                                <Row>
+                                                    <Col xs={5} md={4}>
+                                                        <div className="icon-big text-center">
+                                                            <i className="now-ui-icons travel_info text-success" />
+                                                        </div>
+                                                    </Col>
+                                                    <Col xs={7} md={8}>
+                                                        <div className="numbers">
+                                                            <p className="card-category text-success">Information Rules</p>
+                                                            <CardTitle tag="p">{device.informationRulesCount}</CardTitle>
+                                                        </div>
+                                                    </Col>
+                                                </Row>
+                                            </CardBody>
+                                        </Card>
+                                    </Col>
+                                    <Col xs={12} sm={6} md={6} lg={4}>
+                                        <Card className="card-stats">
+                                            <CardBody>
+                                                <Row>
+                                                    <Col xs={5} md={4}>
+                                                        <div className="icon-big text-center">
+                                                            <i className="now-ui-icons business_bulb-63 text-warning"  />
+                                                        </div>
+                                                    </Col>
+                                                    <Col xs={7} md={8}>
+                                                        <div className="numbers">
+                                                            <p className="card-category text-warning">Warning Rules</p>
+                                                            <CardTitle tag="p">{device.warningRulesCount}</CardTitle>
+                                                        </div>
+                                                    </Col>
+                                                </Row>
+                                            </CardBody>
+                                        </Card>
+                                    </Col>
+                                    <Col xs={12} sm={6} md={6} lg={4}>
+                                        <Card className="card-stats">
+                                            <CardBody>
+                                                <Row>
+                                                    <Col xs={5} md={4}>
+                                                        <div className="icon-big text-center">
+                                                        <FontAwesomeIcon icon="arrow" />
+                                                        </div>
+                                                    </Col>
+                                                    <Col xs={7} md={8}>
+                                                        <div className="numbers">
+                                                            <p className="card-category text-danger">Critical Rules</p>
+                                                            <CardTitle tag="p">{device.criticalRulesCount}</CardTitle>
+                                                        </div>
+                                                    </Col>
+                                                </Row>
+                                            </CardBody>
+                                        </Card>
+                                    </Col>
+                                </Row>
+                                <Row>
                                     <Col xs={12} sm={12} md={6}>
                                         <Card className="card-chart">
                                             <CardHeader>
@@ -94,8 +129,8 @@ class DeviceDetails extends Component {
                                             </CardHeader>
                                             <CardBody>
                                                 <Line
-                                                    data={lineChart(temperatureData).data}
-                                                    options={lineChart(temperatureData).options}
+                                                    data={lineChart(device.temperatureData).data}
+                                                    options={lineChart(device.temperatureData).options}
                                                     width={400}
                                                     height={140}
                                                 />
@@ -110,8 +145,8 @@ class DeviceDetails extends Component {
                                             </CardHeader>
                                             <CardBody>
                                                 <Line
-                                                    data={lineChart(humidityData).data}
-                                                    options={lineChart(humidityData).options}
+                                                    data={lineChart(device.humidityData).data}
+                                                    options={lineChart(device.humidityData).options}
                                                     width={400}
                                                     height={140}
                                                 />
@@ -142,8 +177,8 @@ class DeviceDetails extends Component {
                                             </CardHeader>
                                             <CardBody>
                                                 <Line
-                                                    data={lineChart(lightData).data}
-                                                    options={lineChart(lightData).options}
+                                                    data={lineChart(device.lightData).data}
+                                                    options={lineChart(device.lightData).options}
                                                     width={400}
                                                     height={105}
                                                 />
