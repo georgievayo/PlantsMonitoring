@@ -1,4 +1,5 @@
-﻿using Owin;
+﻿using Microsoft.AspNet.SignalR;
+using Owin;
 using System.Fabric;
 using System.Web.Http;
 using System.Web.Http.Cors;
@@ -22,6 +23,7 @@ namespace PlantsMonitoring.TelemetryWebApi
             var corsAttr = new EnableCorsAttribute("*", "*", "*");
             config.EnableCors(corsAttr);
             appBuilder.UseWebApi(config);
+            appBuilder.MapSignalR("/signalr", new HubConfiguration());
         }
     }
 }

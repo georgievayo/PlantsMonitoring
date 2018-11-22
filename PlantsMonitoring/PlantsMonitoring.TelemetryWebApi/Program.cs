@@ -4,6 +4,7 @@ using System.Threading;
 using Autofac;
 using Autofac.Integration.ServiceFabric;
 using PlantsMonitoring.Data;
+using PlantsMonitoring.TelemetryWebApi.SignalR;
 
 namespace PlantsMonitoring.TelemetryWebApi
 {
@@ -15,6 +16,9 @@ namespace PlantsMonitoring.TelemetryWebApi
             {
                 var builder = new ContainerBuilder();
                 ManagersConfigurator.Configure(builder);
+                builder.RegisterType<TelemetryHub>()
+                    .As<ITelemetryHub>()
+                    .InstancePerLifetimeScope();
 
                 builder.RegisterServiceFabricSupport();
                 builder.RegisterStatelessService<TelemetryWebApi>("PlantsMonitoring.TelemetryWebApiType");
