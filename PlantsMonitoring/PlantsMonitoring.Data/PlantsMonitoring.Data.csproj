@@ -79,6 +79,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rules\IRulesManager.cs" />
     <Compile Include="Rules\RulesManager.cs" />
+    <Compile Include="Telemetry\ITelemetryManager.cs" />
+    <Compile Include="Telemetry\TelemetryManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

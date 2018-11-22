@@ -7,6 +7,7 @@ using System.Web.Http;
 
 namespace PlantsMonitoring.WebApi.Controllers
 {
+    [RoutePrefix("api/devices")]
     public class DevicesController : ApiController
     {
         private const string DEVICES_SERVICE_URI = "fabric:/PlantsMonitoring/PlantsMonitoring.DevicesService";
@@ -19,7 +20,8 @@ namespace PlantsMonitoring.WebApi.Controllers
         }
 
         [HttpGet]
-        public IHttpActionResult All()
+        [Route("")]
+        public IHttpActionResult Get()
         {
             try
             {
@@ -54,6 +56,8 @@ namespace PlantsMonitoring.WebApi.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("")]
         public async Task<IHttpActionResult> Post([FromBody]Device device)
         {
             try
@@ -67,6 +71,8 @@ namespace PlantsMonitoring.WebApi.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("telemetry")]
         public async Task<IHttpActionResult> Telemetry()
         {
             var result = await this.service.GetSummarizedTelemetry();

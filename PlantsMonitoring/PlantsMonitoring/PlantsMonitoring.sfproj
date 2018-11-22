@@ -35,6 +35,7 @@
     <ProjectReference Include="..\PlantsMonitoring.DevicesService\PlantsMonitoring.DevicesService.csproj" />
     <ProjectReference Include="..\PlantsMonitoring.GroupsService\PlantsMonitoring.GroupsService.csproj" />
     <ProjectReference Include="..\PlantsMonitoring.RulesService\PlantsMonitoring.RulesService.csproj" />
+    <ProjectReference Include="..\PlantsMonitoring.TelemetryWebApi\PlantsMonitoring.TelemetryWebApi.csproj" />
     <ProjectReference Include="..\PlantsMonitoring.WebApi\PlantsMonitoring.WebApi.csproj" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />

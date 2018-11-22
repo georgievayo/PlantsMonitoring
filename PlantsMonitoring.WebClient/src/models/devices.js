@@ -1,6 +1,4 @@
 import { getResult } from '../utilities/methods';
-import {toTelemetryModel} from './telemetry';
-import {toRulesModel} from './rules';
 
 export const toDevicesModel = (response) => getResult(response)
     .map(toDeviceModel);
@@ -18,19 +16,19 @@ export const toDeviceExtendedModel = (response) => {
     const device = response.Result;
     const temperatureData = device.Telemetry.map(t => {
         return {
-            x: t.ReceivedAt.split('T')[0],
+            x: t.ReceivedAt,
             y: t.Temperature
         }
     });
     const humidityData = device.Telemetry.map(t => {
         return {
-            x: t.ReceivedAt.split('T')[0],
+            x: t.ReceivedAt,
             y: t.Humidity
         }
     });
     const lightData = device.Telemetry.map(t => {
         return {
-            x: t.ReceivedAt.split('T')[0],
+            x: t.ReceivedAt,
             y: t.Light
         }
     });

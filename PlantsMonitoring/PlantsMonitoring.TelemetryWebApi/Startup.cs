@@ -3,7 +3,7 @@ using System.Fabric;
 using System.Web.Http;
 using System.Web.Http.Cors;
 
-namespace PlantsMonitoring.WebApi
+namespace PlantsMonitoring.TelemetryWebApi
 {
     public class Startup : IOwinAppBuilder
     {

@@ -106,7 +106,7 @@ class DeviceDetails extends Component {
                                                 <Row>
                                                     <Col xs={5} md={4}>
                                                         <div className="icon-big text-center">
-                                                        <FontAwesomeIcon icon="arrow" />
+                                                            <i className="fa fa-calendar text-warning"  />
                                                         </div>
                                                     </Col>
                                                     <Col xs={7} md={8}>
