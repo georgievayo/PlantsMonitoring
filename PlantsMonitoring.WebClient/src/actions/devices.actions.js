@@ -25,6 +25,20 @@ export function getDeviceDetails(deviceId) {
     }
 }
 
+export function addMeasurementToDevice(measurement) {
+    return {
+        type: 'ADD_MEASUREMENT_TO_DEVICE',
+        measurement
+    };
+}
+
+export function addAlarmToDevice(alarm) {
+    return {
+        type: 'ADD_ALARM_TO_DEVICE',
+        alarm
+    };
+}
+
 function getAllDevicesSuccess(devices) {
     return {
         type: 'GET_DEVICES_SUCCESS',

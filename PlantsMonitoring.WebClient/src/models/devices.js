@@ -36,6 +36,10 @@ export const toDeviceExtendedModel = (response) => {
     const warningRulesCount = device.Rules.filter(r => r.Type === 2).length;
     const criticalRulesCount = device.Rules.filter(r => r.Type === 0).length;
 
+    const informationAlarmsCount = device.Alarms.filter(r => r.Type === 1).length;
+    const warningAlarmsCount = device.Alarms.filter(r => r.Type === 2).length;
+    const criticalAlarmsCount = device.Alarms.filter(r => r.Type === 0).length;
+
     return {
         id: device.id,
         name: device.Name,
@@ -46,7 +50,8 @@ export const toDeviceExtendedModel = (response) => {
         lightData: lightData,
         informationRulesCount: informationRulesCount,
         warningRulesCount: warningRulesCount,
-        criticalRulesCount: criticalRulesCount
-        // alarms
+        criticalRulesCount: criticalRulesCount,
+        alarms: device.Alarms,
+        alarmsData: [criticalAlarmsCount, informationAlarmsCount, warningAlarmsCount]
     };
 }

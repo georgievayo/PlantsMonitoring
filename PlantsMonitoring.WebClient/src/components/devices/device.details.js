@@ -8,12 +8,23 @@ import {
     Row,
     Col
 } from "reactstrap";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import openSocket from 'socket.io-client';
 import { Line, Pie } from "react-chartjs-2";
 import { lineChart, pieChart } from './charts.config';
 import * as devicesActions from '../../actions/devices.actions';
 
 class DeviceDetails extends Component {
+    componentDidMount() {
+        const socket = openSocket('http://localhost:5000');
+        socket.on('SendMeasurement', (measurement) => {
+            this.props.addMeasurement(measurement);
+        });
+
+        socket.on('SendAlarm', (alarm) => {
+            this.props.addAlarm(alarm);
+        });
+    }
+
     render() {
         const { device } = this.props;
         return (
@@ -87,7 +98,7 @@ class DeviceDetails extends Component {
                                                 <Row>
                                                     <Col xs={5} md={4}>
                                                         <div className="icon-big text-center">
-                                                            <i className="now-ui-icons business_bulb-63 text-warning"  />
+                                                            <i className="now-ui-icons business_bulb-63 text-warning" />
                                                         </div>
                                                     </Col>
                                                     <Col xs={7} md={8}>
@@ -106,7 +117,7 @@ class DeviceDetails extends Component {
                                                 <Row>
                                                     <Col xs={5} md={4}>
                                                         <div className="icon-big text-center">
-                                                            <i className="fa fa-calendar text-warning"  />
+                                                            <i className="fa fa-calendar text-warning" />
                                                         </div>
                                                     </Col>
                                                     <Col xs={7} md={8}>
@@ -163,8 +174,8 @@ class DeviceDetails extends Component {
                                             </CardHeader>
                                             <CardBody>
                                                 <Pie
-                                                    data={pieChart.data}
-                                                    options={pieChart.options}
+                                                    data={pieChart(device.alarmsData).data}
+                                                    options={pieChart(device.Alarms).options}
                                                 />
                                             </CardBody>
                                         </Card>
@@ -204,7 +215,9 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch, ownProps) {
     return {
-        getDeviceDetails: dispatch(devicesActions.getDeviceDetails(ownProps.match.params.id))
+        getDeviceDetails: dispatch(devicesActions.getDeviceDetails(ownProps.match.params.id)),
+        addMeasurement: (measurement) => dispatch(devicesActions.addMeasurementToDevice(measurement)),
+        addAlarm: (alarm) => dispatch(devicesActions.addAlarmToDevice(alarm))
     };
 }
 

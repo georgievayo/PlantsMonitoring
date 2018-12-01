@@ -1,63 +1,59 @@
-export const pieChart = {
-    data: canvas => {
-        return {
-            labels: [1, 2, 3],
+export const pieChart = (pieData) => {
+    return {
+        data: {
+            labels: ['Critical', 'Information', 'Warning'],
             datasets: [
                 {
                     pointRadius: 0,
                     pointHoverRadius: 0,
                     backgroundColor: ["#d9364c", "#4acccd", "#fcc468"],
                     borderWidth: 0,
-                    data: [342, 480, 530]
+                    data: pieData
                 }
             ]
-        };
-    },
-    options: {
-        legend: {
-            display: false
         },
+        options: {
+            pieceLabel: {
+                render: "percentage",
+                fontColor: ["white"],
+                precision: 2
+            },
 
-        pieceLabel: {
-            render: "percentage",
-            fontColor: ["white"],
-            precision: 2
-        },
+            tooltips: {
+                enabled: false
+            },
 
-        tooltips: {
-            enabled: false
-        },
-
-        scales: {
-            yAxes: [
-                {
-                    ticks: {
-                        display: false
-                    },
-                    gridLines: {
-                        drawBorder: false,
-                        zeroLineColor: "transparent",
-                        color: "rgba(255,255,255,0.05)"
+            scales: {
+                yAxes: [
+                    {
+                        ticks: {
+                            display: false
+                        },
+                        gridLines: {
+                            drawBorder: false,
+                            zeroLineColor: "transparent",
+                            color: "rgba(255,255,255,0.05)"
+                        }
                     }
-                }
-            ],
+                ],
 
-            xAxes: [
-                {
-                    barPercentage: 1.6,
-                    gridLines: {
-                        drawBorder: false,
-                        color: "rgba(255,255,255,0.1)",
-                        zeroLineColor: "transparent"
-                    },
-                    ticks: {
-                        display: false
+                xAxes: [
+                    {
+                        barPercentage: 1.6,
+                        gridLines: {
+                            drawBorder: false,
+                            color: "rgba(255,255,255,0.1)",
+                            zeroLineColor: "transparent"
+                        },
+                        ticks: {
+                            display: false
+                        }
                     }
-                }
-            ]
+                ]
+            }
         }
     }
-};
+}
 
 export const lineChart = (data) => {
     return {
