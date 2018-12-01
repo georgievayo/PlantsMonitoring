@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Fabric;
 using System.Threading;
+using System.Threading.Tasks;
 using Autofac;
 using Autofac.Integration.ServiceFabric;
+using Microsoft.ServiceFabric.Services.Runtime;
 using PlantsMonitoring.Data;
-using PlantsMonitoring.TelemetryWebApi.SignalR;
 
-namespace PlantsMonitoring.TelemetryWebApi
+namespace PlantsMonitoring.AlarmsService
 {
     internal static class Program
     {
@@ -15,17 +17,15 @@ namespace PlantsMonitoring.TelemetryWebApi
             try
             {
                 var builder = new ContainerBuilder();
+
                 ManagersConfigurator.Configure(builder);
-                builder.RegisterType<TelemetryHub>()
-                    .As<ITelemetryHub>()
-                    .InstancePerLifetimeScope();
 
                 builder.RegisterServiceFabricSupport();
-                builder.RegisterStatelessService<TelemetryWebApi>("PlantsMonitoring.TelemetryWebApiType");
+                builder.RegisterStatelessService<AlarmsService>("PlantsMonitoring.AlarmsServiceType");
 
                 using (builder.Build())
                 {
-                    ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(TelemetryWebApi).Name);
+                    ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(AlarmsService).Name);
 
                     Thread.Sleep(Timeout.Infinite);
                 }

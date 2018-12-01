@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.ServiceFabric.Services.Runtime;
 
-namespace PlantsMonitoring.TelemetryWebApi
+namespace PlantsMonitoring.AlarmsService
 {
-    [EventSource(Name = "MyCompany-PlantsMonitoring-PlantsMonitoring.TelemetryWebApi")]
+    [EventSource(Name = "MyCompany-PlantsMonitoring-PlantsMonitoring.AlarmsService")]
     internal sealed class ServiceEventSource : EventSource
     {
         public static readonly ServiceEventSource Current = new ServiceEventSource();

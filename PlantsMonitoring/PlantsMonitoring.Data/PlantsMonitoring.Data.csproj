@@ -71,6 +71,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Alarms\AlarmsManager.cs" />
+    <Compile Include="Alarms\IAlarmsManager.cs" />
     <Compile Include="Devices\DevicesManager.cs" />
     <Compile Include="Devices\IDevicesManager.cs" />
     <Compile Include="Groups\GroupsManager.cs" />

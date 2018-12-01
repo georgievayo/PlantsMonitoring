@@ -121,6 +121,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\AlarmsController.cs" />
     <Compile Include="Controllers\DevicesController.cs" />
     <Compile Include="Controllers\GroupsController.cs" />
     <Compile Include="Controllers\RulesController.cs" />
@@ -140,6 +141,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\PlantsMonitoring.AlarmsService\PlantsMonitoring.AlarmsService.csproj">
+      <Project>{DECD6345-764C-4D9B-A2BB-CBFDA5BD7ECB}</Project>
+      <Name>PlantsMonitoring.AlarmsService</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PlantsMonitoring.DevicesService\PlantsMonitoring.DevicesService.csproj">
       <Project>{796950E5-1393-4C75-ACD0-64CFD1272B7D}</Project>
       <Name>PlantsMonitoring.DevicesService</Name>

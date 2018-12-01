@@ -10,6 +10,7 @@ using System;
 using PlantsMonitoring.Data.Rules;
 using PlantsMonitoring.Data.Groups;
 using System.Linq;
+using PlantsMonitoring.Data.Alarms;
 
 namespace PlantsMonitoring.DevicesService
 {
@@ -18,16 +19,19 @@ namespace PlantsMonitoring.DevicesService
         private readonly IDevicesManager devicesManager;
         private readonly IRulesManager rulesManager;
         private readonly IGroupsManager groupsManager;
+        private readonly IAlarmsManager alarmsManager;
 
         public DevicesService(StatelessServiceContext context, 
             IDevicesManager devicesManager, 
             IRulesManager rulesManager,
-            IGroupsManager groupsManager)
+            IGroupsManager groupsManager,
+            IAlarmsManager alarmsManager)
             : base(context)
         {
             this.devicesManager = devicesManager;
             this.rulesManager = rulesManager;
             this.groupsManager = groupsManager;
+            this.alarmsManager = alarmsManager;
         }
 
         public async Task<Device> CreateDevice(Device device)
@@ -46,6 +50,7 @@ namespace PlantsMonitoring.DevicesService
                 device.Group = this.groupsManager.GetGroupById(device.GroupId);
                 device.Telemetry = this.devicesManager.GetDeviceTelemetry(deviceId);
                 device.Rules = this.rulesManager.GetGroupRules(device.GroupId);
+                device.Alarms = this.alarmsManager.GetAllByDevice(deviceId);
             }
 
             return Task.FromResult(device);

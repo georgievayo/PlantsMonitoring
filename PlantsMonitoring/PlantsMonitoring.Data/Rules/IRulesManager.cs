@@ -12,5 +12,7 @@ namespace PlantsMonitoring.Data.Rules
         List<Rule> GetAll();
 
         List<Rule> GetGroupRules(string groupId);
+
+        Rule GetById(string id);
     }
 }

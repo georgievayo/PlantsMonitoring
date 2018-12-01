@@ -1,5 +1,6 @@
 using Autofac;
 using Microsoft.Azure.Documents.Client;
+using PlantsMonitoring.Data.Alarms;
 using PlantsMonitoring.Data.Devices;
 using PlantsMonitoring.Data.Groups;
 using PlantsMonitoring.Data.Rules;
@@ -29,6 +30,9 @@ namespace PlantsMonitoring.Data
                 .InstancePerLifetimeScope();
             builder.RegisterType<TelemetryManager>()
                 .As<ITelemetryManager>()
+                .InstancePerLifetimeScope();
+            builder.RegisterType<AlarmsManager>()
+                .As<IAlarmsManager>()
                 .InstancePerLifetimeScope();
         }
     }

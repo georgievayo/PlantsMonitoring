@@ -6,6 +6,7 @@ using System.Web.Http;
 
 namespace PlantsMonitoring.WebApi.Controllers
 {
+    [RoutePrefix("api/groups")]
     public class GroupsController : ApiController
     {
         private const string GROUPS_SERVICE_URI = "fabric:/PlantsMonitoring/PlantsMonitoring.GroupsService";
@@ -17,6 +18,8 @@ namespace PlantsMonitoring.WebApi.Controllers
             this.service = ServiceProxy.Create<IGroupsService>(new Uri(GROUPS_SERVICE_URI));
         }
 
+        [HttpGet]
+        [Route("")]
         public IHttpActionResult Get()
         {
             try
@@ -31,6 +34,8 @@ namespace PlantsMonitoring.WebApi.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("")]
         public IHttpActionResult Post([FromBody]Group group)
         {
             try

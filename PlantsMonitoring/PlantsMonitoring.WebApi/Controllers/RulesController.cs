@@ -7,6 +7,7 @@ using System.Web.Http;
 
 namespace PlantsMonitoring.WebApi.Controllers
 {
+    [RoutePrefix("api/rules")]
     public class RulesController : ApiController
     {
         private const string RULES_SERVICE_URI = "fabric:/PlantsMonitoring/PlantsMonitoring.RulesService";
@@ -18,6 +19,8 @@ namespace PlantsMonitoring.WebApi.Controllers
             this.service = ServiceProxy.Create<IRulesService>(new Uri(RULES_SERVICE_URI));
         }
 
+        [HttpPost]
+        [Route("")]
         public async Task<IHttpActionResult> Post([FromBody] Rule rule)
         {
             var createdRule = await this.service.PostRule(rule);
@@ -25,6 +28,8 @@ namespace PlantsMonitoring.WebApi.Controllers
             return Ok(createdRule);
         }
 
+        [HttpGet]
+        [Route("")]
         public async Task<IHttpActionResult> Get()
         {
             var rules = await this.service.GetAllRules();

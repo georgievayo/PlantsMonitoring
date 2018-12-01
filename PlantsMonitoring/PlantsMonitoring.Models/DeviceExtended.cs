@@ -22,6 +22,6 @@ namespace PlantsMonitoring.Models
 
         public List<Rule> Rules { get; set; }
 
-        //Alarms
+        public List<Alarm> Alarms { get; set; }
     }
 }
