@@ -18,21 +18,21 @@ export const extractChartData = (devices, telemetry) => {
             const temperatureTelemetry = telemetry.filter(t => t.deviceId === device.id)
                 .map(t => {
                     return {
-                        x: t.receivedAt.split('T')[0],
+                        x: new Date(t.receivedAt),
                         y: t.temperature
                     }
                 });
             const humidityTelemetry = telemetry.filter(t => t.deviceId === device.id)
                 .map(t => {
                     return {
-                        x: t.receivedAt.split('T')[0],
+                        x: new Date(t.receivedAt),
                         y: t.humidity
                     }
                 });
             const lightTelemetry = telemetry.filter(t => t.deviceId === device.id)
                 .map(t => {
                     return {
-                        x: t.receivedAt.split('T')[0],
+                        x: new Date(t.receivedAt),
                         y: t.light
                     }
                 });
@@ -74,29 +74,6 @@ export const extractChartData = (devices, telemetry) => {
 
     return data;
 }
-
-export const lineOptions = {
-    scales: {
-        xAxes: [{
-            type: 'time',
-            time: {
-                unit: 'day',
-                unitStepSize: 1,
-                displayFormats: {
-                    'millisecond': 'MMM DD',
-                    'second': 'MMM DD',
-                    'minute': 'MMM DD',
-                    'hour': 'MMM DD',
-                    'day': 'MMM DD',
-                    'week': 'MMM DD',
-                    'month': 'MMM DD',
-                    'quarter': 'MMM DD',
-                    'year': 'MMM DD',
-                }
-            }
-        }]
-    }
-};
 
 export const bigDashboardChartData = {
     labels: ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"],

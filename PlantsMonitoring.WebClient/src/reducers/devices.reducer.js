@@ -55,7 +55,7 @@ function addMeasurementIfSelectedDevice(device, measurement) {
 function addAlarmIfSelectedDevice(device, alarm) {
     let updatedDevice = { ...device };
     if (alarm.DeviceId === device.id) {
-        updatedDevice.alarms[alarm.Type]++;
+        updatedDevice.alarmsData[alarm.Type]++;
     }
 
     return updatedDevice;

@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {
-    Card,
-    CardHeader,
-    CardBody,
-    CardTitle,
-    Row,
-    Col
-} from "reactstrap";
+import { Card, CardHeader, CardBody, CardTitle, Row, Col } from "reactstrap";
 import openSocket from 'socket.io-client';
 import { Line, Pie } from "react-chartjs-2";
-import { lineChart, pieChart } from './charts.config';
+import { lineChartData, lineChartOptions, pieChartData, pieChartOptions } from '../../utilities/charts.config';
 import * as devicesActions from '../../actions/devices.actions';
 
 class DeviceDetails extends Component {
+    state = {
+        temperatureChartData: {},
+        humidityChartData: {},
+        lightChartData: {},
+        alarmsChartData: {}
+    }
+
     componentDidMount() {
         const socket = openSocket('http://localhost:5000');
         socket.on('SendMeasurement', (measurement) => {
@@ -23,6 +23,15 @@ class DeviceDetails extends Component {
         socket.on('SendAlarm', (alarm) => {
             this.props.addAlarm(alarm);
         });
+    }
+
+    componentWillReceiveProps(nextProps) {
+        const alarmsChartData = pieChartData(nextProps.device.alarmsData); 
+        const temperatureChartData = lineChartData(nextProps.device.temperatureData); 
+        const humidityChartData = lineChartData(nextProps.device.humidityData); 
+        const lightChartData = lineChartData(nextProps.device.lightData); 
+
+        this.setState({ alarmsChartData, temperatureChartData, humidityChartData, lightChartData });
     }
 
     render() {
@@ -140,8 +149,8 @@ class DeviceDetails extends Component {
                                             </CardHeader>
                                             <CardBody>
                                                 <Line
-                                                    data={lineChart(device.temperatureData).data}
-                                                    options={lineChart(device.temperatureData).options}
+                                                    data={this.state.temperatureChartData}
+                                                    options={lineChartOptions}
                                                     width={400}
                                                     height={140}
                                                 />
@@ -156,8 +165,8 @@ class DeviceDetails extends Component {
                                             </CardHeader>
                                             <CardBody>
                                                 <Line
-                                                    data={lineChart(device.humidityData).data}
-                                                    options={lineChart(device.humidityData).options}
+                                                    data={this.state.humidityChartData}
+                                                    options={lineChartOptions}
                                                     width={400}
                                                     height={140}
                                                 />
@@ -174,8 +183,9 @@ class DeviceDetails extends Component {
                                             </CardHeader>
                                             <CardBody>
                                                 <Pie
-                                                    data={pieChart(device.alarmsData).data}
-                                                    options={pieChart(device.Alarms).options}
+                                                    data={this.state.alarmsChartData}
+                                                    options={pieChartOptions}
+                                                    redraw={true}
                                                 />
                                             </CardBody>
                                         </Card>
@@ -188,8 +198,8 @@ class DeviceDetails extends Component {
                                             </CardHeader>
                                             <CardBody>
                                                 <Line
-                                                    data={lineChart(device.lightData).data}
-                                                    options={lineChart(device.lightData).options}
+                                                    data={this.state.lightChartData}
+                                                    options={lineChartOptions}
                                                     width={400}
                                                     height={105}
                                                 />

@@ -6,10 +6,10 @@ import * as devicesActions from '../../actions/devices.actions';
 import {
     extractChartData,
     emptyData,
-    lineOptions,
     bigDashboardChartData,
     bigDashboardChartOptions
 } from '../../utilities/methods';
+import {lineChartOptions} from '../../utilities/charts.config';
 
 class Dashboard extends Component {
     componentDidMount() {
@@ -54,7 +54,7 @@ class Dashboard extends Component {
                                 </div>
                                 <div className="card-body">
                                     <div className="chart-area">
-                                        <Line id="lineChartExample" data={data.temperature} options={lineOptions} />
+                                        <Line id="lineChartExample" data={data.temperature} options={lineChartOptions} />
                                     </div>
                                 </div>
                                 <div className="card-footer">
@@ -71,7 +71,7 @@ class Dashboard extends Component {
                                 </div>
                                 <div className="card-body">
                                     <div className="chart-area">
-                                        <Line id="lineChartExample" data={data.humidity} options={lineOptions} />
+                                        <Line id="lineChartExample" data={data.humidity} options={lineChartOptions} />
                                     </div>
                                 </div>
                                 <div className="card-footer">

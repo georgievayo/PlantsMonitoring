@@ -16,19 +16,19 @@ export const toDeviceExtendedModel = (response) => {
     const device = response.Result;
     const temperatureData = device.Telemetry.map(t => {
         return {
-            x: t.ReceivedAt,
+            x: new Date(t.ReceivedAt),
             y: t.Temperature
         }
     });
     const humidityData = device.Telemetry.map(t => {
         return {
-            x: t.ReceivedAt,
+            x: new Date(t.ReceivedAt),
             y: t.Humidity
         }
     });
     const lightData = device.Telemetry.map(t => {
         return {
-            x: t.ReceivedAt,
+            x: new Date(t.ReceivedAt),
             y: t.Light
         }
     });
