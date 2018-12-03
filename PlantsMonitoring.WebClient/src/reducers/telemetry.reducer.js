@@ -4,6 +4,11 @@ export default function telemetry(state = [], action) {
             return [
                 ...action.telemetry
             ];
+        case 'ADD_MEASUREMENT': 
+            return [
+                ...state,
+                action.measurement
+            ];
         default:
             return state;
     }

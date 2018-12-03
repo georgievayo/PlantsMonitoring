@@ -151,6 +151,7 @@ class DeviceDetails extends Component {
                                                 <Line
                                                     data={this.state.temperatureChartData}
                                                     options={lineChartOptions}
+                                                    redraw={true}
                                                     width={400}
                                                     height={140}
                                                 />
@@ -167,6 +168,7 @@ class DeviceDetails extends Component {
                                                 <Line
                                                     data={this.state.humidityChartData}
                                                     options={lineChartOptions}
+                                                    redraw={true}
                                                     width={400}
                                                     height={140}
                                                 />
@@ -179,7 +181,7 @@ class DeviceDetails extends Component {
                                         <Card>
                                             <CardHeader>
                                                 <CardTitle>Alarms Statistics</CardTitle>
-                                                <p className="card-category">Last 1 month</p>
+                                                <p className="card-category"><i className="now-ui-icons arrows-1_refresh-69"></i> Just Updated</p>
                                             </CardHeader>
                                             <CardBody>
                                                 <Pie
@@ -200,6 +202,7 @@ class DeviceDetails extends Component {
                                                 <Line
                                                     data={this.state.lightChartData}
                                                     options={lineChartOptions}
+                                                    redraw={true}
                                                     width={400}
                                                     height={105}
                                                 />

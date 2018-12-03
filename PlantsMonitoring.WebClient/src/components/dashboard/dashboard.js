@@ -1,26 +1,55 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Line, Bar } from 'react-chartjs-2';
+import { Card, CardHeader, CardBody, CardFooter, Row, Col, Button } from "reactstrap";
 import * as telemetryActions from '../../actions/dashboard.actions';
 import * as devicesActions from '../../actions/devices.actions';
 import {
-    extractChartData,
-    emptyData,
     bigDashboardChartData,
-    bigDashboardChartOptions
+    bigDashboardChartOptions,
+    getDeviceChartData,
+    getColors
 } from '../../utilities/methods';
-import {lineChartOptions} from '../../utilities/charts.config';
+import { lineChartOptionsWithLegend } from '../../utilities/charts.config';
+import { toMeasurementModel } from '../../models/telemetry';
+import openSocket from 'socket.io-client';
 
 class Dashboard extends Component {
+    state = {
+        colors: [],
+        selectedDeviceData: {},
+        selectedDeviceId: undefined
+    }
+
     componentDidMount() {
         this.props.getDevices();
         this.props.getTelemetry();
+        const socket = openSocket('http://localhost:5000');
+        socket.on('SendMeasurement', (measurement) => {
+            const mappedMeasurement = toMeasurementModel(measurement);
+            this.props.addMeasurement(mappedMeasurement);
+        });
+    }
+
+    componentWillReceiveProps(nextProps) {
+        const { devices, telemetry } = nextProps;
+        if (devices && telemetry &&
+            telemetry.length > 0 && devices.length > 0) {
+            const colors = getColors(devices);
+            const selectedDeviceData = getDeviceChartData(telemetry, devices[0], colors[0].value);
+            this.setState({ colors, selectedDeviceData, selectedDeviceId: devices[0].id });
+        }
+    }
+
+    handleDeviceSelect = (event) => {
+        const deviceId = event.target.id;
+        const deviceName = event.target.innerText;
+        const color = event.target.style.backgroundColor;
+        const data = getDeviceChartData(this.props.telemetry, { id: deviceId, name: deviceName }, color)
+        this.setState({ selectedDeviceData: data, selectedDeviceId: deviceId });
     }
 
     render() {
-        const { telemetry, devices } = this.props;
-        const data = telemetry.length > 0 ? extractChartData(devices, telemetry) : { ...emptyData };
-
         return (
             [
                 <nav key="navbar" className="navbar navbar-expand-lg fixed-top navbar-transparent  bg-primary  navbar-absolute">
@@ -46,59 +75,77 @@ class Dashboard extends Component {
                     <Line id="bigDashboardChart" data={bigDashboardChartData} options={bigDashboardChartOptions} />
                 </div>,
                 <div key="content" className="content">
-                    <div className="row">
-                        <div className="col-lg-4">
-                            <div className="card card-chart">
-                                <div className="card-header">
+                    <Row>
+                        <Col>
+                            <Card>
+                                <CardHeader>Your devices</CardHeader>
+                                <CardBody>
+                                    {this.state.colors.map(color =>
+                                        <Button id={color.deviceId}
+                                            style={{ backgroundColor: color.value, borderColor: color.value }}
+                                            onClick={this.handleDeviceSelect}>
+                                            {color.deviceName}
+                                        </Button>
+                                    )}
+                                </CardBody>
+                            </Card>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col lg={4} xs={12}>
+                            <Card className="card-chart">
+                                <CardHeader>
                                     <h4 className="card-title">Temperature</h4>
-                                </div>
-                                <div className="card-body">
-                                    <div className="chart-area">
-                                        <Line id="lineChartExample" data={data.temperature} options={lineChartOptions} />
-                                    </div>
-                                </div>
-                                <div className="card-footer">
+                                </CardHeader>
+                                <CardBody>
+                                    <Line
+                                        data={this.state.selectedDeviceData.temperature}
+                                        options={lineChartOptionsWithLegend}
+                                        redraw={true}
+                                    />
+                                </CardBody>
+                                <CardFooter>
                                     <div className="stats">
-                                        <i className="now-ui-icons ui-2_time-alarm"></i> Last 7 days
+                                        <i className="now-ui-icons arrows-1_refresh-69"></i> Just Updated
                       </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-lg-4 col-md-6">
-                            <div className="card card-chart">
-                                <div className="card-header">
+                                </CardFooter>
+                            </Card>
+                        </Col>
+                        <Col lg={4} xs={12}>
+                            <Card className="card-chart">
+                                <CardHeader>
                                     <h4 className="card-title">Soil Moisture</h4>
-                                </div>
-                                <div className="card-body">
-                                    <div className="chart-area">
-                                        <Line id="lineChartExample" data={data.humidity} options={lineChartOptions} />
-                                    </div>
-                                </div>
-                                <div className="card-footer">
+                                </CardHeader>
+                                <CardBody>
+                                    <Line
+                                        data={this.state.selectedDeviceData.humidity}
+                                        options={lineChartOptionsWithLegend}
+                                        redraw={true}
+                                    />
+                                </CardBody>
+                                <CardFooter>
                                     <div className="stats">
-                                        <i className="now-ui-icons ui-2_time-alarm"></i> Last 7 days
+                                        <i className="now-ui-icons arrows-1_refresh-69"></i> Just Updated
                       </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-lg-4 col-md-6">
-                            <div className="card card-chart">
-                                <div className="card-header">
+                                </CardFooter>
+                            </Card>
+                        </Col>
+                        <Col lg={4} xs={12}>
+                            <Card className="card-chart">
+                                <CardHeader>
                                     <h4 className="card-title">Sunlight Level</h4>
-                                </div>
-                                <div className="card-body">
-                                    <div className="chart-area">
-                                        <Bar data={data.light} />
-                                    </div>
-                                </div>
-                                <div className="card-footer">
+                                </CardHeader>
+                                <CardBody>
+                                    <Bar data={this.state.selectedDeviceData.light} />
+                                </CardBody>
+                                <CardFooter>
                                     <div className="stats">
-                                        <i className="now-ui-icons ui-2_time-alarm"></i> Last 7 days
+                                        <i className="now-ui-icons arrows-1_refresh-69"></i> Just Updated
                       </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                                </CardFooter>
+                            </Card>
+                        </Col>
+                    </Row>
                 </div>
             ]
         );
@@ -108,14 +155,15 @@ class Dashboard extends Component {
 function mapStateToProps(state, ownProps) {
     return {
         telemetry: state.telemetry,
-        devices: state.devices
+        devices: state.devices.entities
     };
 }
 
 function mapDispatchToProps(dispatch, ownProps) {
     return {
         getTelemetry: () => dispatch(telemetryActions.getTelemetry()),
-        getDevices: () => dispatch(devicesActions.getAllDevices())
+        getDevices: () => dispatch(devicesActions.getAllDevices()),
+        addMeasurement: (measurement) => dispatch(telemetryActions.addMeasurement(measurement))
     };
 }
 

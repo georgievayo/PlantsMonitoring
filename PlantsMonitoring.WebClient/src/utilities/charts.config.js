@@ -45,20 +45,24 @@ export const lineChartOptions = {
     legend: {
         display: false
     },
-    // scaleShowGridLines: false,
-    // scaleGridLineColor: 'rgba(0,0,0,.05)',
-    // scaleGridLineWidth: 1,
-    // scaleShowHorizontalLines: true,
-    // scaleShowVerticalLines: true,
-    // bezierCurve: true,
-    // bezierCurveTension: 0.4,
-    // pointDot: true,
-    // pointDotRadius: 4,
-    // pointDotStrokeWidth: 1,
-    // pointHitDetectionRadius: 20,
-    // datasetStroke: true,
-    // datasetStrokeWidth: 4,
-    // datasetFill: true,
+    scales: {
+        xAxes: [{
+            type: 'time',
+            display: false,
+            time: {
+                unit: 'second',
+                displayFormats: {
+                    second: 'h:mm:ss a'
+                }
+            }
+        }]
+    }
+};
+
+export const lineChartOptionsWithLegend = {
+    legend: {
+        display: true
+    },
     scales: {
         xAxes: [{
             type: 'time',

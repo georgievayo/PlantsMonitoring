@@ -9,6 +9,13 @@ export function getTelemetry() {
     };
 }
 
+export function addMeasurement(measurement) {
+    return {
+        type: 'ADD_MEASUREMENT',
+        measurement
+    };
+}
+
 function getTelemetrySuccess(telemetry) {
     return {
         type: 'GET_TELEMETRY_SUCCESS',

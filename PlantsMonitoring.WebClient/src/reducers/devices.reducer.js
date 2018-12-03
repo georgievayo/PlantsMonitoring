@@ -24,7 +24,7 @@ export default function devices(state = { entities: [], selectedDevice: {} }, ac
             return {
                 ...state,
                 selectedDevice: addAlarmIfSelectedDevice(state.selectedDevice, action.alarm)
-            }
+            };
         default:
             return state;
     }
