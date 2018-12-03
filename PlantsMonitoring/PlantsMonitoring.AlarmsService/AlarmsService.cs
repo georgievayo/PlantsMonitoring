@@ -38,6 +38,12 @@ namespace PlantsMonitoring.AlarmsService
                             .Where(a => a.IsDeleted == false)
                             .ToList();
 
+            foreach (var alarm in alarms)
+            {
+                alarm.Device = this.devicesManager.GetDeviceById(alarm.DeviceId);
+                alarm.Rule = this.rulesManager.GetById(alarm.RuleId);
+            }
+
             return Task.FromResult(alarms);
         }
 

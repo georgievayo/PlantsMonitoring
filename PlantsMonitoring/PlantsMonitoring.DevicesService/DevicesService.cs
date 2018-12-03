@@ -45,7 +45,7 @@ namespace PlantsMonitoring.DevicesService
 
         public Task<DeviceExtended> GetDetails(string deviceId)
         {
-            var device = this.devicesManager.GetDeviceById(deviceId);
+            var device = this.devicesManager.GetExtendedDeviceById(deviceId);
             if(device != null)
             {
                 device.Group = this.groupsManager.GetGroupById(device.GroupId);

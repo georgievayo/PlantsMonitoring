@@ -36,9 +36,17 @@ namespace PlantsMonitoring.Data.Devices
                 .ToList();
         }
 
-        public DeviceExtended GetDeviceById(string deviceId)
+        public DeviceExtended GetExtendedDeviceById(string deviceId)
         {
             return this.client.CreateDocumentQuery<DeviceExtended>(devicesUri)
+                .Where(entry => entry.Id == deviceId)
+                .ToList()
+                .FirstOrDefault();
+        }
+
+        public Device GetDeviceById(string deviceId)
+        {
+            return this.client.CreateDocumentQuery<Device>(devicesUri)
                 .Where(entry => entry.Id == deviceId)
                 .ToList()
                 .FirstOrDefault();

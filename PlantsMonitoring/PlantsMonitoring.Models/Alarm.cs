@@ -8,7 +8,11 @@ namespace PlantsMonitoring.Models
 
         public string DeviceId { get; set; }
 
+        public Device Device { get; set; }
+
         public string RuleId { get; set; }
+
+        public Rule Rule { get; set; }
 
         public RuleType Type { get; set; }
 

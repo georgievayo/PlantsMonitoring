@@ -17,7 +17,9 @@ namespace PlantsMonitoring.Data.Devices
 
         List<Measurement> GetLastMessages(string deviceId);
 
-        DeviceExtended GetDeviceById(string deviceId);
+        DeviceExtended GetExtendedDeviceById(string deviceId);
+
+        Device GetDeviceById(string deviceId);
 
         List<Measurement> GetDeviceTelemetry(string deviceId);
 
