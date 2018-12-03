@@ -47,5 +47,21 @@ namespace PlantsMonitoring.WebApi.Controllers
                 return BadRequest();
             }
         }
+
+        [Route("summary")]
+        [HttpGet]
+        public IHttpActionResult GetAlarmsSummary()
+        {
+            try
+            {
+                var alarms = this.service.GetSummarizedAlarms();
+
+                return Ok(alarms);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
     }
 }

@@ -72,11 +72,17 @@ namespace PlantsMonitoring.Data.Devices
 
         public List<Measurement> GetTelemetry()
         {
-            var minDate = DateTime.Now.Subtract(new TimeSpan(7, 0, 0, 0));
+            var minDate = DateTime.Now.Subtract(new TimeSpan(3, 0, 0, 0));
 
             return this.client.CreateDocumentQuery<Measurement>(telemetryUri)
                 .Where(m => m.ReceivedAt >= minDate)
                 .ToList();
+        }
+
+        public async Task UpdateStatus(Device device)
+        {
+            var uri = UriFactory.CreateDocumentUri(DATABASE_ID, DEVICES_COLLECTION_NAME, device.Id);
+            await this.client.ReplaceDocumentAsync(uri, device);
         }
     }
 }

@@ -14,7 +14,9 @@ module.exports = ({ telemetryData, devicesData, alarmsData, rulesData }, io) => 
                     const alarm = {
                         DeviceId: measurement.DeviceId,
                         RuleId: rule.id,
-                        Type: rule.Type
+                        Type: rule.Type,
+                        RaisedAt: new Date(),
+                        IsDeleted: false
                     };
                     const createdAlarm = await alarmsData.addAlarm(alarm);
                     io.emit('SendAlarm', createdAlarm);

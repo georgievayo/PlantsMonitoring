@@ -13,7 +13,7 @@ export const getColors = (devices) => {
     let colors = [];
     devices.forEach(device => {
         const color = getRandomColor();
-        colors.push({value: color, deviceId: device.id, deviceName: device.name});
+        colors.push({ value: color, deviceId: device.id, deviceName: device.name });
     });
 
     return colors;
@@ -79,24 +79,26 @@ export const getDeviceChartData = (telemetry, device, color) => {
     return data;
 }
 
-export const bigDashboardChartData = {
-    labels: ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"],
-    datasets: [{
-        label: "Data",
-        borderColor: "#FFFFFF",
-        pointBorderColor: "#FFFFFF",
-        pointBackgroundColor: "#1e3d60",
-        pointHoverBackgroundColor: "#1e3d60",
-        pointHoverBorderColor: "#FFFFFF",
-        pointBorderWidth: 1,
-        pointHoverRadius: 7,
-        pointHoverBorderWidth: 2,
-        pointRadius: 5,
-        fill: true,
-        backgroundColor: "rgba(128, 182, 244, 0)",
-        borderWidth: 2,
-        data: [50, 150, 100, 190, 130, 90, 150, 160, 120, 140, 190, 95]
-    }]
+export const bigDashboardChartData = (dates, counts) => {
+    return {
+        labels: dates,
+        datasets: [{
+            label: "Alarms",
+            borderColor: "#FFFFFF",
+            pointBorderColor: "#FFFFFF",
+            pointBackgroundColor: "#1e3d60",
+            pointHoverBackgroundColor: "#1e3d60",
+            pointHoverBorderColor: "#FFFFFF",
+            pointBorderWidth: 1,
+            pointHoverRadius: 7,
+            pointHoverBorderWidth: 2,
+            pointRadius: 5,
+            fill: true,
+            backgroundColor: "rgba(128, 182, 244, 0)",
+            borderWidth: 2,
+            data: counts
+        }]
+    }
 };
 
 export const bigDashboardChartOptions = {

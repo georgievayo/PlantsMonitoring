@@ -138,6 +138,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IAlarmsService.cs" />
+    <Compile Include="Models\AlarmsSummary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AlarmsService.cs" />
     <Compile Include="Program.cs" />

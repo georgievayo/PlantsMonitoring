@@ -20,5 +20,7 @@ namespace PlantsMonitoring.Data.Devices
         DeviceExtended GetDeviceById(string deviceId);
 
         List<Measurement> GetDeviceTelemetry(string deviceId);
+
+        Task UpdateStatus(Device device);
     }
 }

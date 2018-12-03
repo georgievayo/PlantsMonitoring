@@ -1,4 +1,6 @@
-﻿namespace PlantsMonitoring.Models
+﻿using System;
+
+namespace PlantsMonitoring.Models
 {
     public class Alarm
     {
@@ -9,5 +11,9 @@
         public string RuleId { get; set; }
 
         public RuleType Type { get; set; }
+
+        public DateTime RaisedAt { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 }

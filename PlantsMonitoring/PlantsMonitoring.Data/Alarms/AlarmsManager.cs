@@ -3,6 +3,7 @@ using PlantsMonitoring.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace PlantsMonitoring.Data.Alarms
 {
@@ -20,14 +21,17 @@ namespace PlantsMonitoring.Data.Alarms
             this.alarmsUri = UriFactory.CreateDocumentCollectionUri(DATABASE_ID, ALARMS_COLLECTION_NAME);
         }
 
-        public void Delete(string alarmId)
+        public async Task Delete(Alarm alarm)
         {
-            this.client.DeleteDocumentAsync(alarmId);
+            var uri = UriFactory.CreateDocumentUri(DATABASE_ID, ALARMS_COLLECTION_NAME, alarm.Id);
+            alarm.IsDeleted = true;
+            await this.client.ReplaceDocumentAsync(uri, alarm);
         }
 
         public List<Alarm> GetAll()
         {
-            return this.client.CreateDocumentQuery<Alarm>(alarmsUri)
+            var option = new FeedOptions { EnableCrossPartitionQuery = true };
+            return this.client.CreateDocumentQuery<Alarm>(alarmsUri, option)
                 .ToList();
         }
 
@@ -35,7 +39,7 @@ namespace PlantsMonitoring.Data.Alarms
         {
             var option = new FeedOptions { EnableCrossPartitionQuery = true };
             return this.client.CreateDocumentQuery<Alarm>(alarmsUri, option)
-                .Where(a => a.DeviceId == deviceId)
+                .Where(a => a.DeviceId == deviceId && a.IsDeleted == false)
                 .ToList();
         }
     }

@@ -1,5 +1,6 @@
 ﻿using PlantsMonitoring.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace PlantsMonitoring.Data.Alarms
 {
@@ -9,6 +10,6 @@ namespace PlantsMonitoring.Data.Alarms
 
         List<Alarm> GetAllByDevice(string deviceId);
 
-        void Delete(string alarmId);
+        Task Delete(Alarm alarm);
     }
 }
