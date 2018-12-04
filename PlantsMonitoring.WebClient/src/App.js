@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Menu from './components/menu/menu';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { Devices } from './components/devices';
 import { Dashboard } from './components/dashboard';
 import { Rules } from './components/rules';
@@ -18,7 +18,6 @@ class App extends Component {
   render() {
     return (
       <div className="wrapper ">
-        <Router>
           <div className="main-panel">
             <Menu />
             <Switch>
@@ -29,7 +28,6 @@ class App extends Component {
               <Route path="/alarms" component={Alarms} />
             </Switch>
           </div>
-        </Router>
       </div>
     );
   }

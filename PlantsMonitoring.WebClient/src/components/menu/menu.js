@@ -4,7 +4,8 @@ import { NavLink } from 'react-router-dom';
 const pages = {
     dashboard: "Dashboard",
     devices: "Devices",
-    rules: "Rules"
+    rules: "Rules",
+    alarms: 'Alarms'
 };
 
 class Menu extends Component {
@@ -49,6 +50,12 @@ class Menu extends Component {
                             <NavLink to="/rules" onClick={() => this.selectPage(pages.rules)}>
                                 <i className="now-ui-icons files_paper"></i>
                                 <p>Rules</p>
+                            </NavLink>
+                        </li>
+                        <li className={this.isActive(pages.alarms)}>
+                            <NavLink to="/alarms" onClick={() => this.selectPage(pages.alarms)}>
+                                <i className="now-ui-icons ui-2_time-alarm"></i>
+                                <p>Alarms</p>
                             </NavLink>
                         </li>
                     </ul>
