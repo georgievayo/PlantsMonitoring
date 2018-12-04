@@ -135,28 +135,28 @@ namespace PlantsMonitoring.DevicesService
             return this.CreateServiceRemotingInstanceListeners();
         }
 
-        protected virtual async Task RunAsync(CancellationToken cancellationToken)
-        {
-            while (true)
-            {
-                var devices = this.devicesManager.GetAll();
-                foreach (var device in devices)
-                {
-                    var lastMessage = this.devicesManager.GetLastMessage(device.Id);
-                    if (lastMessage.ReceivedAt < DateTime.Now.Subtract(new TimeSpan(0, 20, 0)))
-                    {
-                        device.Status = DeviceStatus.Offline;
-                    }
-                    else
-                    {
-                        device.Status = DeviceStatus.Online;
-                    }
+        //protected override async Task RunAsync(CancellationToken cancellationToken)
+        //{
+        //    while (true)
+        //    {
+        //        var devices = this.devicesManager.GetAll();
+        //        foreach (var device in devices)
+        //        {
+        //            var lastMessage = this.devicesManager.GetLastMessage(device.Id);
+        //            if (lastMessage.ReceivedAt < DateTime.Now.Subtract(new TimeSpan(0, 20, 0)))
+        //            {
+        //                device.Status = DeviceStatus.Offline;
+        //            }
+        //            else
+        //            {
+        //                device.Status = DeviceStatus.Online;
+        //            }
 
-                    await this.devicesManager.UpdateStatus(device);
-                }
+        //            await this.devicesManager.UpdateStatus(device);
+        //        }
 
-                await Task.Delay(TimeSpan.FromSeconds(20), cancellationToken);
-            }
-        }
+        //        await Task.Delay(TimeSpan.FromSeconds(20), cancellationToken);
+        //    }
+        //}
     }
 }

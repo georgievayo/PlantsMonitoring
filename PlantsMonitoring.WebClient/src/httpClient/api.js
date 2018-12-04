@@ -3,7 +3,8 @@ const api = {
     GROUPS: 'http://localhost:3434/api/groups',
     TELEMETRY: 'http://localhost:3434/api/telemetry',
     RULES: 'http://localhost:3434/api/rules',
-    ALARMS: 'http://localhost:3434/api/alarms'
+    ALARMS: 'http://localhost:3434/api/alarms',
+    USERS: 'http://localhost:3434/api/users'
 };
 
 export default api;

@@ -69,24 +69,26 @@ namespace PlantsMonitoring.AlarmsService
             return this.CreateServiceRemotingInstanceListeners();
         }
 
-        protected virtual async Task RunAsync(CancellationToken cancellationToken)
-        {
-            while (true)
-            {
-                var alarms = this.alarmsManager.GetAll();
-                foreach (var alarm in alarms)
-                {
-                    var rule = this.rulesManager.GetById(alarm.RuleId);
-                    var lastMessage = this.devicesManager.GetLastMessage(alarm.DeviceId);
-                    if (ShouldDeleteAlarm(rule, lastMessage))
-                    {
-                        await this.alarmsManager.Delete(alarm);
-                    }
-                }
+        //protected override async Task RunAsync(CancellationToken cancellationToken)
+        //{
+        //    while (true)
+        //    {
+        //        cancellationToken.ThrowIfCancellationRequested();
 
-                await Task.Delay(TimeSpan.FromSeconds(20), cancellationToken);
-            }
-        }
+        //        var alarms = this.alarmsManager.GetAll();
+        //        foreach (var alarm in alarms)
+        //        {
+        //            var rule = this.rulesManager.GetById(alarm.RuleId);
+        //            var lastMessage = this.devicesManager.GetLastMessage(alarm.DeviceId);
+        //            if (ShouldDeleteAlarm(rule, lastMessage))
+        //            {
+        //                await this.alarmsManager.Delete(alarm);
+        //            }
+        //        }
+
+        //        await Task.Delay(TimeSpan.FromSeconds(20), cancellationToken);
+        //    }
+        //}
 
         private bool ShouldDeleteAlarm(Rule rule, Measurement measurement)
         {

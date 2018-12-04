@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Button, Card, CardBody, CardGroup, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
+import * as usersActions from '../../actions/users.actions';
 
 class Signin extends Component {
     state = {
@@ -15,6 +17,17 @@ class Signin extends Component {
         this.setState({ password: event.target.value });
     }
 
+    submit = (event) => {
+        event.preventDefault();
+        const user = {
+            username: this.state.username,
+            password: this.state.password
+        };
+
+        this.props.signIn(user)
+            .then(() => this.props.history.push('/dashboard'));
+    }
+
     render() {
         return (
             <div className="app flex-row align-items-center">
@@ -24,13 +37,13 @@ class Signin extends Component {
                             <CardGroup>
                                 <Card className="p-4">
                                     <CardBody>
-                                        <Form>
+                                        <Form onSubmit={this.submit}>
                                             <h1>Login</h1>
                                             <p className="text-muted">Sign In to your account</p>
                                             <InputGroup className="mb-3">
                                                 <InputGroupAddon addonType="prepend">
                                                     <InputGroupText>
-                                                        <i className="icon-user"></i>
+                                                        <i className="now-ui-icons users_single-02"></i>
                                                     </InputGroupText>
                                                 </InputGroupAddon>
                                                 <Input type="text" placeholder="Username" autoComplete="username" onChange={this.handleUsernameChange} />
@@ -38,7 +51,7 @@ class Signin extends Component {
                                             <InputGroup className="mb-4">
                                                 <InputGroupAddon addonType="prepend">
                                                     <InputGroupText>
-                                                        <i className="icon-lock"></i>
+                                                        <i className="now-ui-icons ui-1_lock-circle-open"></i>
                                                     </InputGroupText>
                                                 </InputGroupAddon>
                                                 <Input type="password" placeholder="Password" autoComplete="current-password" onChange={this.handlePasswordChange} />
@@ -72,4 +85,11 @@ class Signin extends Component {
     }
 }
 
-export default Signin;
+function mapDispatchToProps(dispatch, ownProps) {
+    return {
+        signIn: (user) => dispatch(usersActions.signIn(user))
+    };
+}
+
+
+export default connect(null, mapDispatchToProps)(Signin);

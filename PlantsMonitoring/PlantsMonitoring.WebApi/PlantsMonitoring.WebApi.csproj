@@ -128,6 +128,7 @@
     <Compile Include="Controllers\DevicesController.cs" />
     <Compile Include="Controllers\GroupsController.cs" />
     <Compile Include="Controllers\RulesController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="IOwinAppBuilder.cs" />
     <Compile Include="OwinCommunicationListener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -163,6 +164,10 @@
     <ProjectReference Include="..\PlantsMonitoring.RulesService\PlantsMonitoring.RulesService.csproj">
       <Project>{1ED57AAF-0029-4BCA-BC4E-D0EDEAB4CA4A}</Project>
       <Name>PlantsMonitoring.RulesService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PlantsMonitoring.UsersService\PlantsMonitoring.UsersService.csproj">
+      <Project>{89C6BBAC-69F1-4223-A315-69993AA4FCF2}</Project>
+      <Name>PlantsMonitoring.UsersService</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

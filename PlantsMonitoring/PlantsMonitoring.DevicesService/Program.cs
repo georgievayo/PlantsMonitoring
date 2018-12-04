@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Threading;
 using Autofac;
 using Autofac.Integration.ServiceFabric;
-using Microsoft.Azure.Documents.Client;
 using PlantsMonitoring.Data;
 
 namespace PlantsMonitoring.DevicesService
@@ -16,7 +15,6 @@ namespace PlantsMonitoring.DevicesService
             {
                 var builder = new ContainerBuilder();
                 ManagersConfigurator.Configure(builder);                
-
                 builder.RegisterServiceFabricSupport();
                 builder.RegisterStatelessService<DevicesService>("PlantsMonitoring.DevicesServiceType");
 

@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlantsMonitoring.GroupsServ
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlantsMonitoring.AlarmsService", "PlantsMonitoring.AlarmsService\PlantsMonitoring.AlarmsService.csproj", "{DECD6345-764C-4D9B-A2BB-CBFDA5BD7ECB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlantsMonitoring.UsersService", "PlantsMonitoring.UsersService\PlantsMonitoring.UsersService.csproj", "{89C6BBAC-69F1-4223-A315-69993AA4FCF2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -88,6 +90,13 @@ Global
 		{DECD6345-764C-4D9B-A2BB-CBFDA5BD7ECB}.Release|Any CPU.ActiveCfg = Release|x64
 		{DECD6345-764C-4D9B-A2BB-CBFDA5BD7ECB}.Release|x64.ActiveCfg = Release|x64
 		{DECD6345-764C-4D9B-A2BB-CBFDA5BD7ECB}.Release|x64.Build.0 = Release|x64
+		{89C6BBAC-69F1-4223-A315-69993AA4FCF2}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{89C6BBAC-69F1-4223-A315-69993AA4FCF2}.Debug|Any CPU.Build.0 = Debug|x64
+		{89C6BBAC-69F1-4223-A315-69993AA4FCF2}.Debug|x64.ActiveCfg = Debug|x64
+		{89C6BBAC-69F1-4223-A315-69993AA4FCF2}.Debug|x64.Build.0 = Debug|x64
+		{89C6BBAC-69F1-4223-A315-69993AA4FCF2}.Release|Any CPU.ActiveCfg = Release|x64
+		{89C6BBAC-69F1-4223-A315-69993AA4FCF2}.Release|x64.ActiveCfg = Release|x64
+		{89C6BBAC-69F1-4223-A315-69993AA4FCF2}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

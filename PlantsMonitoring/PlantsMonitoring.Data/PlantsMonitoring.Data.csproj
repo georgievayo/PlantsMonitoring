@@ -83,6 +83,8 @@
     <Compile Include="Rules\RulesManager.cs" />
     <Compile Include="Telemetry\ITelemetryManager.cs" />
     <Compile Include="Telemetry\TelemetryManager.cs" />
+    <Compile Include="Users\IUsersManager.cs" />
+    <Compile Include="Users\UsersManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
