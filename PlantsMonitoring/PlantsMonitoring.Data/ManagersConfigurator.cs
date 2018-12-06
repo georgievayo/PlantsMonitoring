@@ -34,6 +34,9 @@ namespace PlantsMonitoring.Data
             builder.RegisterType<AlarmsManager>()
                 .As<IAlarmsManager>()
                 .InstancePerLifetimeScope();
+            builder.RegisterType<UsersManager>()
+                .As<IUsersManager>()
+                .InstancePerLifetimeScope();
         }
     }
 }

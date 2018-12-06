@@ -11,6 +11,8 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Security.Claims;
+using PlantsMonitoring.UsersService.Cache;
+using System.Linq;
 
 namespace PlantsMonitoring.UsersService
 {
@@ -19,13 +21,16 @@ namespace PlantsMonitoring.UsersService
         private const string SECRET = "426c54ef-513e-47d8-8652-37bdd32c1fb6";
         private const string AUDIENCE = "plants-monitoring";
         private const string ISSUER = "http://localhost:3434";
+        private const int TOKEN_EXPIRATION_DURATION = 3;
+        private readonly ISessionCache cache;
 
         private readonly IUsersManager usersManager;
 
-        public UsersService(StatelessServiceContext context, IUsersManager usersManager)
+        public UsersService(StatelessServiceContext context, IUsersManager usersManager, ISessionCache cache)
             : base(context)
         {
             this.usersManager = usersManager;
+            this.cache = cache;
         }
 
         public async Task<User> CreateUser(User user)
@@ -42,15 +47,36 @@ namespace PlantsMonitoring.UsersService
             if(foundUser != null)
             {
                 var token = GenerateToken(foundUser.Id);
+                cache.RemoveItem(foundUser.Id);
+                cache.AddItem(user.Username, token, TOKEN_EXPIRATION_DURATION);
+
                 return Task.FromResult(token);
             }
 
             return Task.FromResult("");
         }
 
-        public Task Logout(string token)
+        public Task Logout(string username)
         {
-            throw new NotImplementedException();
+            cache.RemoveItem(username);
+            return Task.CompletedTask;
+        }
+
+        public Task<bool> ValidateToken(string token)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var tokenValue = tokenHandler.ReadToken(token) as JwtSecurityToken;
+            var expirationDate = tokenValue.ValidTo;
+            var userIdClaim = tokenValue.Claims.SingleOrDefault(c => c.Type == "UserId");
+            var existingToken = this.cache.GetItem(userIdClaim.Value);
+            if (existingToken != null && DateTime.UtcNow < expirationDate)
+            {
+                return Task.FromResult(true);
+            }
+            else
+            {
+                return Task.FromResult(false);
+            }
         }
 
         protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners()

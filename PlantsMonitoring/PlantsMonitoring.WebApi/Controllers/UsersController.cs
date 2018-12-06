@@ -2,6 +2,7 @@
 using PlantsMonitoring.Models;
 using PlantsMonitoring.UsersService;
 using System;
+using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace PlantsMonitoring.WebApi.Controllers
@@ -35,12 +36,12 @@ namespace PlantsMonitoring.WebApi.Controllers
 
         [HttpPost]
         [Route("login")]
-        public IHttpActionResult Login([FromBody]User user)
+        public async Task<IHttpActionResult> Login([FromBody]User user)
         {
             try
             {
-                var token = this.service.Login(user);
-                if(token != null)
+                var token = await this.service.Login(user);
+                if (!string.IsNullOrEmpty(token))
                 {
                     return Ok(new { token });
                 }
@@ -53,6 +54,54 @@ namespace PlantsMonitoring.WebApi.Controllers
             {
                 return BadRequest();
             }
+        }
+
+        [HttpPost]
+        [Route("auth")]
+        public async Task<IHttpActionResult> Authenticate()
+        {
+            try
+            {
+                var token = ExtractTokenFromHeader();
+                if(token != null)
+                {
+                    var isValid = await this.service.ValidateToken(token);
+                    if(isValid)
+                    {
+                        return Ok();
+                    }
+                    else
+                    {
+                        return Unauthorized();
+                    }
+                }
+                else
+                {
+                    return Unauthorized();
+                }
+
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
+        private string ExtractTokenFromHeader()
+        {
+            var authHeader = Request.Headers.Authorization;
+            if (authHeader != null)
+            {
+                var authScheme = authHeader.Scheme;
+                if(authScheme == "Bearer")
+                {
+                    var token = authHeader.Parameter.Substring(6).Trim();
+
+                    return token;
+                }
+            }
+
+            return null;
         }
     }
 }
