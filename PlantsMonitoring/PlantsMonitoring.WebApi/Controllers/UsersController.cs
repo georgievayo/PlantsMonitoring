@@ -57,5 +57,27 @@ namespace PlantsMonitoring.WebApi.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpPost]
+        [Route("logout")]
+        public async Task<IHttpActionResult> Logout()
+        {
+            try
+            {
+                var token = this.ExtractTokenFromHeader();
+                await this.service.Logout(token);
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
+        private string ExtractTokenFromHeader()
+        {
+            var token = Request.Headers.Authorization.Parameter.Substring(6).Trim();
+            return token;
+        }
     }
 }
