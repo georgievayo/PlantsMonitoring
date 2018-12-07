@@ -13,17 +13,13 @@ using System.Text;
 using System.Security.Claims;
 using PlantsMonitoring.UsersService.Cache;
 using System.Linq;
+using PlantsMonitoring.Common;
 
 namespace PlantsMonitoring.UsersService
 {
     public class UsersService : StatelessService, IUsersService
     {
-        private const string SECRET = "426c54ef-513e-47d8-8652-37bdd32c1fb6";
-        private const string AUDIENCE = "plants-monitoring";
-        private const string ISSUER = "http://localhost:3434";
-        private const int TOKEN_EXPIRATION_DURATION = 3;
         private readonly ISessionCache cache;
-
         private readonly IUsersManager usersManager;
 
         public UsersService(StatelessServiceContext context, IUsersManager usersManager, ISessionCache cache)
@@ -48,7 +44,7 @@ namespace PlantsMonitoring.UsersService
             {
                 var token = GenerateToken(foundUser.Id);
                 cache.RemoveItem(foundUser.Id);
-                cache.AddItem(user.Username, token, TOKEN_EXPIRATION_DURATION);
+                cache.AddItem(foundUser.Id, token, Constants.TOKEN_EXPIRATION_DURATION);
 
                 return Task.FromResult(token);
             }
@@ -56,9 +52,9 @@ namespace PlantsMonitoring.UsersService
             return Task.FromResult("");
         }
 
-        public Task Logout(string username)
+        public Task Logout(string userId)
         {
-            cache.RemoveItem(username);
+            cache.RemoveItem(userId);
             return Task.CompletedTask;
         }
 
@@ -67,7 +63,7 @@ namespace PlantsMonitoring.UsersService
             var tokenHandler = new JwtSecurityTokenHandler();
             var tokenValue = tokenHandler.ReadToken(token) as JwtSecurityToken;
             var expirationDate = tokenValue.ValidTo;
-            var userIdClaim = tokenValue.Claims.SingleOrDefault(c => c.Type == "UserId");
+            var userIdClaim = tokenValue.Claims.SingleOrDefault(c => c.Type == Constants.USER_ID_CLAIM);
             var existingToken = this.cache.GetItem(userIdClaim.Value);
             if (existingToken != null && DateTime.UtcNow < expirationDate)
             {
@@ -87,17 +83,17 @@ namespace PlantsMonitoring.UsersService
         private string GenerateToken(string userId)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var encodedSecret = Encoding.ASCII.GetBytes(SECRET);
+            var encodedSecret = Encoding.ASCII.GetBytes(Constants.SECRET);
             var key = new SymmetricSecurityKey(encodedSecret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Audience = AUDIENCE,
-                Issuer = ISSUER,
+                Audience = Constants.AUDIENCE,
+                Issuer = Constants.ISSUER,
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim("UserId", userId)
+                    new Claim(Constants.USER_ID_CLAIM, userId)
                 }),
-                Expires = DateTime.UtcNow.AddHours(3),
+                Expires = DateTime.UtcNow.AddHours(Constants.TOKEN_EXPIRATION_DURATION),
                 SigningCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature)
             };
             SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);

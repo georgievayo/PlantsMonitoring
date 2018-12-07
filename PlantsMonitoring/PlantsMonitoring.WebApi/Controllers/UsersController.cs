@@ -1,4 +1,5 @@
 ﻿using Microsoft.ServiceFabric.Services.Remoting.Client;
+using PlantsMonitoring.Common;
 using PlantsMonitoring.Models;
 using PlantsMonitoring.UsersService;
 using System;
@@ -10,12 +11,11 @@ namespace PlantsMonitoring.WebApi.Controllers
     [RoutePrefix("api/users")]
     public class UsersController : ApiController
     {
-        private const string USERS_SERVICE_URI = "fabric:/PlantsMonitoring/PlantsMonitoring.UsersService";
         private readonly IUsersService service;
 
         public UsersController()
         {
-            this.service = ServiceProxy.Create<IUsersService>(new Uri(USERS_SERVICE_URI));
+            this.service = ServiceProxy.Create<IUsersService>(new Uri(Constants.USERS_SERVICE_URI));
         }
 
         [HttpPost]

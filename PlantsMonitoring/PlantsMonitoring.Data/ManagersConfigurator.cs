@@ -5,6 +5,7 @@ using PlantsMonitoring.Data.Devices;
 using PlantsMonitoring.Data.Groups;
 using PlantsMonitoring.Data.Rules;
 using PlantsMonitoring.Data.Telemetry;
+using PlantsMonitoring.Data.Users;
 using System;
 
 namespace PlantsMonitoring.Data

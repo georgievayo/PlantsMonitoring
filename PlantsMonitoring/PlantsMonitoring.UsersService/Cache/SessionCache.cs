@@ -1,13 +1,13 @@
-﻿using Microsoft.Extensions.Caching.Memory;
-using System;
+﻿using System;
+using System.Runtime.Caching;
 
 namespace PlantsMonitoring.UsersService.Cache
 {
     public class SessionCache : ISessionCache
     {
-        private readonly IMemoryCache cache;
+        private readonly MemoryCache cache;
 
-        public SessionCache(IMemoryCache cache)
+        public SessionCache(MemoryCache cache)
         {
             this.cache = cache;
         }
@@ -16,12 +16,8 @@ namespace PlantsMonitoring.UsersService.Cache
         {
             if (!string.IsNullOrEmpty(key) && !string.IsNullOrEmpty(value))
             {
-                var options = new MemoryCacheEntryOptions()
-                {
-                    AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(expiration)
-                };
-
-                cache.Set(key, value, options);
+                DateTimeOffset offset = new DateTimeOffset(DateTime.UtcNow.AddHours(expiration), TimeSpan.Zero);
+                cache.Set(key, value, offset);
             }
         }
 
@@ -32,7 +28,7 @@ namespace PlantsMonitoring.UsersService.Cache
                 return null;
             }
 
-            var cacheValue = cache.Get<string>(key);
+            var cacheValue = cache.Get(key).ToString();
             return cacheValue;
         }
 

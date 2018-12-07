@@ -1,5 +1,6 @@
 ﻿using Microsoft.ServiceFabric.Services.Remoting.Client;
 using PlantsMonitoring.AlarmsService;
+using PlantsMonitoring.Common;
 using System;
 using System.Web.Http;
 
@@ -8,12 +9,11 @@ namespace PlantsMonitoring.WebApi.Controllers
     [RoutePrefix("api/alarms")]
     public class AlarmsController : ApiController
     {
-        private const string ALARMS_SERVICE_URI = "fabric:/PlantsMonitoring/PlantsMonitoring.AlarmsService";
         private readonly IAlarmsService service;
 
         public AlarmsController()
         {
-            this.service = ServiceProxy.Create<IAlarmsService>(new Uri(ALARMS_SERVICE_URI));
+            this.service = ServiceProxy.Create<IAlarmsService>(new Uri(Constants.ALARMS_SERVICE_URI));
         }
 
         [HttpGet]

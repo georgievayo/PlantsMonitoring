@@ -1,4 +1,5 @@
 ﻿using Microsoft.ServiceFabric.Services.Remoting.Client;
+using PlantsMonitoring.Common;
 using PlantsMonitoring.GroupsService;
 using PlantsMonitoring.Models;
 using System;
@@ -9,13 +10,11 @@ namespace PlantsMonitoring.WebApi.Controllers
     [RoutePrefix("api/groups")]
     public class GroupsController : ApiController
     {
-        private const string GROUPS_SERVICE_URI = "fabric:/PlantsMonitoring/PlantsMonitoring.GroupsService";
-
         private readonly IGroupsService service;
 
         public GroupsController()
         {
-            this.service = ServiceProxy.Create<IGroupsService>(new Uri(GROUPS_SERVICE_URI));
+            this.service = ServiceProxy.Create<IGroupsService>(new Uri(Constants.GROUPS_SERVICE_URI));
         }
 
         [HttpGet]

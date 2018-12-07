@@ -1,4 +1,5 @@
 ﻿using Microsoft.ServiceFabric.Services.Remoting.Client;
+using PlantsMonitoring.Common;
 using PlantsMonitoring.DevicesService;
 using PlantsMonitoring.Models;
 using System;
@@ -10,13 +11,11 @@ namespace PlantsMonitoring.WebApi.Controllers
     [RoutePrefix("api/devices")]
     public class DevicesController : ApiController
     {
-        private const string DEVICES_SERVICE_URI = "fabric:/PlantsMonitoring/PlantsMonitoring.DevicesService";
-
         private readonly IDevicesService service;
 
         public DevicesController()
         {
-            this.service = ServiceProxy.Create<IDevicesService>(new Uri(DEVICES_SERVICE_URI));
+            this.service = ServiceProxy.Create<IDevicesService>(new Uri(Constants.DEVICES_SERVICE_URI));
         }
 
         [HttpGet]

@@ -1,4 +1,5 @@
 ﻿using Microsoft.ServiceFabric.Services.Remoting.Client;
+using PlantsMonitoring.Common;
 using PlantsMonitoring.Models;
 using PlantsMonitoring.RulesService;
 using System;
@@ -10,13 +11,11 @@ namespace PlantsMonitoring.WebApi.Controllers
     [RoutePrefix("api/rules")]
     public class RulesController : ApiController
     {
-        private const string RULES_SERVICE_URI = "fabric:/PlantsMonitoring/PlantsMonitoring.RulesService";
-
         private IRulesService service;
 
         public RulesController()
         {
-            this.service = ServiceProxy.Create<IRulesService>(new Uri(RULES_SERVICE_URI));
+            this.service = ServiceProxy.Create<IRulesService>(new Uri(Constants.RULES_SERVICE_URI));
         }
 
         [HttpPost]
