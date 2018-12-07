@@ -39,6 +39,19 @@
     <IsServiceFabricServiceProject>true</IsServiceFabricServiceProject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=4.8.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.8.1\lib\net45\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Integration.WebApi, Version=4.2.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.WebApi2.4.2.0\lib\net45\Autofac.Integration.WebApi.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Extensions.DependencyInjection, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.2.2.0\lib\net461\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Owin, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.4.0.0\lib\net451\Microsoft.Owin.dll</HintPath>
     </Reference>
@@ -129,6 +142,10 @@
     <Compile Include="Controllers\GroupsController.cs" />
     <Compile Include="Controllers\RulesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Filters\AuthFilter.cs" />
+    <Compile Include="Filters\AuthenticationFailureResult.cs" />
+    <Compile Include="Filters\AddChallengeOnUnauthorizedResult.cs" />
+    <Compile Include="Filters\FilterConfig.cs" />
     <Compile Include="IOwinAppBuilder.cs" />
     <Compile Include="OwinCommunicationListener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -148,6 +165,10 @@
     <ProjectReference Include="..\PlantsMonitoring.AlarmsService\PlantsMonitoring.AlarmsService.csproj">
       <Project>{DECD6345-764C-4D9B-A2BB-CBFDA5BD7ECB}</Project>
       <Name>PlantsMonitoring.AlarmsService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PlantsMonitoring.Common\PlantsMonitoring.Common.csproj">
+      <Project>{D1D0E782-EA1D-4151-8C9B-5AFA79DCAF8F}</Project>
+      <Name>PlantsMonitoring.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\PlantsMonitoring.DevicesService\PlantsMonitoring.DevicesService.csproj">
       <Project>{796950E5-1393-4C75-ACD0-64CFD1272B7D}</Project>

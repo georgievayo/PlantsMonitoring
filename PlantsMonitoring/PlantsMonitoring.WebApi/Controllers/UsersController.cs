@@ -20,6 +20,7 @@ namespace PlantsMonitoring.WebApi.Controllers
 
         [HttpPost]
         [Route("")]
+        [AllowAnonymous]
         public IHttpActionResult Register([FromBody]User user)
         {
             try
@@ -36,6 +37,7 @@ namespace PlantsMonitoring.WebApi.Controllers
 
         [HttpPost]
         [Route("login")]
+        [AllowAnonymous]
         public async Task<IHttpActionResult> Login([FromBody]User user)
         {
             try
@@ -54,54 +56,6 @@ namespace PlantsMonitoring.WebApi.Controllers
             {
                 return BadRequest();
             }
-        }
-
-        [HttpPost]
-        [Route("auth")]
-        public async Task<IHttpActionResult> Authenticate()
-        {
-            try
-            {
-                var token = ExtractTokenFromHeader();
-                if(token != null)
-                {
-                    var isValid = await this.service.ValidateToken(token);
-                    if(isValid)
-                    {
-                        return Ok();
-                    }
-                    else
-                    {
-                        return Unauthorized();
-                    }
-                }
-                else
-                {
-                    return Unauthorized();
-                }
-
-            }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
-        }
-
-        private string ExtractTokenFromHeader()
-        {
-            var authHeader = Request.Headers.Authorization;
-            if (authHeader != null)
-            {
-                var authScheme = authHeader.Scheme;
-                if(authScheme == "Bearer")
-                {
-                    var token = authHeader.Parameter.Substring(6).Trim();
-
-                    return token;
-                }
-            }
-
-            return null;
         }
     }
 }

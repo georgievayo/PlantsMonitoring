@@ -184,6 +184,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PlantsMonitoring.Common\PlantsMonitoring.Common.csproj">
+      <Project>{D1D0E782-EA1D-4151-8C9B-5AFA79DCAF8F}</Project>
+      <Name>PlantsMonitoring.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PlantsMonitoring.Data\PlantsMonitoring.Data.csproj">
       <Project>{605A6DCB-126C-4214-AB96-4AB44CEE42C8}</Project>
       <Name>PlantsMonitoring.Data</Name>

@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlantsMonitoring.AlarmsServ
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlantsMonitoring.UsersService", "PlantsMonitoring.UsersService\PlantsMonitoring.UsersService.csproj", "{89C6BBAC-69F1-4223-A315-69993AA4FCF2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlantsMonitoring.Common", "PlantsMonitoring.Common\PlantsMonitoring.Common.csproj", "{D1D0E782-EA1D-4151-8C9B-5AFA79DCAF8F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,6 +99,14 @@ Global
 		{89C6BBAC-69F1-4223-A315-69993AA4FCF2}.Release|Any CPU.ActiveCfg = Release|x64
 		{89C6BBAC-69F1-4223-A315-69993AA4FCF2}.Release|x64.ActiveCfg = Release|x64
 		{89C6BBAC-69F1-4223-A315-69993AA4FCF2}.Release|x64.Build.0 = Release|x64
+		{D1D0E782-EA1D-4151-8C9B-5AFA79DCAF8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1D0E782-EA1D-4151-8C9B-5AFA79DCAF8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1D0E782-EA1D-4151-8C9B-5AFA79DCAF8F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D1D0E782-EA1D-4151-8C9B-5AFA79DCAF8F}.Debug|x64.Build.0 = Debug|Any CPU
+		{D1D0E782-EA1D-4151-8C9B-5AFA79DCAF8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1D0E782-EA1D-4151-8C9B-5AFA79DCAF8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1D0E782-EA1D-4151-8C9B-5AFA79DCAF8F}.Release|x64.ActiveCfg = Release|Any CPU
+		{D1D0E782-EA1D-4151-8C9B-5AFA79DCAF8F}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

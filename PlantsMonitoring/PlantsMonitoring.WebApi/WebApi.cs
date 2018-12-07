@@ -7,19 +7,16 @@ namespace PlantsMonitoring.WebApi
 {
     internal sealed class WebApi : StatelessService
     {
-        private readonly ConfigurationPackage CONFIG_PACKAGE;
-
         public WebApi(StatelessServiceContext context)
             : base(context)
         {
-            this.CONFIG_PACKAGE = context.CodePackageActivationContext.GetConfigurationPackageObject("Config");
         }
 
         protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners()
         {
             return new[]
             {
-                new ServiceInstanceListener(initParams => new OwinCommunicationListener(new Startup(this.CONFIG_PACKAGE), initParams))
+                new ServiceInstanceListener(initParams => new OwinCommunicationListener(new Startup(), initParams))
             };
         }
     }

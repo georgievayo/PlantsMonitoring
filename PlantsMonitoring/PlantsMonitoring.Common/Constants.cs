@@ -15,5 +15,6 @@
         public const int TOKEN_EXPIRATION_DURATION = 3;
 
         public const string USER_ID_CLAIM = "UserId";
+        public const string AUTH_SCHEME = "Bearer";
     }
 }
