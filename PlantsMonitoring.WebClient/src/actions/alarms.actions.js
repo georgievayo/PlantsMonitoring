@@ -3,14 +3,14 @@ import { toAlarmsModel } from '../models/alarms';
 
 export function getAlarmsSummary() {
     return function (dispatch) {
-        return HttpClient.get(`${api.ALARMS}/summary`)
+        return HttpClient.get(`${api.ALARMS}/summary`, true)
             .then(alarms => dispatch(getAlarmsSummarySuccess(alarms.Result)));
     };
 }
 
 export function getAll() {
     return function (dispatch) {
-        return HttpClient.get(`${api.ALARMS}`)
+        return HttpClient.get(`${api.ALARMS}`, true)
             .then(toAlarmsModel)
             .then(alarms => dispatch(getAllSuccess(alarms)));
     };

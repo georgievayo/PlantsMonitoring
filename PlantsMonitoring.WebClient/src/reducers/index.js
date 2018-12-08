@@ -4,13 +4,15 @@ import groups from './groups.reducer';
 import telemetry from './telemetry.reducer';
 import rules from './rules.reducer';
 import alarms from './alarms.reducer';
+import auth from './auth.reducer';
 
 const reducer = combineReducers({
     devices,
     groups,
     telemetry,
     rules,
-    alarms
+    alarms,
+    auth
 });
 
 export default reducer;

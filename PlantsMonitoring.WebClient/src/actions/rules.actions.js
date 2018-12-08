@@ -3,7 +3,7 @@ import { toRulesModel, toRuleModel } from '../models/rules';
 
 export function getAllRules() {
     return function (dispatch) {
-        return HttpClient.get(`${api.RULES}`)
+        return HttpClient.get(`${api.RULES}`, true)
             .then(toRulesModel)
             .then(rules => dispatch(getAllRulesSuccess(rules)));
     };
@@ -11,7 +11,7 @@ export function getAllRules() {
 
 export function postRule(rule) {
     return function (dispatch) {
-        return HttpClient.post(api.RULES, rule)
+        return HttpClient.post(api.RULES, rule, true)
             .then(toRuleModel)
             .then(createdRule => dispatch(postRuleSuccess(createdRule)));
     }

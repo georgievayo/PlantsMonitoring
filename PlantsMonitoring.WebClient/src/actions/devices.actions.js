@@ -3,7 +3,7 @@ import { toDevicesModel, toDeviceModel, toDeviceExtendedModel } from '../models/
 
 export function getAllDevices() {
     return function (dispatch) {
-        return HttpClient.get(`${api.DEVICES}`)
+        return HttpClient.get(`${api.DEVICES}`, true)
             .then(toDevicesModel)
             .then(devices => dispatch(getAllDevicesSuccess(devices)));
     };
@@ -11,7 +11,7 @@ export function getAllDevices() {
 
 export function postDevice(device) {
     return function (dispatch) {
-        return HttpClient.post(api.DEVICES, device)
+        return HttpClient.post(api.DEVICES, device, true)
             .then(toDeviceModel)
             .then(createdDevice => dispatch(postDeviceSuccess(createdDevice)));
     }
@@ -19,7 +19,7 @@ export function postDevice(device) {
 
 export function getDeviceDetails(deviceId) {
     return function (dispatch) {
-        return HttpClient.get(`${api.DEVICES}/${deviceId}`)
+        return HttpClient.get(`${api.DEVICES}/${deviceId}`, true)
         .then(toDeviceExtendedModel)
         .then(device => dispatch(getDeviceDetailsSuccess(device)));
     }
