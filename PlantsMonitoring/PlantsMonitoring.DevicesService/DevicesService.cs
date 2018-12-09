@@ -11,7 +11,6 @@ using PlantsMonitoring.Data.Rules;
 using PlantsMonitoring.Data.Groups;
 using System.Linq;
 using PlantsMonitoring.Data.Alarms;
-using System.Threading;
 
 namespace PlantsMonitoring.DevicesService
 {
@@ -22,8 +21,8 @@ namespace PlantsMonitoring.DevicesService
         private readonly IGroupsManager groupsManager;
         private readonly IAlarmsManager alarmsManager;
 
-        public DevicesService(StatelessServiceContext context, 
-            IDevicesManager devicesManager, 
+        public DevicesService(StatelessServiceContext context,
+            IDevicesManager devicesManager,
             IRulesManager rulesManager,
             IGroupsManager groupsManager,
             IAlarmsManager alarmsManager)
@@ -39,14 +38,14 @@ namespace PlantsMonitoring.DevicesService
         {
             var result = await this.devicesManager.Add(device);
             device.Id = result.Id;
-
+            device.Group = this.groupsManager.GetGroupById(device.GroupId);
             return device;
         }
 
         public Task<DeviceExtended> GetDetails(string deviceId)
         {
             var device = this.devicesManager.GetExtendedDeviceById(deviceId);
-            if(device != null)
+            if (device != null)
             {
                 device.Group = this.groupsManager.GetGroupById(device.GroupId);
                 device.Telemetry = this.devicesManager.GetDeviceTelemetry(deviceId);
@@ -57,10 +56,10 @@ namespace PlantsMonitoring.DevicesService
             return Task.FromResult(device);
         }
 
-        public Task<List<Device>> GetAll()
+        public Task<List<Device>> GetAll(string userId)
         {
             var minTime = DateTime.Now.Subtract(new TimeSpan(0, 20, 0));
-            var devices = this.devicesManager.GetAll();
+            var devices = this.devicesManager.GetAll(userId);
 
             foreach (var device in devices)
             {
@@ -70,7 +69,7 @@ namespace PlantsMonitoring.DevicesService
                 var group = this.groupsManager.GetGroupById(device.GroupId);
                 device.Group = group;
 
-                if(lastMeasurement == null || lastMeasurement.ReceivedAt < minTime)
+                if (lastMeasurement == null || lastMeasurement.ReceivedAt < minTime)
                 {
                     device.Status = DeviceStatus.Offline;
                 }
@@ -90,44 +89,25 @@ namespace PlantsMonitoring.DevicesService
             return Task.FromResult(result);
         }
 
-        public Task<List<Measurement>> GetSummarizedTelemetry()
+        public Task<List<Measurement>> GetSummarizedTelemetry(IEnumerable<string> devicesIds)
         {
-            var telemetry = this.devicesManager.GetTelemetry()
-                .GroupBy(m => m.DeviceId);
-            var dates = new List<DateTime>() { DateTime.Now.Subtract(new TimeSpan(5, 0, 0, 0)), DateTime.Now.Subtract(new TimeSpan(4, 0, 0, 0)),
-            DateTime.Now.Subtract(new TimeSpan(3, 0, 0, 0)), DateTime.Now.Subtract(new TimeSpan(2, 0, 0, 0)), DateTime.Now.Subtract(new TimeSpan(1, 0, 0, 0)), DateTime.Now};
+            var days = new TimeSpan(5, 0, 0, 0);
+            var minDate = DateTime.Now.Subtract(days).Date;
 
-            var result = new List<Measurement>();
-
-            foreach (var deviceGroup in telemetry)
-            {
-                foreach (var date in dates)
+            var telemetry = this.devicesManager.GetTelemetry(devicesIds)
+                .GroupBy(m => new { m.DeviceId, m.ReceivedAt.Value.Date })
+                .Select(m => new Measurement()
                 {
-                    var maxDate = date.Add(new TimeSpan(24, 0, 0));
-                    var telemetryByDate = deviceGroup.Where(m => m.ReceivedAt >= date
-                    && m.ReceivedAt <= maxDate);
+                    DeviceId = m.Key.DeviceId,
+                    ReceivedAt = m.Key.Date,
+                    Temperature = m.ToList().Average(x => x.Temperature),
+                    Humidity = m.ToList().Average(x => x.Humidity),
+                    Light = m.ToList().Average(x => x.Light)
+                })
+                .Where(m => m.ReceivedAt >= minDate)
+                .ToList();
 
-                    if (telemetryByDate.Count() > 0)
-                    {
-                        var averageTemperature = telemetryByDate.Average(m => m.Temperature);
-                        var averageHumidity = telemetryByDate.Average(m => m.Humidity);
-                        var averageLight = telemetryByDate.Average(m => m.Light);
-
-                        var summarizedMeasurement = new Measurement()
-                        {
-                            Temperature = averageTemperature,
-                            Humidity = averageHumidity,
-                            Light = averageLight,
-                            DeviceId = deviceGroup.Key,
-                            ReceivedAt = date
-                        };
-
-                        result.Add(summarizedMeasurement);
-                    }
-                }
-            }
-            //var result = this.devicesManager.GetTelemetry();
-            return Task.FromResult(result);
+            return Task.FromResult(telemetry);
         }
 
         protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners()

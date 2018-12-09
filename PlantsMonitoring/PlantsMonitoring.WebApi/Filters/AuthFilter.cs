@@ -1,5 +1,7 @@
 ﻿using PlantsMonitoring.Common;
 using PlantsMonitoring.UsersService;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Security.Claims;
@@ -53,7 +55,9 @@ namespace PlantsMonitoring.WebApi.Filters
             var isValid = await this.usersService.ValidateToken(token);
             if (isValid)
             {
-                context.Principal = new ClaimsPrincipal();
+                var userIdClaim = this.GetUserIdClaimFromToken(token);
+                var identity = new ClaimsIdentity(new List<Claim>() { userIdClaim });
+                context.Principal = new ClaimsPrincipal(identity);
             }
             else
             {
@@ -73,6 +77,15 @@ namespace PlantsMonitoring.WebApi.Filters
         {
             return actionContext.ActionDescriptor.GetCustomAttributes<AllowAnonymousAttribute>().Any()
                        || actionContext.ControllerContext.ControllerDescriptor.GetCustomAttributes<AllowAnonymousAttribute>().Any();
+        }
+
+        private Claim GetUserIdClaimFromToken(string token)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var tokenValue = tokenHandler.ReadToken(token) as JwtSecurityToken;
+            var userIdClaim = tokenValue.Claims.SingleOrDefault(c => c.Type == Constants.USER_ID_CLAIM);
+
+            return userIdClaim;
         }
     }
 }

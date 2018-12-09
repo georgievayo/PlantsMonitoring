@@ -2,6 +2,8 @@
 using PlantsMonitoring.AlarmsService;
 using PlantsMonitoring.Common;
 using System;
+using System.Linq;
+using System.Security.Claims;
 using System.Web.Http;
 
 namespace PlantsMonitoring.WebApi.Controllers
@@ -22,7 +24,8 @@ namespace PlantsMonitoring.WebApi.Controllers
         {
             try
             {
-                var alarms = this.service.GetAll();
+                var currentUserId = (User.Identity as ClaimsIdentity).Claims.FirstOrDefault().Value;
+                var alarms = this.service.GetAll(currentUserId);
 
                 return Ok(alarms);
             }
@@ -54,7 +57,8 @@ namespace PlantsMonitoring.WebApi.Controllers
         {
             try
             {
-                var alarms = this.service.GetSummarizedAlarms();
+                var currentUserId = (User.Identity as ClaimsIdentity).Claims.FirstOrDefault().Value;
+                var alarms = this.service.GetSummarizedAlarms(currentUserId);
 
                 return Ok(alarms);
             }

@@ -19,14 +19,17 @@ namespace PlantsMonitoring.GroupsService
             this.groupsManager = groupsManager;
         }
 
-        public async Task PostGroup(Group group)
+        public async Task<Group> PostGroup(Group group)
         {
             var result = await this.groupsManager.Add(group);
+            group.Id = result.Id;
+
+            return group;
         }
 
-        public Task<List<Group>> GetAll()
+        public Task<List<Group>> GetAll(string userId)
         {
-            var result = this.groupsManager.GetAll();
+            var result = this.groupsManager.GetAll(userId);
 
             return Task.FromResult(result);
         }

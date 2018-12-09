@@ -9,7 +9,7 @@ namespace PlantsMonitoring.Data.Groups
     {
         Task<Document> Add(Group group);
 
-        List<Group> GetAll();
+        List<Group> GetAll(string userId);
 
         Group GetGroupById(string groupId);
     }

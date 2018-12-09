@@ -7,8 +7,8 @@ namespace PlantsMonitoring.GroupsService
 {
     public interface IGroupsService : IService
     {
-        Task PostGroup(Group group);
+        Task<Group> PostGroup(Group group);
 
-        Task<List<Group>> GetAll();
+        Task<List<Group>> GetAll(string userId);
     }
 }

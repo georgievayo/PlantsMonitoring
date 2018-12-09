@@ -9,10 +9,10 @@ namespace PlantsMonitoring.DevicesService
     {
         Task<Device> CreateDevice(Device device);
 
-        Task<List<Device>> GetAll();
+        Task<List<Device>> GetAll(string userId);
 
         Task<DeviceExtended> GetDetails(string deviceId);
 
-        Task<List<Measurement>> GetSummarizedTelemetry();
+        Task<List<Measurement>> GetSummarizedTelemetry(IEnumerable<string> devicesIds);
     }
 }

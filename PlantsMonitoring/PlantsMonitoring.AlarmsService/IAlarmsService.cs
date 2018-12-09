@@ -8,10 +8,10 @@ namespace PlantsMonitoring.AlarmsService
 {
     public interface IAlarmsService : IService
     {
-        Task<List<Alarm>> GetAll();
+        Task<List<Alarm>> GetAll(string userId);
 
         Task<List<Alarm>> GetAllByDevice(string deviceId);
 
-        Task<List<AlarmsSummary>> GetSummarizedAlarms();
+        Task<List<AlarmsSummary>> GetSummarizedAlarms(string userId);
     }
 }

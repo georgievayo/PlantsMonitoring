@@ -9,9 +9,9 @@ namespace PlantsMonitoring.Data.Devices
     {
         Task<Document> Add(Device device);
 
-        List<Device> GetAll();
+        List<Device> GetAll(string userId);
 
-        List<Measurement> GetTelemetry();
+        List<Measurement> GetTelemetry(IEnumerable<string> devicesIds);
 
         Measurement GetLastMessage(string deviceId);
 

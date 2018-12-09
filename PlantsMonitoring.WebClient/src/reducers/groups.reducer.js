@@ -4,6 +4,11 @@ export default function groups(state = [], action) {
             return [
                 ...action.groups
             ];
+        case 'POST_GROUP_SUCCESS':
+            return [
+                ...state,
+                action.group
+            ];
         default:
             return state;
     }

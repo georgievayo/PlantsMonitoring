@@ -30,9 +30,11 @@ namespace PlantsMonitoring.AlarmsService
             this.devicesManager = devicesManager;
         }
 
-        public Task<List<Alarm>> GetAll()
+        public Task<List<Alarm>> GetAll(string userId)
         {
-            var alarms = this.alarmsManager.GetAll()
+            var devicesIds = this.devicesManager.GetAll(userId)
+                .Select(d => d.Id);
+            var alarms = this.alarmsManager.GetAll(devicesIds)
                             .Where(a => a.IsDeleted == false)
                             .ToList();
 
@@ -45,9 +47,12 @@ namespace PlantsMonitoring.AlarmsService
             return Task.FromResult(alarms);
         }
 
-        public Task<List<AlarmsSummary>> GetSummarizedAlarms()
+        public Task<List<AlarmsSummary>> GetSummarizedAlarms(string userId)
         {
-            var alarmsSummary = this.alarmsManager.GetAll()
+            var devicesIds = this.devicesManager.GetAll(userId)
+                .Select(d => d.Id);
+
+            var alarmsSummary = this.alarmsManager.GetAll(devicesIds)
                 .GroupBy(x => x.RaisedAt.Date)
                 .Select(x => new AlarmsSummary() { Date = x.Key, Count = x.Count() })
                 .ToList();

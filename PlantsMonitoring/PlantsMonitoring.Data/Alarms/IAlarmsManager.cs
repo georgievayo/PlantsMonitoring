@@ -6,7 +6,7 @@ namespace PlantsMonitoring.Data.Alarms
 {
     public interface IAlarmsManager
     {
-        List<Alarm> GetAll();
+        List<Alarm> GetAll(IEnumerable<string> devicesIds);
 
         List<Alarm> GetAllByDevice(string deviceId);
 

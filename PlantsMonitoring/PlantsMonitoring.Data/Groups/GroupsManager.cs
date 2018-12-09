@@ -27,9 +27,10 @@ namespace PlantsMonitoring.Data.Groups
             return await this.client.CreateDocumentAsync(groupsUri, group);
         }
 
-        public List<Group> GetAll()
+        public List<Group> GetAll(string userId)
         {
             return this.client.CreateDocumentQuery<Group>(groupsUri)
+                .Where(g => g.UserId == userId)
                 .ToList();
         }
 

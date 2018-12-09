@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
+import { Button } from 'reactstrap';
+import { connect } from 'react-redux';
+import * as usersActions from '../../actions/users.actions';
 
 const pages = {
     dashboard: "Dashboard",
     devices: "Devices",
+    groups: "Groups",
     rules: "Rules",
     alarms: 'Alarms'
 };
@@ -19,6 +23,11 @@ class Menu extends Component {
 
     isActive = (page) => {
         return this.state.selectedPage === page ? 'active' : '';
+    }
+
+    logout = (event) => {
+        this.props.logout();
+        this.props.history.replace('/signin');
     }
 
     render() {
@@ -46,6 +55,12 @@ class Menu extends Component {
                                 <p>Devices</p>
                             </NavLink>
                         </li>
+                        <li className={this.isActive(pages.groups)}>
+                            <NavLink to="/groups" onClick={() => this.selectPage(pages.groups)}>
+                                <i className="now-ui-icons design_bullet-list-67"></i>
+                                <p>Groups</p>
+                            </NavLink>
+                        </li>
                         <li className={this.isActive(pages.rules)}>
                             <NavLink to="/rules" onClick={() => this.selectPage(pages.rules)}>
                                 <i className="now-ui-icons files_paper"></i>
@@ -58,6 +73,12 @@ class Menu extends Component {
                                 <p>Alarms</p>
                             </NavLink>
                         </li>
+                        <li className="active-pro">
+                            <Button color="link" onClick={this.logout}>
+                                <i className="now-ui-icons ui-1_simple-remove"></i>
+                                <span>Logout</span>
+                            </Button>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -65,4 +86,10 @@ class Menu extends Component {
     }
 }
 
-export default Menu;
+function mapDispatchToProps(dispatch, ownProps) {
+    return {
+        logout: () => dispatch(usersActions.logout())
+    }
+}
+
+export default connect(null, mapDispatchToProps)(Menu);

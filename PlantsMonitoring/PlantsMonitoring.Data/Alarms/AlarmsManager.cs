@@ -28,10 +28,11 @@ namespace PlantsMonitoring.Data.Alarms
             await this.client.ReplaceDocumentAsync(uri, alarm);
         }
 
-        public List<Alarm> GetAll()
+        public List<Alarm> GetAll(IEnumerable<string> devicesIds)
         {
             var option = new FeedOptions { EnableCrossPartitionQuery = true };
             return this.client.CreateDocumentQuery<Alarm>(alarmsUri, option)
+                .Where(a => devicesIds.Contains(a.DeviceId))
                 .ToList();
         }
 

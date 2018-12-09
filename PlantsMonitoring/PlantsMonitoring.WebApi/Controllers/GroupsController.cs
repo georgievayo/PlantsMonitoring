@@ -3,6 +3,9 @@ using PlantsMonitoring.Common;
 using PlantsMonitoring.GroupsService;
 using PlantsMonitoring.Models;
 using System;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace PlantsMonitoring.WebApi.Controllers
@@ -23,9 +26,10 @@ namespace PlantsMonitoring.WebApi.Controllers
         {
             try
             {
-                var devices = this.service.GetAll();
+                var currentUserId = (User.Identity as ClaimsIdentity).Claims.FirstOrDefault().Value;
+                var groups = this.service.GetAll(currentUserId);
 
-                return Ok(devices);
+                return Ok(groups);
             }
             catch (Exception)
             {
@@ -35,12 +39,14 @@ namespace PlantsMonitoring.WebApi.Controllers
 
         [HttpPost]
         [Route("")]
-        public IHttpActionResult Post([FromBody]Group group)
+        public async Task<IHttpActionResult> Post([FromBody]Group group)
         {
             try
             {
-                this.service.PostGroup(group);
-                return Ok();
+                var currentUserId = (User.Identity as ClaimsIdentity).Claims.FirstOrDefault().Value;
+                group.UserId = currentUserId;
+                var createdGroup = await this.service.PostGroup(group);
+                return Ok(createdGroup);
             }
             catch (Exception)
             {

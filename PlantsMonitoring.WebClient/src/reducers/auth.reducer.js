@@ -7,7 +7,11 @@ export default function auth(state = {isAuthenticated: false}, action) {
         case 'SIGN_IN_FAILED': 
             return {
                 isAuthenticated: false
-            }
+            };
+        case 'LOGOUT_SUCCESS': 
+            return {
+                isAuthenticated: false
+            };
         default:
             return state;
     }

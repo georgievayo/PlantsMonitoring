@@ -6,6 +6,7 @@ import { Dashboard } from './components/dashboard';
 import { Rules } from './components/rules';
 import { Alarms } from './components/alarms';
 import { DeviceDetails } from './components/devices';
+import { Groups } from './components/groups';
 import './styles/now-ui-dashboard.css';
 import './styles/demo.css';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -18,16 +19,17 @@ class App extends Component {
   render() {
     return (
       <div className="wrapper ">
-          <div className="main-panel">
-            <Menu />
-            <Switch>
-              <Route exact path="/dashboard" component={Dashboard} />
-              <Route exact path="/devices" component={Devices} />
-              <Route path="/devices/:id" component={DeviceDetails} />
-              <Route path="/rules" component={Rules} />
-              <Route path="/alarms" component={Alarms} />
-            </Switch>
-          </div>
+        <div className="main-panel">
+          <Menu />
+          <Switch>
+            <Route exact path="/dashboard" component={Dashboard} />
+            <Route exact path="/devices" component={Devices} />
+            <Route path="/devices/:id" component={DeviceDetails} />
+            <Route path="/groups" component={Groups} />
+            <Route path="/rules" component={Rules} />
+            <Route path="/alarms" component={Alarms} />
+          </Switch>
+        </div>
       </div>
     );
   }

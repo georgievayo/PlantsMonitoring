@@ -30,9 +30,10 @@ namespace PlantsMonitoring.Data.Devices
             return await this.client.CreateDocumentAsync(devicesUri, device);
         }
 
-        public List<Device> GetAll()
+        public List<Device> GetAll(string userId)
         {
             return this.client.CreateDocumentQuery<Device>(devicesUri)
+                .Where(d => d.UserId == userId)
                 .ToList();
         }
 
@@ -54,7 +55,7 @@ namespace PlantsMonitoring.Data.Devices
 
         public List<Measurement> GetDeviceTelemetry(string deviceId)
         {
-            var minDate = DateTime.Now.Subtract(new TimeSpan(500,0, 0, 0, 0));
+            var minDate = DateTime.Now.Subtract(new TimeSpan(500, 0, 0, 0, 0));
 
             return this.client.CreateDocumentQuery<Measurement>(telemetryUri)
                 .Where(m => m.ReceivedAt >= minDate && m.DeviceId == deviceId)
@@ -78,12 +79,12 @@ namespace PlantsMonitoring.Data.Devices
                 .ToList();
         }
 
-        public List<Measurement> GetTelemetry()
+        public List<Measurement> GetTelemetry(IEnumerable<string> devicesIds)
         {
             var minDate = DateTime.Now.Subtract(new TimeSpan(3, 0, 0, 0));
 
             return this.client.CreateDocumentQuery<Measurement>(telemetryUri)
-                .Where(m => m.ReceivedAt >= minDate)
+                .Where(m => m.ReceivedAt >= minDate && devicesIds.Contains(m.DeviceId))
                 .ToList();
         }
 

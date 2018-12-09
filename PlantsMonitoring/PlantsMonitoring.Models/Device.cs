@@ -16,5 +16,7 @@ namespace PlantsMonitoring.Models
         public Measurement LastMeasurement { get; set; }
 
         public DeviceStatus Status { get; set; }
+
+        public string UserId { get; set; }
     }
 }

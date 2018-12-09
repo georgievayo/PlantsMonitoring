@@ -3,6 +3,8 @@ using PlantsMonitoring.Common;
 using PlantsMonitoring.DevicesService;
 using PlantsMonitoring.Models;
 using System;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web.Http;
 
@@ -24,7 +26,8 @@ namespace PlantsMonitoring.WebApi.Controllers
         {
             try
             {
-                var devices = this.service.GetAll();
+                var currentUserId = (User.Identity as ClaimsIdentity).Claims.FirstOrDefault().Value;
+                var devices = this.service.GetAll(currentUserId);
 
                 return Ok(devices);
             }
@@ -61,6 +64,9 @@ namespace PlantsMonitoring.WebApi.Controllers
         {
             try
             {
+                var currentUserId = (User.Identity as ClaimsIdentity).Claims.FirstOrDefault().Value;
+                device.UserId = currentUserId;
+                device.Status = DeviceStatus.Offline;
                 var createdDevice = await this.service.CreateDevice(device);
                 return Ok(createdDevice);
             }
@@ -74,7 +80,10 @@ namespace PlantsMonitoring.WebApi.Controllers
         [Route("telemetry")]
         public async Task<IHttpActionResult> Telemetry()
         {
-            var result = await this.service.GetSummarizedTelemetry();
+            var currentUserId = (User.Identity as ClaimsIdentity).Claims.FirstOrDefault().Value;
+            var devices = await this.service.GetAll(currentUserId);
+            var devicesIds = devices.Select(d => d.Id);
+            var result = await this.service.GetSummarizedTelemetry(devicesIds);
 
             return Ok(result);
         }
