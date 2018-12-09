@@ -12,10 +12,19 @@ import './styles/demo.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faStroopwafel } from '@fortawesome/free-solid-svg-icons'
+import {isTokenExpired, hasLoggedUser} from './utilities/auth';
+import { connect } from 'react-redux';
+import * as usersActions from './actions/users.actions';
 
 library.add(faStroopwafel);
 
 class App extends Component {
+  componentWillUpdate(nextProps) {
+    if(!hasLoggedUser() || isTokenExpired()) {
+      this.props.logout();
+    }
+  }
+
   render() {
     return (
       <div className="wrapper ">
@@ -35,4 +44,10 @@ class App extends Component {
   }
 }
 
-export default App;
+function mapDispatchToProps(dispatch, ownProps) {
+  return {
+    logout: () => dispatch(usersActions.logout())
+  }
+}
+
+export default connect(null, mapDispatchToProps)(App);
