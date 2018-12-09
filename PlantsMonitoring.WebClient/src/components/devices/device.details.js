@@ -190,14 +190,11 @@ class DeviceDetails extends Component {
                                                 <p className="card-category"><i className="now-ui-icons arrows-1_refresh-69"></i> Just Updated</p>
                                             </CardHeader>
                                             <CardBody>
-                                            {this.state.alarmsChartData.length > 0 ? 
                                                 <Pie
                                                     data={this.state.alarmsChartData}
                                                     options={pieChartOptions}
                                                     redraw={true}
                                                 />
-                                                : <span>No information</span>
-                                            }
                                             </CardBody>
                                         </Card>
                                     </Col>
