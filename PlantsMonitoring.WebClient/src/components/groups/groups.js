@@ -13,19 +13,21 @@ class Groups extends Component {
     componentDidMount() {
         this.props.getGroups();
         this.props.getDevices();
+        this.setState({groups: []});
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.devices && nextProps.groups) {
             let { groups } = nextProps;
+            groups.forEach(group => {
+                group.devices= [];
+            });
             nextProps.devices.forEach(device => {
-                debugger;
                 const groupIndex = groups.findIndex(g => g.name === device.group);
-                groups[groupIndex].devices = [];
                 groups[groupIndex].devices.push(device.name);
             });
 
-            this.setState({groups: groups})
+            this.setState({groups})
         }
     }
 
@@ -88,7 +90,7 @@ class Groups extends Component {
                       <th>
                                                     Description
                       </th>
-                                                <th>
+                                                <th className="text-right">
                                                     Devices
                       </th>
                                             </tr>
@@ -100,10 +102,10 @@ class Groups extends Component {
                                                     <td>
                                                         {group.description || '---'} 
                                                     </td>
-                                                    <td>
-                                                        {group.devices && group.devices.map(device =>
+                                                    <td className="text-right">
+                                                        {group.devices.length > 0 ? group.devices.map(device =>
                                                             <span>{device} </span>
-                                                        )}
+                                                        ) : <span>No devices yet</span>}
                                                     </td>
                                                 </tr>
                                             )}

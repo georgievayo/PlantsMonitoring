@@ -5,12 +5,17 @@ import * as groupsActions from '../../actions/groups.actions';
 class CreateGroup extends Component {
     state = {
         newGroup: {
-            name: ''
+            name: '',
+            description: ''
         }
     };
 
     handleNameChange = (event) => {
-        this.setState({ newGroup: { name: event.target.value } });
+        this.setState({ newGroup: { ...this.state.newGroup, name: event.target.value } });
+    }
+
+    handleDescriptionChange = (event) => {
+        this.setState({ newGroup: { ...this.state.newGroup, description: event.target.value } });
     }
 
     submit = (event) => {
@@ -31,6 +36,14 @@ class CreateGroup extends Component {
                                 <div className="form-group">
                                     <label>Name</label>
                                     <input type="text" className="form-control" onChange={(event) => this.handleNameChange(event)} />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-md-12">
+                                <div className="form-group">
+                                    <label>Description</label>
+                                    <textarea rows="4" cols="80" className="form-control" onChange={this.handleDescriptionChange}></textarea>
                                 </div>
                             </div>
                         </div>

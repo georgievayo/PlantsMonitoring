@@ -3,6 +3,8 @@ using PlantsMonitoring.Common;
 using PlantsMonitoring.Models;
 using PlantsMonitoring.RulesService;
 using System;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web.Http;
 
@@ -31,7 +33,8 @@ namespace PlantsMonitoring.WebApi.Controllers
         [Route("")]
         public async Task<IHttpActionResult> Get()
         {
-            var rules = await this.service.GetAllRules();
+            var currentUserId = (User.Identity as ClaimsIdentity).Claims.FirstOrDefault().Value;
+            var rules = await this.service.GetAllRules(currentUserId);
 
             return Ok(rules);
         }

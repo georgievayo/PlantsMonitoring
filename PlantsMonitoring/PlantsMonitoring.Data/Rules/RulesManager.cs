@@ -27,9 +27,10 @@ namespace PlantsMonitoring.Data.Rules
             return await this.client.CreateDocumentAsync(rulesUri, rule);
         }
 
-        public List<Rule> GetAll()
+        public List<Rule> GetAll(IEnumerable<string> groupIds)
         {
             return this.client.CreateDocumentQuery<Rule>(rulesUri)
+                .Where(r => groupIds.Contains(r.GroupId))
                 .ToList();
         }
 

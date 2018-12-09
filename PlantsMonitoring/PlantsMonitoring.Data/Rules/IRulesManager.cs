@@ -9,7 +9,7 @@ namespace PlantsMonitoring.Data.Rules
     {
         Task<Document> Add(Rule rule);
 
-        List<Rule> GetAll();
+        List<Rule> GetAll(IEnumerable<string> groupIds);
 
         List<Rule> GetGroupRules(string groupId);
 

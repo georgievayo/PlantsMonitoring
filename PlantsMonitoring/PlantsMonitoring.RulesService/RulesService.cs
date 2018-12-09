@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Fabric;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Remoting.Runtime;
@@ -24,9 +25,10 @@ namespace PlantsMonitoring.RulesService
             this.groupsManager = groupsManager;
         }
 
-        public Task<List<Rule>> GetAllRules()
+        public Task<List<Rule>> GetAllRules(string userId)
         {
-            var rules = this.rulesManager.GetAll();
+            var groups = this.groupsManager.GetAll(userId).Select(g => g.Id);
+            var rules = this.rulesManager.GetAll(groups);
 
             foreach (var rule in rules)
             {

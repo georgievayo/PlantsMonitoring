@@ -9,6 +9,6 @@ namespace PlantsMonitoring.RulesService
     {
         Task<Rule> PostRule(Rule rule);
 
-        Task<List<Rule>> GetAllRules();
+        Task<List<Rule>> GetAllRules(string userId);
     }
 }
