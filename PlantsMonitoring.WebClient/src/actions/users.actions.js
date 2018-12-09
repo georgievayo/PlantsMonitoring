@@ -22,15 +22,9 @@ export function signIn(user) {
 
 export function logout() {
     return function (dispatch) {
-        return HttpClient.post(`${api.USERS}/logout`, null, true)
-            .then(response => {
-                sessionStorage.removeItem('token');
-                dispatch(logoutSuccess());
-            })
-            .catch(err => {
-                dispatch(logoutFailed());
-            });
-    };
+        sessionStorage.removeItem('token');
+        dispatch({type: 'LOGOUT_SUCCESS'});
+    }
 }
 
 function signUpSuccess() {
@@ -48,17 +42,5 @@ function signInSuccess() {
 function signInFailed() {
     return {
         type: 'SIGN_IN_FAILED'
-    };
-}
-
-function logoutSuccess() {
-    return {
-        type: 'LOGOUT_SUCCESS'
-    };
-}
-
-function logoutFailed() {
-    return {
-        type: 'LOGOUT_FAILED'
     };
 }

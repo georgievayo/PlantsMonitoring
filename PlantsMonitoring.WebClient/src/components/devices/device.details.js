@@ -148,6 +148,7 @@ class DeviceDetails extends Component {
                                                 <p className="card-category"><i className="now-ui-icons arrows-1_refresh-69"></i> Just Updated</p>
                                             </CardHeader>
                                             <CardBody>
+                                                {this.state.temperatureChartData.length > 0 ? 
                                                 <Line
                                                     data={this.state.temperatureChartData}
                                                     options={lineChartOptions}
@@ -155,6 +156,8 @@ class DeviceDetails extends Component {
                                                     width={400}
                                                     height={140}
                                                 />
+                                                : <span>No information</span>
+                                                }
                                             </CardBody>
                                         </Card>
                                     </Col>
@@ -165,6 +168,7 @@ class DeviceDetails extends Component {
                                                 <p className="card-category"><i className="now-ui-icons arrows-1_refresh-69"></i> Just Updated</p>
                                             </CardHeader>
                                             <CardBody>
+                                            {this.state.humidityChartData.length > 0 ? 
                                                 <Line
                                                     data={this.state.humidityChartData}
                                                     options={lineChartOptions}
@@ -172,6 +176,8 @@ class DeviceDetails extends Component {
                                                     width={400}
                                                     height={140}
                                                 />
+                                                : <span>No information</span>
+                                            }
                                             </CardBody>
                                         </Card>
                                     </Col>
@@ -184,11 +190,14 @@ class DeviceDetails extends Component {
                                                 <p className="card-category"><i className="now-ui-icons arrows-1_refresh-69"></i> Just Updated</p>
                                             </CardHeader>
                                             <CardBody>
+                                            {this.state.alarmsChartData.length > 0 ? 
                                                 <Pie
                                                     data={this.state.alarmsChartData}
                                                     options={pieChartOptions}
                                                     redraw={true}
                                                 />
+                                                : <span>No information</span>
+                                            }
                                             </CardBody>
                                         </Card>
                                     </Col>
@@ -199,6 +208,7 @@ class DeviceDetails extends Component {
                                                 <p className="card-category"><i className="now-ui-icons arrows-1_refresh-69"></i> Just Updated</p>
                                             </CardHeader>
                                             <CardBody>
+                                            {this.state.lightChartData.length > 0 ? 
                                                 <Line
                                                     data={this.state.lightChartData}
                                                     options={lineChartOptions}
@@ -206,6 +216,8 @@ class DeviceDetails extends Component {
                                                     width={400}
                                                     height={105}
                                                 />
+                                                : <span>No information</span>
+                                            }
                                             </CardBody>
                                         </Card>
                                     </Col>

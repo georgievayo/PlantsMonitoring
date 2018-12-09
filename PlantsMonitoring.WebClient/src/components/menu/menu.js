@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { Button } from 'reactstrap';
 import { connect } from 'react-redux';
 import * as usersActions from '../../actions/users.actions';
+import logo from '../../imgs/watering-a-plant.svg';
 
 const pages = {
     dashboard: "Dashboard",
@@ -25,17 +26,12 @@ class Menu extends Component {
         return this.state.selectedPage === page ? 'active' : '';
     }
 
-    logout = (event) => {
-        this.props.logout();
-        this.props.history.replace('/signin');
-    }
-
     render() {
         return (
             <div className="sidebar" data-color="orange">
                 <div className="logo">
                     <NavLink to="/dashboard" className="simple-text logo-mini" onClick={() => this.selectPage(pages.dashboard)}>
-                        <img src="./imgs/watering-a-plant.svg" alt="logo" />
+                        <img src={logo} alt="logo" />
                     </NavLink>
                     <NavLink to="/dashboard" className="simple-text simple-text logo-normal" onClick={() => this.selectPage(pages.dashboard)}>
                         Plants Monitoring
@@ -74,8 +70,8 @@ class Menu extends Component {
                             </NavLink>
                         </li>
                         <li className="active-pro">
-                            <Button color="link" onClick={this.logout}>
-                                <i className="now-ui-icons ui-1_simple-remove"></i>
+                            <Button color="link" onClick={this.props.logout}>
+                                <i className="now-ui-icons ui-1_lock-circle-open"></i>
                                 <span>Logout</span>
                             </Button>
                         </li>

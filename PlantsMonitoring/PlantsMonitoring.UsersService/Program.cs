@@ -5,7 +5,6 @@ using System.Threading;
 using Autofac;
 using Autofac.Integration.ServiceFabric;
 using PlantsMonitoring.Data;
-using PlantsMonitoring.UsersService.Cache;
 
 namespace PlantsMonitoring.UsersService
 {
@@ -17,11 +16,6 @@ namespace PlantsMonitoring.UsersService
             {
                 var builder = new ContainerBuilder();
                 ManagersConfigurator.Configure(builder);
-                builder.Register(o => new MemoryCache("PlantsMonitoring"))
-                    .InstancePerLifetimeScope();
-                builder.RegisterType<SessionCache>()
-                    .As<ISessionCache>()
-                    .InstancePerLifetimeScope();
 
                 builder.RegisterServiceFabricSupport();
                 builder.RegisterStatelessService<UsersService>("PlantsMonitoring.UsersServiceType");

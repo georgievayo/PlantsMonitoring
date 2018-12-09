@@ -11,7 +11,6 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Security.Claims;
-using PlantsMonitoring.UsersService.Cache;
 using System.Linq;
 using PlantsMonitoring.Common;
 
@@ -19,14 +18,12 @@ namespace PlantsMonitoring.UsersService
 {
     public class UsersService : StatelessService, IUsersService
     {
-        private readonly ISessionCache cache;
         private readonly IUsersManager usersManager;
 
-        public UsersService(StatelessServiceContext context, IUsersManager usersManager, ISessionCache cache)
+        public UsersService(StatelessServiceContext context, IUsersManager usersManager)
             : base(context)
         {
             this.usersManager = usersManager;
-            this.cache = cache;
         }
 
         public async Task<User> CreateUser(User user)
@@ -43,19 +40,10 @@ namespace PlantsMonitoring.UsersService
             if(foundUser != null)
             {
                 var token = GenerateToken(foundUser.Id);
-                cache.RemoveItem(foundUser.Id);
-                cache.AddItem(foundUser.Id, token, Constants.TOKEN_EXPIRATION_DURATION);
-
                 return Task.FromResult(token);
             }
 
             return Task.FromResult("");
-        }
-
-        public Task Logout(string userId)
-        {
-            cache.RemoveItem(userId);
-            return Task.CompletedTask;
         }
 
         public Task<bool> ValidateToken(string token)
@@ -64,8 +52,7 @@ namespace PlantsMonitoring.UsersService
             var tokenValue = tokenHandler.ReadToken(token) as JwtSecurityToken;
             var expirationDate = tokenValue.ValidTo;
             var userIdClaim = tokenValue.Claims.SingleOrDefault(c => c.Type == Constants.USER_ID_CLAIM);
-            var existingToken = this.cache.GetItem(userIdClaim.Value);
-            if (existingToken != null && DateTime.UtcNow < expirationDate)
+            if (DateTime.UtcNow < expirationDate)
             {
                 return Task.FromResult(true);
             }

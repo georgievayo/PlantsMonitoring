@@ -10,8 +10,6 @@ namespace PlantsMonitoring.UsersService
 
         Task<User> CreateUser(User user);
 
-        Task Logout(string token);
-
         Task<bool> ValidateToken(string token);
     }
 }

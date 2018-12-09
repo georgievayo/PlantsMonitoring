@@ -42,11 +42,13 @@ class Dashboard extends Component {
             const onlineDevicesCount = devices.filter(d => d.status === 'Online').length;
             const offlineDevicesCount = devices.filter(d => d.status === 'Offline').length;
             this.setState({ statistics: { online: onlineDevicesCount, offline: offlineDevicesCount, total: devices.length } });
-
+            const colors = getColors(devices);
+            this.setState({colors});
+            
             if (telemetry && telemetry.length > 0) {
-                const colors = getColors(devices);
+                
                 const selectedDeviceData = getDeviceChartData(telemetry, devices[0], colors[0].value);
-                this.setState({ colors, selectedDeviceData, selectedDeviceId: devices[0].id });
+                this.setState({ selectedDeviceData, selectedDeviceId: devices[0].id });
             }
         }
 
