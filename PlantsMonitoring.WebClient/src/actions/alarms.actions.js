@@ -3,6 +3,7 @@ import { toAlarmsModel } from '../models/alarms';
 
 export function getAlarmsSummary() {
     return function (dispatch) {
+        dispatch({ type: 'GET_ALARMS_SUMMARY_REQUEST' });
         return HttpClient.get(`${api.ALARMS}/summary`, true)
             .then(alarms => dispatch(getAlarmsSummarySuccess(alarms.Result)))
             .catch(error => dispatch(getAlarmsSummaryFailed()));

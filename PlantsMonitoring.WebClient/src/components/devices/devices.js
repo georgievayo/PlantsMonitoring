@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { CreateDevice } from '../createDevice';
+import { Loader, Header, Alert } from '../shared';
 import * as devicesActions from '../../actions/devices.actions';
 
 class Devices extends Component {
@@ -19,38 +20,8 @@ class Devices extends Component {
     }
 
     render() {
-        return (
-            [<nav key="nav" className="navbar navbar-expand-lg fixed-top navbar-transparent  bg-primary  navbar-absolute">
-                <div className="container-fluid">
-                    <div className="navbar-wrapper">
-                        <div className="navbar-toggle">
-                            <button type="button" className="navbar-toggler">
-                                <span className="navbar-toggler-bar bar1"></span>
-                                <span className="navbar-toggler-bar bar2"></span>
-                                <span className="navbar-toggler-bar bar3"></span>
-                            </button>
-                        </div>
-                        <a className="navbar-brand" href="#pablo">Devices</a>
-                    </div>
-                    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
-                        <span className="navbar-toggler-bar navbar-kebab"></span>
-                        <span className="navbar-toggler-bar navbar-kebab"></span>
-                        <span className="navbar-toggler-bar navbar-kebab"></span>
-                    </button>
-                    <div className="collapse navbar-collapse justify-content-end" id="navigation">
-                        <ul className="navbar-nav">
-                            <li className="nav-item">
-                                <button className="nav-link" id="new-device-btn" onClick={this.openCreateDeviceSection}>
-                                    <i className="now-ui-icons ui-1_simple-add"></i>
-                                    New Device
-                </button>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>,
-            <div key="panel-header" className="panel-header panel-header-sm">
-            </div>,
+        return ([
+            <Header title="Devices" showAddSection={this.openCreateDeviceSection} button="New Device"/>,
             <div key="content" className="content">
                 <div className="row">
                     <div className={this.state.showCreateDevice ? "col-md-8" : "col-md-12"}>
@@ -60,56 +31,62 @@ class Devices extends Component {
                             </div>
                             <div className="card-body">
                                 <div className="table-responsive">
-                                    <table className="table">
-                                        <tbody>
-                                            <tr className="text-primary">
-                                                <th>
-                                                    Id
+                                    {this.props.isFetching ?
+                                        <Loader isFetching={this.props.isFetching}></Loader>
+                                        : <table className="table">
+                                            <tbody>
+                                                <tr className="text-primary">
+                                                    <th>
+                                                        Id
                       </th>
-                                                <th>
-                                                    Name
+                                                    <th>
+                                                        Name
                       </th>
-                                                <th>
-                                                    Plant Type
+                                                    <th>
+                                                        Plant Type
                       </th>
-                                                <th className="text-right">
-                                                    Status
+                                                    <th className="text-right">
+                                                        Status
                       </th>
-                                            </tr>
-                                            {this.props.devices.map(device =>
-                                                <tr key={device.id}>
-                                                    <td>
-                                                        <Link to={"/devices/" + device.id}>
-                                                            {device.id}
-                                                        </Link>
-                                                    </td>
-                                                    <td>
-                                                        {device.name}
-                                                    </td>
-                                                    <td>
-                                                        {device.group}
-                                                    </td>
-                                                    <td className="text-right">
-                                                        {device.status}
-                                                    </td>
                                                 </tr>
-                                            )}
-                                        </tbody>
-                                    </table>
+                                                {this.props.devices.map(device =>
+                                                    <tr key={device.id}>
+                                                        <td>
+                                                            <Link to={"/devices/" + device.id}>
+                                                                {device.id}
+                                                            </Link>
+                                                        </td>
+                                                        <td>
+                                                            {device.name}
+                                                        </td>
+                                                        <td>
+                                                            {device.group}
+                                                        </td>
+                                                        <td className="text-right">
+                                                            {device.status}
+                                                        </td>
+                                                    </tr>
+                                                )}
+                                            </tbody>
+                                        </table>
+                                    }
                                 </div>
                             </div>
                         </div>
                     </div>
                     {this.state.showCreateDevice && <CreateDevice close={this.closeCreateDeviceSection} />}
                 </div>
-            </div>]
-        );
+            </div>,
+            <Alert message={this.props.error} />
+        ]);
     }
 }
 
 function mapStateToProps(state, ownProps) {
     return {
-        devices: state.devices.entities
+        devices: state.devices.entities,
+        error: state.errorMessage,
+        isFetching: state.loading
     };
 }
 

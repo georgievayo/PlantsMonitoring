@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { CreateGroup } from '../createGroup';
 import { connect } from 'react-redux';
+import { Header, Loader, Alert } from '../shared';
 import * as groupsActions from '../../actions/groups.actions';
 import * as devicesActions from '../../actions/devices.actions';
 
@@ -13,23 +14,23 @@ class Groups extends Component {
     componentDidMount() {
         this.props.getGroups();
         this.props.getDevices();
-        this.setState({groups: []});
+        this.setState({ groups: [] });
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.devices && nextProps.groups) {
             let { groups } = nextProps;
             groups.forEach(group => {
-                group.devices= [];
+                group.devices = [];
             });
             nextProps.devices.forEach(device => {
                 const groupIndex = groups.findIndex(g => g.name === device.group);
-                if(groupIndex >= 0) {
+                if (groupIndex >= 0) {
                     groups[groupIndex].devices.push(device.name);
                 }
             });
 
-            this.setState({groups})
+            this.setState({ groups })
         }
     }
 
@@ -42,38 +43,8 @@ class Groups extends Component {
     }
 
     render() {
-        return (
-            [<nav key="nav" className="navbar navbar-expand-lg fixed-top navbar-transparent  bg-primary  navbar-absolute">
-                <div className="container-fluid">
-                    <div className="navbar-wrapper">
-                        <div className="navbar-toggle">
-                            <button type="button" className="navbar-toggler">
-                                <span className="navbar-toggler-bar bar1"></span>
-                                <span className="navbar-toggler-bar bar2"></span>
-                                <span className="navbar-toggler-bar bar3"></span>
-                            </button>
-                        </div>
-                        <a className="navbar-brand" href="#pablo">Groups</a>
-                    </div>
-                    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
-                        <span className="navbar-toggler-bar navbar-kebab"></span>
-                        <span className="navbar-toggler-bar navbar-kebab"></span>
-                        <span className="navbar-toggler-bar navbar-kebab"></span>
-                    </button>
-                    <div className="collapse navbar-collapse justify-content-end" id="navigation">
-                        <ul className="navbar-nav">
-                            <li className="nav-item">
-                                <button className="nav-link" id="new-device-btn" onClick={this.openCreateGroupSection}>
-                                    <i className="now-ui-icons ui-1_simple-add"></i>
-                                    New Group
-                </button>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>,
-            <div key="panel-header" className="panel-header panel-header-sm">
-            </div>,
+        return ([
+            <Header title="Groups" showAddSection={this.openCreateGroupSection} button="New group" />,
             <div key="content" className="content">
                 <div className="row">
                     <div className={this.state.showCreateGroup ? "col-md-8" : "col-md-12"}>
@@ -83,51 +54,58 @@ class Groups extends Component {
                             </div>
                             <div className="card-body">
                                 <div className="table-responsive">
-                                    <table className="table">
-                                        <tbody>
-                                            <tr className="text-primary">
-                                                <th>
-                                                    Group Name
+                                    {this.props.isFetching ?
+                                        <Loader isFetching={this.props.isFetching}></Loader>
+                                        :
+                                        <table className="table">
+                                            <tbody>
+                                                <tr className="text-primary">
+                                                    <th>
+                                                        Group Name
                       </th>
-                      <th>
-                                                    Description
+                                                    <th>
+                                                        Description
                       </th>
-                                                <th className="text-right">
-                                                    Devices
+                                                    <th className="text-right">
+                                                        Devices
                       </th>
-                                            </tr>
-                                            {this.state.groups.map(group =>
-                                                <tr key={group.id}>
-                                                    <td>
-                                                        {group.name}
-                                                    </td>
-                                                    <td>
-                                                        {group.description || '---'} 
-                                                    </td>
-                                                    <td className="text-right">
-                                                        {group.devices.length > 0 ? group.devices.map(device =>
-                                                            <span>{device} </span>
-                                                        ) : <span>No devices yet</span>}
-                                                    </td>
                                                 </tr>
-                                            )}
-                                        </tbody>
-                                    </table>
+                                                {this.state.groups.map(group =>
+                                                    <tr key={group.id}>
+                                                        <td>
+                                                            {group.name}
+                                                        </td>
+                                                        <td>
+                                                            {group.description || '---'}
+                                                        </td>
+                                                        <td className="text-right">
+                                                            {group.devices.length > 0 ? group.devices.map(device =>
+                                                                <span>{device} </span>
+                                                            ) : <span>No devices yet</span>}
+                                                        </td>
+                                                    </tr>
+                                                )}
+                                            </tbody>
+                                        </table>
+                                    }
                                 </div>
                             </div>
                         </div>
                     </div>
                     {this.state.showCreateGroup && <CreateGroup close={this.closeCreateGroupSection} />}
                 </div>
-            </div>]
-        );
+            </div>,
+            <Alert message={this.props.error}/>
+        ]);
     }
 }
 
 function mapStateToProps(state, ownProps) {
     return {
         groups: state.groups,
-        devices: state.devices.entities
+        devices: state.devices.entities,
+        error: state.errorMessage,
+        isFetching: state.loading
     };
 }
 

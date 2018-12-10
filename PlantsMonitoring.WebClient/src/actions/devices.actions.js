@@ -3,6 +3,7 @@ import { toDevicesModel, toDeviceModel, toDeviceExtendedModel } from '../models/
 
 export function getAllDevices() {
     return function (dispatch) {
+        dispatch({ type: 'GET_DEVICES_REQUEST' });
         return HttpClient.get(`${api.DEVICES}`, true)
             .then(toDevicesModel)
             .then(devices => dispatch(getAllDevicesSuccess(devices)))
@@ -20,6 +21,7 @@ export function postDevice(device) {
 
 export function getDeviceDetails(deviceId) {
     return function (dispatch) {
+        dispatch({ type: 'GET_DEVICE_REQUEST' });
         return HttpClient.get(`${api.DEVICES}/${deviceId}`, true)
         .then(toDeviceExtendedModel)
         .then(device => dispatch(getDeviceDetailsSuccess(device)))

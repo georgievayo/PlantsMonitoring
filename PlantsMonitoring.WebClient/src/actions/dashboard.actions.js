@@ -3,6 +3,7 @@ import { toTelemetryModel } from '../models/telemetry';
 
 export function getTelemetry() {
     return function (dispatch) {
+        dispatch({ type: 'GET_TELEMETRY_REQUEST' });
         return HttpClient.get(`${api.DEVICES}/telemetry`, true)
             .then(toTelemetryModel)
             .then(telemetry => dispatch(getTelemetrySuccess(telemetry)))

@@ -3,6 +3,7 @@ import { toGroupsModel, toGroupModel } from '../models/groups';
 
 export function getAllGroups() {
     return function (dispatch) {
+        dispatch({ type: 'GET_GROUPS_REQUEST' });
         return HttpClient.get(`${api.GROUPS}`, true)
             .then(toGroupsModel)
             .then(groups => dispatch(getAllGroupsSuccess(groups)))

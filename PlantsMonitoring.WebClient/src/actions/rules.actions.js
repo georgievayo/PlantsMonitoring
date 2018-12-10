@@ -3,6 +3,7 @@ import { toRulesModel, toRuleModel } from '../models/rules';
 
 export function getAllRules() {
     return function (dispatch) {
+        dispatch({ type: 'GET_RULES_REQUEST' });
         return HttpClient.get(`${api.RULES}`, true)
             .then(toRulesModel)
             .then(rules => dispatch(getAllRulesSuccess(rules)))

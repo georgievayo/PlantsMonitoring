@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Line } from 'react-chartjs-2';
 import { Card, CardHeader, CardBody, CardFooter, Row, Col, Button } from "reactstrap";
-import NotificationAlert from "react-notification-alert";
+import { Alert, Loader } from '../shared';
 import * as telemetryActions from '../../actions/dashboard.actions';
 import * as devicesActions from '../../actions/devices.actions';
 import * as alarmsActions from '../../actions/alarms.actions';
@@ -23,8 +23,7 @@ class Dashboard extends Component {
         selectedDeviceData: { ...emptyData },
         selectedDeviceId: undefined,
         statistics: { online: 0, offline: 0, total: 0 },
-        alarmsData: {},
-        showError: false
+        alarmsData: {}
     }
 
     componentDidMount() {
@@ -60,8 +59,6 @@ class Dashboard extends Component {
             const chartData = bigDashboardChartData(dates, alarmsCounts);
             this.setState({ alarmsData: chartData });
         }
-
-        this.setState({ showError: nextProps.error !== this.props.error });
     }
 
     handleDeviceSelect = (event) => {
@@ -72,74 +69,59 @@ class Dashboard extends Component {
         this.setState({ selectedDeviceData: data, selectedDeviceId: deviceId });
     }
 
-    showAlertIfNeeded = () => {
-        const { error } = this.props;
-        if (error) {
-            const options = {
-                place: 'br',
-                message: error,
-                type: 'danger',
-                icon: 'now-ui-icons ui-1_bell-53',
-                autoDismiss: 7,
-                closeButton: true
-            }
-
-            this.refs.errorAlert.notificationAlert(options);
-        }
-    }
-
     render() {
-        if(this.state.showError) {
-            this.showAlertIfNeeded();
-        }
-        
-        return (
-            [
-                <nav key="navbar" className="navbar navbar-expand-lg fixed-top navbar-transparent  bg-primary  navbar-absolute">
-                    <div className="container-fluid">
-                        <div className="navbar-wrapper">
-                            <div className="navbar-toggle">
-                                <button type="button" className="navbar-toggler">
-                                    <span className="navbar-toggler-bar bar1"></span>
-                                    <span className="navbar-toggler-bar bar2"></span>
-                                    <span className="navbar-toggler-bar bar3"></span>
-                                </button>
-                            </div>
-                            <a className="navbar-brand" href="#pablo">Dashboard</a>
+        return ([
+            <nav key="navbar" className="navbar navbar-expand-lg fixed-top navbar-transparent  bg-primary  navbar-absolute">
+                <div className="container-fluid">
+                    <div className="navbar-wrapper">
+                        <div className="navbar-toggle">
+                            <button type="button" className="navbar-toggler">
+                                <span className="navbar-toggler-bar bar1"></span>
+                                <span className="navbar-toggler-bar bar2"></span>
+                                <span className="navbar-toggler-bar bar3"></span>
+                            </button>
                         </div>
-                        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
-                            <span className="navbar-toggler-bar navbar-kebab"></span>
-                            <span className="navbar-toggler-bar navbar-kebab"></span>
-                            <span className="navbar-toggler-bar navbar-kebab"></span>
-                        </button>
+                        <a className="navbar-brand" href="#pablo">Dashboard</a>
                     </div>
-                </nav>,
-                <div key="header" className="panel-header panel-header-lg">
-                    <Line data={this.state.alarmsData} options={bigDashboardChartOptions} />
-                </div>,
-                <div key="content" className="content">
-                    <Row>
-                        <Col md={6} xs={12}>
-                            <Card>
-                                <CardHeader>Your devices status</CardHeader>
-                                <CardBody>
-                                    <div>
+                    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+                        <span className="navbar-toggler-bar navbar-kebab"></span>
+                        <span className="navbar-toggler-bar navbar-kebab"></span>
+                        <span className="navbar-toggler-bar navbar-kebab"></span>
+                    </button>
+                </div>
+            </nav>,
+            <div key="header" className="panel-header panel-header-lg">
+                <Line data={this.state.alarmsData} options={bigDashboardChartOptions} />
+            </div>,
+            <div key="content" className="content">
+                <Row>
+                    <Col md={6} xs={12}>
+                        <Card>
+                            <CardHeader>Your devices status</CardHeader>
+                            <CardBody>
+                                {this.props.isFetching ?
+                                    <Loader isFetching={this.props.isFetching}></Loader>
+                                    :
+                                    [<div>
                                         <strong>{this.state.statistics.total}</strong> All Devices
-                                    </div>
+                                    </div>,
                                     <div>
                                         <strong>{this.state.statistics.online}</strong> Online Devices
-                                    </div>
+                                    </div>,
                                     <div>
                                         <strong>{this.state.statistics.offline}</strong> Offline Devices
-                                    </div>
-                                </CardBody>
-                            </Card>
-                        </Col>
-                        <Col md={6} xs={12}>
-                            <Card>
-                                <CardHeader>Select device</CardHeader>
-                                <CardBody>
-                                    {this.state.colors.map(color =>
+                                    </div>]
+                                }
+                            </CardBody>
+                        </Card>
+                    </Col>
+                    <Col md={6} xs={12}>
+                        <Card>
+                            <CardHeader>Select device</CardHeader>
+                            <CardBody>
+                                {this.props.isFetching ?
+                                    <Loader isFetching={this.props.isFetching}></Loader>
+                                    : this.state.colors.map(color =>
                                         <Button id={color.deviceId}
                                             key={color.deviceId}
                                             size="sm"
@@ -148,73 +130,81 @@ class Dashboard extends Component {
                                             {color.deviceName}
                                         </Button>
                                     )}
-                                </CardBody>
-                            </Card>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col lg={4} xs={12}>
-                            <Card className="card-chart">
-                                <CardHeader>
-                                    <h4 className="card-title">Temperature</h4>
-                                </CardHeader>
-                                <CardBody>
-                                    <Line
+                            </CardBody>
+                        </Card>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col lg={4} xs={12}>
+                        <Card className="card-chart">
+                            <CardHeader>
+                                <h4 className="card-title">Temperature</h4>
+                            </CardHeader>
+                            <CardBody>
+                                {this.props.isFetching ?
+                                    <Loader isFetching={this.props.isFetching}></Loader>
+                                    : <Line
                                         data={this.state.selectedDeviceData.temperature}
                                         options={lineChartOptionsWithLegend}
                                         redraw={true}
                                     />
-                                </CardBody>
-                                <CardFooter>
-                                    <div className="stats">
-                                        <i className="now-ui-icons arrows-1_refresh-69"></i> Just Updated
+                                }
+                            </CardBody>
+                            <CardFooter>
+                                <div className="stats">
+                                    <i className="now-ui-icons arrows-1_refresh-69"></i> Just Updated
                       </div>
-                                </CardFooter>
-                            </Card>
-                        </Col>
-                        <Col lg={4} xs={12}>
-                            <Card className="card-chart">
-                                <CardHeader>
-                                    <h4 className="card-title">Soil Moisture</h4>
-                                </CardHeader>
-                                <CardBody>
-                                    <Line
+                            </CardFooter>
+                        </Card>
+                    </Col>
+                    <Col lg={4} xs={12}>
+                        <Card className="card-chart">
+                            <CardHeader>
+                                <h4 className="card-title">Soil Moisture</h4>
+                            </CardHeader>
+                            <CardBody>
+                                {this.props.isFetching ?
+                                    <Loader isFetching={this.props.isFetching}></Loader>
+                                    : <Line
                                         data={this.state.selectedDeviceData.humidity}
                                         options={lineChartOptionsWithLegend}
                                         redraw={true}
                                     />
-                                </CardBody>
-                                <CardFooter>
-                                    <div className="stats">
-                                        <i className="now-ui-icons arrows-1_refresh-69"></i> Just Updated
+                                }
+                            </CardBody>
+                            <CardFooter>
+                                <div className="stats">
+                                    <i className="now-ui-icons arrows-1_refresh-69"></i> Just Updated
                       </div>
-                                </CardFooter>
-                            </Card>
-                        </Col>
-                        <Col lg={4} xs={12}>
-                            <Card className="card-chart">
-                                <CardHeader>
-                                    <h4 className="card-title">Sunlight Level</h4>
-                                </CardHeader>
-                                <CardBody>
-                                    <Line
+                            </CardFooter>
+                        </Card>
+                    </Col>
+                    <Col lg={4} xs={12}>
+                        <Card className="card-chart">
+                            <CardHeader>
+                                <h4 className="card-title">Sunlight Level</h4>
+                            </CardHeader>
+                            <CardBody>
+                                {this.props.isFetching ?
+                                    <Loader isFetching={this.props.isFetching}></Loader>
+                                    : <Line
                                         data={this.state.selectedDeviceData.light}
                                         options={lineChartOptionsWithLegend}
                                         redraw={true}
                                     />
-                                </CardBody>
-                                <CardFooter>
-                                    <div className="stats">
-                                        <i className="now-ui-icons arrows-1_refresh-69"></i> Just Updated
+                                }
+                            </CardBody>
+                            <CardFooter>
+                                <div className="stats">
+                                    <i className="now-ui-icons arrows-1_refresh-69"></i> Just Updated
                       </div>
-                                </CardFooter>
-                            </Card>
-                        </Col>
-                    </Row>
-                </div>,
-                <NotificationAlert key="alert" ref="errorAlert" />
-            ]
-        );
+                            </CardFooter>
+                        </Card>
+                    </Col>
+                </Row>
+            </div>,
+            <Alert message={this.props.error} />
+        ]);
     }
 }
 
@@ -223,7 +213,8 @@ function mapStateToProps(state, ownProps) {
         telemetry: state.telemetry,
         devices: state.devices.entities,
         alarms: state.alarms.summary,
-        error: state.errorMessage
+        error: state.errorMessage,
+        isFetching: state.loading
     };
 }
 

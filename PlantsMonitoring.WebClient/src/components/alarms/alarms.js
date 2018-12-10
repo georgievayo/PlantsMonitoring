@@ -1,55 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as alarmsActions from '../../actions/alarms.actions';
-import { BeatLoader } from 'react-spinners';
 import NotificationAlert from "react-notification-alert";
-import { Row, Col } from 'reactstrap';
+import { Loader, Header } from '../shared';
 
 class Alarms extends Component {
     componentDidMount() {
         this.props.getAlarms();
     }
 
-    showAlertIfNeeded = () => {
-        const { error } = this.props;
-        if (error) {
-            const options = {
-                place: 'br',
-                message: error,
-                type: 'danger',
-                icon: 'now-ui-icons ui-1_bell-53',
-                autoDismiss: 7,
-                closeButton: true
-            }
-
-            this.refs.errorAlert.notificationAlert(options);
-        }
-    }
-
     render() {
         this.showAlertIfNeeded();
-        return (
-            [<nav key="nav" className="navbar navbar-expand-lg fixed-top navbar-transparent  bg-primary  navbar-absolute">
-                <div className="container-fluid">
-                    <div className="navbar-wrapper">
-                        <div className="navbar-toggle">
-                            <button type="button" className="navbar-toggler">
-                                <span className="navbar-toggler-bar bar1"></span>
-                                <span className="navbar-toggler-bar bar2"></span>
-                                <span className="navbar-toggler-bar bar3"></span>
-                            </button>
-                        </div>
-                        <a className="navbar-brand" href="#pablo">Rules</a>
-                    </div>
-                    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
-                        <span className="navbar-toggler-bar navbar-kebab"></span>
-                        <span className="navbar-toggler-bar navbar-kebab"></span>
-                        <span className="navbar-toggler-bar navbar-kebab"></span>
-                    </button>
-                </div>
-            </nav>,
-            <div key="panel-header" className="panel-header panel-header-sm">
-            </div>,
+        return ([
+            <Header title="Alarms"/>,
             <div key="content" className="content">
                 <div className="row">
                     <div className="col-md-12">
@@ -60,16 +23,7 @@ class Alarms extends Component {
                             <div className="card-body">
                                 <div className="table-responsive">
                                     {this.props.isFetching ?
-                                        <Row>
-                                            <Col md={{ size: 'auto'}}>
-                                                <BeatLoader
-                                                    sizeUnit={"px"}
-                                                    size={15}
-                                                    color={'#183659'}
-                                                    loading={this.props.isFetching}
-                                                />
-                                            </Col>
-                                        </Row>
+                                        <Loader isFetching={this.props.isFetching}></Loader>
                                         : <table className="table">
                                             <tbody>
                                                 <tr className="text-primary">
@@ -112,8 +66,7 @@ class Alarms extends Component {
                 </div>
             </div>,
             <NotificationAlert key="alert" ref="errorAlert" />
-            ]
-        );
+        ]);
     }
 }
 
