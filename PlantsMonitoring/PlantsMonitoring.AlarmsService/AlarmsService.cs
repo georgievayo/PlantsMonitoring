@@ -84,7 +84,7 @@ namespace PlantsMonitoring.AlarmsService
                 {
                     var rule = this.rulesManager.GetById(alarm.RuleId);
                     var lastMessage = this.devicesManager.GetLastMessage(alarm.DeviceId);
-                    if (ShouldDeleteAlarm(rule, lastMessage))
+                    if (rule != null && lastMessage != null && ShouldDeleteAlarm(rule, lastMessage))
                     {
                         await this.alarmsManager.Delete(alarm);
                     }

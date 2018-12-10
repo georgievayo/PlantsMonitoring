@@ -5,13 +5,18 @@ const headers = {
 
 const HttpClient = {
     get: (url, authRequired) => {
-
         return fetch(url,
             {
                 method: 'GET',
                 headers: getHeaders(authRequired)
             })
-            .then(response => response.json())
+            .then(response => {
+                if(response.ok) {
+                    return response.json()
+                } else {
+                    throw response;
+                }
+            });
     },
 
     post: (url, body, authRequired) => {
@@ -20,7 +25,13 @@ const HttpClient = {
             body: JSON.stringify(body),
             headers: getHeaders(authRequired)
         })
-            .then(response => response.json());
+            .then(response => {
+                if(response.ok) {
+                    return response.json()
+                } else {
+                    throw response;
+                }
+            });
     }
 };
 

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Line } from 'react-chartjs-2';
 import { Card, CardHeader, CardBody, CardFooter, Row, Col, Button } from "reactstrap";
+import NotificationAlert from "react-notification-alert";
 import * as telemetryActions from '../../actions/dashboard.actions';
 import * as devicesActions from '../../actions/devices.actions';
 import * as alarmsActions from '../../actions/alarms.actions';
@@ -22,7 +23,8 @@ class Dashboard extends Component {
         selectedDeviceData: { ...emptyData },
         selectedDeviceId: undefined,
         statistics: { online: 0, offline: 0, total: 0 },
-        alarmsData: {}
+        alarmsData: {},
+        showError: false
     }
 
     componentDidMount() {
@@ -43,21 +45,23 @@ class Dashboard extends Component {
             const offlineDevicesCount = devices.filter(d => d.status === 'Offline').length;
             this.setState({ statistics: { online: onlineDevicesCount, offline: offlineDevicesCount, total: devices.length } });
             const colors = getColors(devices);
-            this.setState({colors});
-            
+            this.setState({ colors });
+
             if (telemetry && telemetry.length > 0) {
-                
+
                 const selectedDeviceData = getDeviceChartData(telemetry, devices[0], colors[0].value);
                 this.setState({ selectedDeviceData, selectedDeviceId: devices[0].id });
             }
         }
 
-        if(alarms && alarms.length > 0) {
+        if (alarms && alarms.length > 0) {
             const dates = alarms.map(a => a.Date.split('T')[0]);
             const alarmsCounts = alarms.map(a => a.Count);
             const chartData = bigDashboardChartData(dates, alarmsCounts);
-            this.setState({alarmsData: chartData});
+            this.setState({ alarmsData: chartData });
         }
+
+        this.setState({ showError: nextProps.error !== this.props.error });
     }
 
     handleDeviceSelect = (event) => {
@@ -68,7 +72,27 @@ class Dashboard extends Component {
         this.setState({ selectedDeviceData: data, selectedDeviceId: deviceId });
     }
 
+    showAlertIfNeeded = () => {
+        const { error } = this.props;
+        if (error) {
+            const options = {
+                place: 'br',
+                message: error,
+                type: 'danger',
+                icon: 'now-ui-icons ui-1_bell-53',
+                autoDismiss: 7,
+                closeButton: true
+            }
+
+            this.refs.errorAlert.notificationAlert(options);
+        }
+    }
+
     render() {
+        if(this.state.showError) {
+            this.showAlertIfNeeded();
+        }
+        
         return (
             [
                 <nav key="navbar" className="navbar navbar-expand-lg fixed-top navbar-transparent  bg-primary  navbar-absolute">
@@ -100,13 +124,13 @@ class Dashboard extends Component {
                                 <CardHeader>Your devices status</CardHeader>
                                 <CardBody>
                                     <div>
-                                        <strong>{this.state.statistics.total}</strong> All Devices 
+                                        <strong>{this.state.statistics.total}</strong> All Devices
                                     </div>
                                     <div>
                                         <strong>{this.state.statistics.online}</strong> Online Devices
                                     </div>
                                     <div>
-                                    <strong>{this.state.statistics.offline}</strong> Offline Devices
+                                        <strong>{this.state.statistics.offline}</strong> Offline Devices
                                     </div>
                                 </CardBody>
                             </Card>
@@ -187,7 +211,8 @@ class Dashboard extends Component {
                             </Card>
                         </Col>
                     </Row>
-                </div>
+                </div>,
+                <NotificationAlert key="alert" ref="errorAlert" />
             ]
         );
     }
@@ -197,7 +222,8 @@ function mapStateToProps(state, ownProps) {
     return {
         telemetry: state.telemetry,
         devices: state.devices.entities,
-        alarms: state.alarms.summary
+        alarms: state.alarms.summary,
+        error: state.errorMessage
     };
 }
 

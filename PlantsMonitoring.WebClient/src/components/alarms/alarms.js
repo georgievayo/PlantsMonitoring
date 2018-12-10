@@ -1,13 +1,33 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as alarmsActions from '../../actions/alarms.actions';
+import { BeatLoader } from 'react-spinners';
+import NotificationAlert from "react-notification-alert";
+import { Row, Col } from 'reactstrap';
 
 class Alarms extends Component {
     componentDidMount() {
         this.props.getAlarms();
     }
 
+    showAlertIfNeeded = () => {
+        const { error } = this.props;
+        if (error) {
+            const options = {
+                place: 'br',
+                message: error,
+                type: 'danger',
+                icon: 'now-ui-icons ui-1_bell-53',
+                autoDismiss: 7,
+                closeButton: true
+            }
+
+            this.refs.errorAlert.notificationAlert(options);
+        }
+    }
+
     render() {
+        this.showAlertIfNeeded();
         return (
             [<nav key="nav" className="navbar navbar-expand-lg fixed-top navbar-transparent  bg-primary  navbar-absolute">
                 <div className="container-fluid">
@@ -39,53 +59,69 @@ class Alarms extends Component {
                             </div>
                             <div className="card-body">
                                 <div className="table-responsive">
-                                    <table className="table">
-                                        <tbody>
-                                            <tr className="text-primary">
-                                                <th>
-                                                    Type
+                                    {this.props.isFetching ?
+                                        <Row>
+                                            <Col md={{ size: 'auto'}}>
+                                                <BeatLoader
+                                                    sizeUnit={"px"}
+                                                    size={15}
+                                                    color={'#183659'}
+                                                    loading={this.props.isFetching}
+                                                />
+                                            </Col>
+                                        </Row>
+                                        : <table className="table">
+                                            <tbody>
+                                                <tr className="text-primary">
+                                                    <th>
+                                                        Type
                       </th>
-                                                <th>
-                                                    For Rule
+                                                    <th>
+                                                        For Rule
                       </th>
-                                                <th>
-                                                    For Device
+                                                    <th>
+                                                        For Device
                       </th>
-                                                <th className="text-right">
-                                                    Raised At
+                                                    <th className="text-right">
+                                                        Raised At
                       </th>
-                                            </tr>
-                                            {this.props.alarms.map(alarm =>
-                                                <tr key={alarm.id}>
-                                                    <td>
-                                                        {alarm.type}
-                                                    </td>
-                                                    <td>
-                                                        {alarm.rule}
-                                                    </td>
-                                                    <td>
-                                                        {alarm.device}
-                                                    </td>
-                                                    <td className="text-right">
-                                                        {alarm.raisedAt}
-                                                    </td>
                                                 </tr>
-                                            )}
-                                        </tbody>
-                                    </table>
+                                                {this.props.alarms.map(alarm =>
+                                                    <tr key={alarm.id}>
+                                                        <td>
+                                                            {alarm.type}
+                                                        </td>
+                                                        <td>
+                                                            {alarm.rule}
+                                                        </td>
+                                                        <td>
+                                                            {alarm.device}
+                                                        </td>
+                                                        <td className="text-right">
+                                                            {alarm.raisedAt}
+                                                        </td>
+                                                    </tr>
+                                                )}
+                                            </tbody>
+                                        </table>
+                                    }
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>]
+            </div>,
+            <NotificationAlert key="alert" ref="errorAlert" />
+            ]
         );
     }
 }
 
 function mapStateToProps(state, ownProps) {
     return {
-        alarms: state.alarms.entities
+        alarms: state.alarms.entities,
+        isFetching: state.loading,
+        error: state.errorMessage
     };
 }
 

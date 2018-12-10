@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Card, CardHeader, CardBody, CardTitle, Row, Col } from "reactstrap";
 import openSocket from 'socket.io-client';
 import { Line, Pie } from "react-chartjs-2";
+import NotificationAlert from "react-notification-alert";
 import { lineChartData, lineChartOptions, pieChartData, pieChartOptions } from '../../utilities/charts.config';
 import * as devicesActions from '../../actions/devices.actions';
 
@@ -34,7 +35,24 @@ class DeviceDetails extends Component {
         this.setState({ alarmsChartData, temperatureChartData, humidityChartData, lightChartData });
     }
 
+    showAlertIfNeeded = () => {
+        const { error } = this.props;
+        if (error) {
+            const options = {
+                place: 'br',
+                message: error,
+                type: 'danger',
+                icon: 'now-ui-icons ui-1_bell-53',
+                autoDismiss: 7,
+                closeButton: true
+            }
+
+            this.refs.errorAlert.notificationAlert(options);
+        }
+    }
+
     render() {
+        this.showAlertIfNeeded();
         const { device } = this.props;
         return (
             [<nav key="nav" className="navbar navbar-expand-lg fixed-top navbar-transparent  bg-primary  navbar-absolute">
@@ -223,7 +241,8 @@ class DeviceDetails extends Component {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>,
+            <NotificationAlert key="alert" ref="errorAlert" />
             ]
         );
     }
@@ -231,7 +250,8 @@ class DeviceDetails extends Component {
 
 function mapStateToProps(state, ownProps) {
     return {
-        device: state.devices.selectedDevice
+        device: state.devices.selectedDevice,
+        error: state.errorMessage
     };
 }
 

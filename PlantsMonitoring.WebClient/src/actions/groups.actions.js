@@ -5,7 +5,8 @@ export function getAllGroups() {
     return function (dispatch) {
         return HttpClient.get(`${api.GROUPS}`, true)
             .then(toGroupsModel)
-            .then(groups => dispatch(getAllGroupsSuccess(groups)));
+            .then(groups => dispatch(getAllGroupsSuccess(groups)))
+            .catch(error => dispatch(getAllGroupsFailed()));
     };
 }
 
@@ -21,6 +22,13 @@ function getAllGroupsSuccess(groups) {
     return {
         type: 'GET_GROUPS_SUCCESS',
         groups
+    };
+}
+
+function getAllGroupsFailed() {
+    return {
+        type: 'GET_GROUPS_FAILED',
+        errorMessage: 'Could not get your groups.' 
     };
 }
 

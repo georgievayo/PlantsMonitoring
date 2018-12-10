@@ -6,7 +6,6 @@ export default function alarms(state = {entities: [], summary: []}, action) {
                 summary: action.alarms
             };
         case 'GET_ALARMS_SUCCESS': 
-        debugger;
             return {
                 ...state,
                 entities: action.alarms

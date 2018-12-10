@@ -5,7 +5,8 @@ export function getAllRules() {
     return function (dispatch) {
         return HttpClient.get(`${api.RULES}`, true)
             .then(toRulesModel)
-            .then(rules => dispatch(getAllRulesSuccess(rules)));
+            .then(rules => dispatch(getAllRulesSuccess(rules)))
+            .catch(error => dispatch(getAllRulesFailed()));
     };
 }
 
@@ -21,6 +22,13 @@ function getAllRulesSuccess(rules) {
     return {
         type: 'GET_RULES_SUCCESS',
         rules
+    };
+}
+
+function getAllRulesFailed() {
+    return {
+        type: 'GET_RULES_FAILED',
+        errorMessage: 'Could not get your rules.' 
     };
 }
 

@@ -41,6 +41,7 @@ function signInSuccess() {
 
 function signInFailed() {
     return {
-        type: 'SIGN_IN_FAILED'
+        type: 'SIGN_IN_FAILED',
+        errorMessage: 'Incorrect username or password.'
     };
 }

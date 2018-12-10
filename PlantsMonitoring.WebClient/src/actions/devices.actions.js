@@ -5,7 +5,8 @@ export function getAllDevices() {
     return function (dispatch) {
         return HttpClient.get(`${api.DEVICES}`, true)
             .then(toDevicesModel)
-            .then(devices => dispatch(getAllDevicesSuccess(devices)));
+            .then(devices => dispatch(getAllDevicesSuccess(devices)))
+            .catch(error => dispatch(getAllDevicesFailed()));
     };
 }
 
@@ -21,7 +22,8 @@ export function getDeviceDetails(deviceId) {
     return function (dispatch) {
         return HttpClient.get(`${api.DEVICES}/${deviceId}`, true)
         .then(toDeviceExtendedModel)
-        .then(device => dispatch(getDeviceDetailsSuccess(device)));
+        .then(device => dispatch(getDeviceDetailsSuccess(device)))
+        .catch(error => dispatch(getDeviceDetailsFailed()));
     }
 }
 
@@ -46,6 +48,13 @@ function getAllDevicesSuccess(devices) {
     };
 }
 
+function getAllDevicesFailed() {
+    return {
+        type: 'GET_DEVICES_FAILED',
+        errorMessage: 'Could not get your devices.' 
+    };
+}
+
 function postDeviceSuccess(device) {
     return {
         type: 'POST_DEVICE_SUCCESS',
@@ -57,5 +66,12 @@ function getDeviceDetailsSuccess(device) {
     return {
         type: 'GET_DEVICE_SUCCESS',
         device
+    };
+}
+
+function getDeviceDetailsFailed() {
+    return {
+        type: 'GET_DEVICE_FAILED',
+        errorMessage: 'Could not get information about device.' 
     };
 }
