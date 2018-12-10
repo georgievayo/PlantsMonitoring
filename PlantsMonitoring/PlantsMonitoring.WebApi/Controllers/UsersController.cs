@@ -29,9 +29,9 @@ namespace PlantsMonitoring.WebApi.Controllers
 
                 return Ok(createdUser);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -52,9 +52,9 @@ namespace PlantsMonitoring.WebApi.Controllers
                     return NotFound();
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 

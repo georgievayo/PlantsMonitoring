@@ -31,9 +31,9 @@ namespace PlantsMonitoring.WebApi.Controllers
 
                 return Ok(groups);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -46,11 +46,12 @@ namespace PlantsMonitoring.WebApi.Controllers
                 var currentUserId = (User.Identity as ClaimsIdentity).Claims.FirstOrDefault().Value;
                 group.UserId = currentUserId;
                 var createdGroup = await this.service.PostGroup(group);
+
                 return Ok(createdGroup);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
     }

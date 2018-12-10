@@ -29,9 +29,9 @@ namespace PlantsMonitoring.WebApi.Controllers
 
                 return Ok(alarms);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -45,9 +45,9 @@ namespace PlantsMonitoring.WebApi.Controllers
 
                 return Ok(alarms);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -62,9 +62,9 @@ namespace PlantsMonitoring.WebApi.Controllers
 
                 return Ok(alarms);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
     }

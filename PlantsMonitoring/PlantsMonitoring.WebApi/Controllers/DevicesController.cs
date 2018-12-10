@@ -31,9 +31,9 @@ namespace PlantsMonitoring.WebApi.Controllers
 
                 return Ok(devices);
             }
-            catch(Exception)
+            catch(Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -43,6 +43,11 @@ namespace PlantsMonitoring.WebApi.Controllers
         {
             try
             {
+                if(string.IsNullOrEmpty(id))
+                {
+                    return BadRequest("Device id is required.");
+                }
+
                 var device = this.service.GetDetails(id);
 
                 if(device == null)
@@ -52,9 +57,9 @@ namespace PlantsMonitoring.WebApi.Controllers
 
                 return Ok(device);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -68,6 +73,7 @@ namespace PlantsMonitoring.WebApi.Controllers
                 device.UserId = currentUserId;
                 device.Status = DeviceStatus.Offline;
                 var createdDevice = await this.service.CreateDevice(device);
+
                 return Ok(createdDevice);
             }
             catch(Exception)
@@ -80,12 +86,19 @@ namespace PlantsMonitoring.WebApi.Controllers
         [Route("telemetry")]
         public async Task<IHttpActionResult> Telemetry()
         {
-            var currentUserId = (User.Identity as ClaimsIdentity).Claims.FirstOrDefault().Value;
-            var devices = await this.service.GetAll(currentUserId);
-            var devicesIds = devices.Select(d => d.Id);
-            var result = await this.service.GetSummarizedTelemetry(devicesIds);
+            try
+            {
+                var currentUserId = (User.Identity as ClaimsIdentity).Claims.FirstOrDefault().Value;
+                var devices = await this.service.GetAll(currentUserId);
+                var devicesIds = devices.Select(d => d.Id);
+                var result = await this.service.GetSummarizedTelemetry(devicesIds);
 
-            return Ok(result);
+                return Ok(result);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

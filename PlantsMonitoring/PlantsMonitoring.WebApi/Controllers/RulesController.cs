@@ -24,19 +24,33 @@ namespace PlantsMonitoring.WebApi.Controllers
         [Route("")]
         public async Task<IHttpActionResult> Post([FromBody] Rule rule)
         {
-            var createdRule = await this.service.PostRule(rule);
+            try
+            {
+                var createdRule = await this.service.PostRule(rule);
 
-            return Ok(createdRule);
+                return Ok(createdRule);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet]
         [Route("")]
         public async Task<IHttpActionResult> Get()
         {
-            var currentUserId = (User.Identity as ClaimsIdentity).Claims.FirstOrDefault().Value;
-            var rules = await this.service.GetAllRules(currentUserId);
+            try
+            {
+                var currentUserId = (User.Identity as ClaimsIdentity).Claims.FirstOrDefault().Value;
+                var rules = await this.service.GetAllRules(currentUserId);
 
-            return Ok(rules);
+                return Ok(rules);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
