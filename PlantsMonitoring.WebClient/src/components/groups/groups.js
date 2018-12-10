@@ -24,7 +24,9 @@ class Groups extends Component {
             });
             nextProps.devices.forEach(device => {
                 const groupIndex = groups.findIndex(g => g.name === device.group);
-                groups[groupIndex].devices.push(device.name);
+                if(groupIndex >= 0) {
+                    groups[groupIndex].devices.push(device.name);
+                }
             });
 
             this.setState({groups})

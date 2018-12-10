@@ -4,22 +4,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
+using PlantsMonitoring.Common;
 using PlantsMonitoring.Models;
 
 namespace PlantsMonitoring.Data.Groups
 {
     public class GroupsManager : IGroupsManager
     {
-        private const string GROUPS_COLLECTION_NAME = "Groups";
-        private const string DATABASE_ID = "PlantsMonitoring";
-
         private readonly DocumentClient client;
         private readonly Uri groupsUri;
 
         public GroupsManager(DocumentClient client)
         {
             this.client = client;
-            this.groupsUri = UriFactory.CreateDocumentCollectionUri(DATABASE_ID, GROUPS_COLLECTION_NAME);
+            this.groupsUri = UriFactory.CreateDocumentCollectionUri(Constants.DATABASE_ID, Constants.GROUPS_COLLECTION_NAME);
         }
 
         public async Task<Document> Add(Group group)

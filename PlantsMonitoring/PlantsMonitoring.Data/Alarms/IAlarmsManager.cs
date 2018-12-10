@@ -8,6 +8,8 @@ namespace PlantsMonitoring.Data.Alarms
     {
         List<Alarm> GetAll(IEnumerable<string> devicesIds);
 
+        List<Alarm> GetAll();
+
         List<Alarm> GetAllByDevice(string deviceId);
 
         Task Delete(Alarm alarm);

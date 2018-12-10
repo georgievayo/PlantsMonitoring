@@ -3,21 +3,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
+using PlantsMonitoring.Common;
 
 namespace PlantsMonitoring.Data.Users
 {
     public class UsersManager : IUsersManager
     {
-        private const string USERS_COLLECTION_NAME = "Users";
-        private const string DATABASE_ID = "PlantsMonitoring";
-
         private readonly DocumentClient client;
         private readonly Uri usersUri;
 
         public UsersManager(DocumentClient client)
         {
             this.client = client;
-            usersUri = UriFactory.CreateDocumentCollectionUri(DATABASE_ID, USERS_COLLECTION_NAME);
+            usersUri = UriFactory.CreateDocumentCollectionUri(Constants.DATABASE_ID, Constants.USERS_COLLECTION_NAME);
         }
 
         public async Task<Document> Add(Models.User user)

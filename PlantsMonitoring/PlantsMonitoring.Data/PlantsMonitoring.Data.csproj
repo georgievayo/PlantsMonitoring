@@ -81,8 +81,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rules\IRulesManager.cs" />
     <Compile Include="Rules\RulesManager.cs" />
-    <Compile Include="Telemetry\ITelemetryManager.cs" />
-    <Compile Include="Telemetry\TelemetryManager.cs" />
     <Compile Include="Users\IUsersManager.cs" />
     <Compile Include="Users\UsersManager.cs" />
   </ItemGroup>
@@ -91,6 +89,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PlantsMonitoring.Common\PlantsMonitoring.Common.csproj">
+      <Project>{D1D0E782-EA1D-4151-8C9B-5AFA79DCAF8F}</Project>
+      <Name>PlantsMonitoring.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PlantsMonitoring.Models\PlantsMonitoring.Models.csproj">
       <Project>{F4FFD56C-6299-49D7-AC6C-E9FD6278B082}</Project>
       <Name>PlantsMonitoring.Models</Name>

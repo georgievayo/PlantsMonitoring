@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Fabric;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Remoting.Runtime;
@@ -72,26 +74,25 @@ namespace PlantsMonitoring.AlarmsService
             return this.CreateServiceRemotingInstanceListeners();
         }
 
-        //protected override async Task RunAsync(CancellationToken cancellationToken)
-        //{
-        //    while (true)
-        //    {
-        //        cancellationToken.ThrowIfCancellationRequested();
+        protected override async Task RunAsync(CancellationToken cancellationToken)
+        {
+            while (true)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                var alarms = this.alarmsManager.GetAll();
+                foreach (var alarm in alarms)
+                {
+                    var rule = this.rulesManager.GetById(alarm.RuleId);
+                    var lastMessage = this.devicesManager.GetLastMessage(alarm.DeviceId);
+                    if (ShouldDeleteAlarm(rule, lastMessage))
+                    {
+                        await this.alarmsManager.Delete(alarm);
+                    }
+                }
 
-        //        var alarms = this.alarmsManager.GetAll();
-        //        foreach (var alarm in alarms)
-        //        {
-        //            var rule = this.rulesManager.GetById(alarm.RuleId);
-        //            var lastMessage = this.devicesManager.GetLastMessage(alarm.DeviceId);
-        //            if (ShouldDeleteAlarm(rule, lastMessage))
-        //            {
-        //                await this.alarmsManager.Delete(alarm);
-        //            }
-        //        }
-
-        //        await Task.Delay(TimeSpan.FromSeconds(20), cancellationToken);
-        //    }
-        //}
+                await Task.Delay(TimeSpan.FromSeconds(20), cancellationToken);
+            }
+        }
 
         private bool ShouldDeleteAlarm(Rule rule, Measurement measurement)
         {

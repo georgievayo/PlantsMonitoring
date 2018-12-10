@@ -11,6 +11,8 @@ namespace PlantsMonitoring.Data.Devices
 
         List<Device> GetAll(string userId);
 
+        List<Device> GetAll();
+
         List<Measurement> GetTelemetry(IEnumerable<string> devicesIds);
 
         Measurement GetLastMessage(string deviceId);
@@ -23,6 +25,6 @@ namespace PlantsMonitoring.Data.Devices
 
         List<Measurement> GetDeviceTelemetry(string deviceId);
 
-        Task UpdateStatus(Device device);
+        Task Update(Device device);
     }
 }

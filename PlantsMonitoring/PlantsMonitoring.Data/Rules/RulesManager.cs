@@ -4,22 +4,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
+using PlantsMonitoring.Common;
 using PlantsMonitoring.Models;
 
 namespace PlantsMonitoring.Data.Rules
 {
     public class RulesManager : IRulesManager
     {
-        private const string DATABASE_ID = "PlantsMonitoring";
-        private const string RULES_COLLECTION_NAME = "Rules";
-
         private readonly DocumentClient client;
         private readonly Uri rulesUri;
 
         public RulesManager(DocumentClient client)
         {
             this.client = client;
-            this.rulesUri = UriFactory.CreateDocumentCollectionUri(DATABASE_ID, RULES_COLLECTION_NAME);
+            this.rulesUri = UriFactory.CreateDocumentCollectionUri(Constants.DATABASE_ID, Constants.RULES_COLLECTION_NAME);
         }
 
         public async Task<Document> Add(Rule rule)

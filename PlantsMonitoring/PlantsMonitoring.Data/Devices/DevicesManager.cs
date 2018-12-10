@@ -4,16 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
+using PlantsMonitoring.Common;
 using PlantsMonitoring.Models;
 
 namespace PlantsMonitoring.Data.Devices
 {
     public class DevicesManager : IDevicesManager
     {
-        private const string DEVICES_COLLECTION_NAME = "Devices";
-        private const string TELEMETRY_COLLECTION_NAME = "Telemetry";
-        private const string DATABASE_ID = "PlantsMonitoring";
-
         private readonly DocumentClient client;
         private readonly Uri devicesUri;
         private readonly Uri telemetryUri;
@@ -21,8 +18,8 @@ namespace PlantsMonitoring.Data.Devices
         public DevicesManager(DocumentClient client)
         {
             this.client = client;
-            devicesUri = UriFactory.CreateDocumentCollectionUri(DATABASE_ID, DEVICES_COLLECTION_NAME);
-            telemetryUri = UriFactory.CreateDocumentCollectionUri(DATABASE_ID, TELEMETRY_COLLECTION_NAME);
+            devicesUri = UriFactory.CreateDocumentCollectionUri(Constants.DATABASE_ID, Constants.DEVICES_COLLECTION_NAME);
+            telemetryUri = UriFactory.CreateDocumentCollectionUri(Constants.DATABASE_ID, Constants.TELEMETRY_COLLECTION_NAME);
         }
 
         public async Task<Document> Add(Device device)
@@ -55,7 +52,7 @@ namespace PlantsMonitoring.Data.Devices
 
         public List<Measurement> GetDeviceTelemetry(string deviceId)
         {
-            var minDate = DateTime.Now.Subtract(new TimeSpan(500, 0, 0, 0, 0));
+            var minDate = DateTime.Now.Subtract(new TimeSpan(3, 0, 0, 0, 0));
 
             return this.client.CreateDocumentQuery<Measurement>(telemetryUri)
                 .Where(m => m.ReceivedAt >= minDate && m.DeviceId == deviceId)
@@ -88,10 +85,16 @@ namespace PlantsMonitoring.Data.Devices
                 .ToList();
         }
 
-        public async Task UpdateStatus(Device device)
+        public async Task Update(Device device)
         {
-            var uri = UriFactory.CreateDocumentUri(DATABASE_ID, DEVICES_COLLECTION_NAME, device.Id);
+            var uri = UriFactory.CreateDocumentUri(Constants.DATABASE_ID, Constants.DEVICES_COLLECTION_NAME, device.Id);
             await this.client.ReplaceDocumentAsync(uri, device);
+        }
+
+        public List<Device> GetAll()
+        {
+            return this.client.CreateDocumentQuery<Device>(devicesUri)
+               .ToList();
         }
     }
 }

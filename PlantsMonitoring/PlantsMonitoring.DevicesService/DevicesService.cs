@@ -11,6 +11,7 @@ using PlantsMonitoring.Data.Rules;
 using PlantsMonitoring.Data.Groups;
 using System.Linq;
 using PlantsMonitoring.Data.Alarms;
+using System.Threading;
 
 namespace PlantsMonitoring.DevicesService
 {
@@ -115,28 +116,31 @@ namespace PlantsMonitoring.DevicesService
             return this.CreateServiceRemotingInstanceListeners();
         }
 
-        //protected override async Task RunAsync(CancellationToken cancellationToken)
-        //{
-        //    while (true)
-        //    {
-        //        var devices = this.devicesManager.GetAll();
-        //        foreach (var device in devices)
-        //        {
-        //            var lastMessage = this.devicesManager.GetLastMessage(device.Id);
-        //            if (lastMessage.ReceivedAt < DateTime.Now.Subtract(new TimeSpan(0, 20, 0)))
-        //            {
-        //                device.Status = DeviceStatus.Offline;
-        //            }
-        //            else
-        //            {
-        //                device.Status = DeviceStatus.Online;
-        //            }
+        protected override async Task RunAsync(CancellationToken cancellationToken)
+        {
+            while (true)
+            {
+                var devices = this.devicesManager.GetAll();
+                foreach (var device in devices)
+                {
+                    var lastMessage = this.devicesManager.GetLastMessage(device.Id);
+                    if(lastMessage != null)
+                    {
+                        if (lastMessage.ReceivedAt < DateTime.Now.Subtract(new TimeSpan(0, 20, 0)))
+                        {
+                            device.Status = DeviceStatus.Offline;
+                        }
+                        else
+                        {
+                            device.Status = DeviceStatus.Online;
+                        }
 
-        //            await this.devicesManager.UpdateStatus(device);
-        //        }
+                        await this.devicesManager.Update(device);
+                    }
+                }
 
-        //        await Task.Delay(TimeSpan.FromSeconds(20), cancellationToken);
-        //    }
-        //}
+                await Task.Delay(TimeSpan.FromSeconds(20), cancellationToken);
+            }
+        }
     }
 }

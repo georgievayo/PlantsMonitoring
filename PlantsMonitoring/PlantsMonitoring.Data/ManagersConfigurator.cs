@@ -4,7 +4,6 @@ using PlantsMonitoring.Data.Alarms;
 using PlantsMonitoring.Data.Devices;
 using PlantsMonitoring.Data.Groups;
 using PlantsMonitoring.Data.Rules;
-using PlantsMonitoring.Data.Telemetry;
 using PlantsMonitoring.Data.Users;
 using System;
 
@@ -28,9 +27,6 @@ namespace PlantsMonitoring.Data
                 .InstancePerLifetimeScope();
             builder.RegisterType<RulesManager>()
                 .As<IRulesManager>()
-                .InstancePerLifetimeScope();
-            builder.RegisterType<TelemetryManager>()
-                .As<ITelemetryManager>()
                 .InstancePerLifetimeScope();
             builder.RegisterType<AlarmsManager>()
                 .As<IAlarmsManager>()
