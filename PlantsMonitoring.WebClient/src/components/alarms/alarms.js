@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as alarmsActions from '../../actions/alarms.actions';
-import NotificationAlert from "react-notification-alert";
-import { Loader, Header } from '../shared';
+import { Loader, Header, Alert } from '../shared';
 
 class Alarms extends Component {
     componentDidMount() {
@@ -10,7 +9,6 @@ class Alarms extends Component {
     }
 
     render() {
-        this.showAlertIfNeeded();
         return ([
             <Header title="Alarms"/>,
             <div key="content" className="content">
@@ -65,7 +63,7 @@ class Alarms extends Component {
                     </div>
                 </div>
             </div>,
-            <NotificationAlert key="alert" ref="errorAlert" />
+            <Alert message={this.props.error} />
         ]);
     }
 }

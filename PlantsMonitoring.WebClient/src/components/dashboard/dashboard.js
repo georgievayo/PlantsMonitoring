@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Line } from 'react-chartjs-2';
-import { Card, CardHeader, CardBody, CardFooter, Row, Col, Button } from "reactstrap";
-import { Alert, Loader } from '../shared';
+import { Card, CardHeader, CardBody, Row, Col, Button } from "reactstrap";
+import { Alert, Loader, LineChart } from '../shared';
 import * as telemetryActions from '../../actions/dashboard.actions';
 import * as devicesActions from '../../actions/devices.actions';
 import * as alarmsActions from '../../actions/alarms.actions';
@@ -97,7 +97,9 @@ class Dashboard extends Component {
                 <Row>
                     <Col md={6} xs={12}>
                         <Card>
-                            <CardHeader>Your devices status</CardHeader>
+                            <CardHeader>
+                                <h4 className="card-title">Devices Status</h4>
+                            </CardHeader>
                             <CardBody>
                                 {this.props.isFetching ?
                                     <Loader isFetching={this.props.isFetching}></Loader>
@@ -117,7 +119,9 @@ class Dashboard extends Component {
                     </Col>
                     <Col md={6} xs={12}>
                         <Card>
-                            <CardHeader>Select device</CardHeader>
+                            <CardHeader>
+                                <h4 className="card-title">Select Device</h4>
+                            </CardHeader>
                             <CardBody>
                                 {this.props.isFetching ?
                                     <Loader isFetching={this.props.isFetching}></Loader>
@@ -136,70 +140,25 @@ class Dashboard extends Component {
                 </Row>
                 <Row>
                     <Col lg={4} xs={12}>
-                        <Card className="card-chart">
-                            <CardHeader>
-                                <h4 className="card-title">Temperature</h4>
-                            </CardHeader>
-                            <CardBody>
-                                {this.props.isFetching ?
-                                    <Loader isFetching={this.props.isFetching}></Loader>
-                                    : <Line
-                                        data={this.state.selectedDeviceData.temperature}
-                                        options={lineChartOptionsWithLegend}
-                                        redraw={true}
-                                    />
-                                }
-                            </CardBody>
-                            <CardFooter>
-                                <div className="stats">
-                                    <i className="now-ui-icons arrows-1_refresh-69"></i> Just Updated
-                      </div>
-                            </CardFooter>
-                        </Card>
+                        <LineChart isFetching={this.props.isFetching}
+                            data={this.state.selectedDeviceData.temperature}
+                            options={lineChartOptionsWithLegend}
+                            title="Temperature"
+                        />
                     </Col>
                     <Col lg={4} xs={12}>
-                        <Card className="card-chart">
-                            <CardHeader>
-                                <h4 className="card-title">Soil Moisture</h4>
-                            </CardHeader>
-                            <CardBody>
-                                {this.props.isFetching ?
-                                    <Loader isFetching={this.props.isFetching}></Loader>
-                                    : <Line
-                                        data={this.state.selectedDeviceData.humidity}
-                                        options={lineChartOptionsWithLegend}
-                                        redraw={true}
-                                    />
-                                }
-                            </CardBody>
-                            <CardFooter>
-                                <div className="stats">
-                                    <i className="now-ui-icons arrows-1_refresh-69"></i> Just Updated
-                      </div>
-                            </CardFooter>
-                        </Card>
+                        <LineChart isFetching={this.props.isFetching}
+                            data={this.state.selectedDeviceData.humidity}
+                            options={lineChartOptionsWithLegend}
+                            title="Soil Moisture"
+                        />
                     </Col>
                     <Col lg={4} xs={12}>
-                        <Card className="card-chart">
-                            <CardHeader>
-                                <h4 className="card-title">Sunlight Level</h4>
-                            </CardHeader>
-                            <CardBody>
-                                {this.props.isFetching ?
-                                    <Loader isFetching={this.props.isFetching}></Loader>
-                                    : <Line
-                                        data={this.state.selectedDeviceData.light}
-                                        options={lineChartOptionsWithLegend}
-                                        redraw={true}
-                                    />
-                                }
-                            </CardBody>
-                            <CardFooter>
-                                <div className="stats">
-                                    <i className="now-ui-icons arrows-1_refresh-69"></i> Just Updated
-                      </div>
-                            </CardFooter>
-                        </Card>
+                        <LineChart isFetching={this.props.isFetching}
+                            data={this.state.selectedDeviceData.light}
+                            options={lineChartOptionsWithLegend}
+                            title="Sunlight Level"
+                        />
                     </Col>
                 </Row>
             </div>,

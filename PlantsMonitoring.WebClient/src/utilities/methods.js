@@ -126,6 +126,12 @@ export const bigDashboardChartOptions = {
         fillStyle: "#FFF",
         display: false
     },
+    title: {
+        display: true,
+        text: 'Alarms count by date',
+        position: "bottom",
+        fontColor: 'white'
+    },
     scales: {
         yAxes: [{
             ticks: {
