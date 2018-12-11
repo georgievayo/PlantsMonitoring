@@ -16,7 +16,7 @@ class DeviceDetails extends Component {
     }
 
     componentDidMount() {
-        const socket = openSocket(`${process.env.TELEMETRY_URL}`);
+        const socket = openSocket(`${process.env.REACT_APP_TELEMETRY_URL}`);
         socket.on('SendMeasurement', (measurement) => {
             this.props.addMeasurement(measurement);
         });
@@ -38,15 +38,13 @@ class DeviceDetails extends Component {
     render() {
         const { device } = this.props;
         return ([
-            <Header title="Device Details" />,
+            <Header key="header" title="Device Details" />,
             <div key="content" className="content">
                 <Row>
                     <Col>
                         <Card>
                             <CardHeader>
-                                <CardTitle>
-                                    <h4>{device.name}</h4>
-                                </CardTitle>
+                                <h4>{device.name}</h4>
                             </CardHeader>
                             <CardBody>
                                 {this.props.isFetching ?
@@ -163,7 +161,7 @@ class DeviceDetails extends Component {
                     </Col>
                 </Row>
             </div>,
-            <Alert message={this.props.error} />
+            <Alert key="alert" message={this.props.error} />
         ]);
     }
 }
