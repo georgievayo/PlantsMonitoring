@@ -3,7 +3,8 @@
     "version": "0.0.0",
     "private": true,
     "scripts": {
-      "start": "cd ./PlantsMonitoring.Telemetry && npm install && npm start"
+      "start": "npm start",
+      "postinstall": "cd ./PlantsMonitoring.Telemetry && npm install"
     },
     "engines": {
       "node": "10.13.0"
