@@ -1,0 +1,1 @@
+web: cd ./PlantsMonitoring.Telemetry && npm install && npm start
