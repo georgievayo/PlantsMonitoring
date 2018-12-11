@@ -30,7 +30,7 @@ class Dashboard extends Component {
         this.props.getDevices();
         this.props.getTelemetry();
         this.props.getAlarms();
-        const socket = openSocket('http://localhost:5000');
+        const socket = openSocket(`${process.env.TELEMETRY_URL}`);
         socket.on('SendMeasurement', (measurement) => {
             const mappedMeasurement = toMeasurementModel(measurement);
             this.props.addMeasurement(mappedMeasurement);

@@ -16,7 +16,7 @@ class DeviceDetails extends Component {
     }
 
     componentDidMount() {
-        const socket = openSocket('http://localhost:5000');
+        const socket = openSocket(`${process.env.TELEMETRY_URL}`);
         socket.on('SendMeasurement', (measurement) => {
             this.props.addMeasurement(measurement);
         });
