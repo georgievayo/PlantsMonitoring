@@ -3,8 +3,7 @@
     "version": "0.0.0",
     "private": true,
     "scripts": {
-      "start": "npm start",
-      "postinstall": "cd ./PlantsMonitoring.Telemetry && npm install"
+      "heroku-prebuild": "cd ./PlantsMonitoring.Telemetry"
     },
     "engines": {
       "node": "10.13.0"
