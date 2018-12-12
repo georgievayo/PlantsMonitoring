@@ -3,6 +3,7 @@
     "version": "0.0.0",
     "private": true,
     "scripts": {
+      "start": "npm start",
       "heroku-prebuild": "cd ./PlantsMonitoring.Telemetry"
     },
     "engines": {
