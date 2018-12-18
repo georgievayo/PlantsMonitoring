@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start-local": "nodemon ./bin/www",
-    "start": "node ./bin/www"
+    "start-local": "nodemon ./server.js",
+    "start": "node ./server.js"
   },
   "dependencies": {
     "@azure/cosmos": "^2.0.5",
