@@ -21,7 +21,7 @@ class Devices extends Component {
 
     render() {
         return ([
-            <Header title="Devices" showAddSection={this.openCreateDeviceSection} button="New Device"/>,
+            <Header key="header" title="Devices" showAddSection={this.openCreateDeviceSection} button="New Device"/>,
             <div key="content" className="content">
                 <div className="row">
                     <div className={this.state.showCreateDevice ? "col-md-8" : "col-md-12"}>
@@ -77,7 +77,7 @@ class Devices extends Component {
                     {this.state.showCreateDevice && <CreateDevice close={this.closeCreateDeviceSection} />}
                 </div>
             </div>,
-            <Alert message={this.props.error} />
+            <Alert key="alert" message={this.props.error} />
         ]);
     }
 }

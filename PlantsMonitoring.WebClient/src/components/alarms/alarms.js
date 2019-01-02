@@ -10,7 +10,7 @@ class Alarms extends Component {
 
     render() {
         return ([
-            <Header title="Alarms"/>,
+            <Header key="header" title="Alarms"/>,
             <div key="content" className="content">
                 <div className="row">
                     <div className="col-md-12">
@@ -39,7 +39,7 @@ class Alarms extends Component {
                       </th>
                                                 </tr>
                                                 {this.props.alarms.map(alarm =>
-                                                    <tr key={alarm.id}>
+                                                    <tr key={alarm.device}>
                                                         <td>
                                                             {alarm.type}
                                                         </td>
@@ -63,7 +63,7 @@ class Alarms extends Component {
                     </div>
                 </div>
             </div>,
-            <Alert message={this.props.error} />
+            <Alert key="alert" message={this.props.error} />
         ]);
     }
 }

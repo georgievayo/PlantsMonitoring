@@ -44,7 +44,7 @@ class Groups extends Component {
 
     render() {
         return ([
-            <Header title="Groups" showAddSection={this.openCreateGroupSection} button="New group" />,
+            <Header key="header" title="Groups" showAddSection={this.openCreateGroupSection} button="New group" />,
             <div key="content" className="content">
                 <div className="row">
                     <div className={this.state.showCreateGroup ? "col-md-8" : "col-md-12"}>
@@ -80,7 +80,7 @@ class Groups extends Component {
                                                         </td>
                                                         <td className="text-right">
                                                             {group.devices.length > 0 ? group.devices.map(device =>
-                                                                <span>{device} </span>
+                                                                <span key={device}>{device} </span>
                                                             ) : <span>No devices yet</span>}
                                                         </td>
                                                     </tr>
@@ -95,7 +95,7 @@ class Groups extends Component {
                     {this.state.showCreateGroup && <CreateGroup close={this.closeCreateGroupSection} />}
                 </div>
             </div>,
-            <Alert message={this.props.error}/>
+            <Alert key="alert" message={this.props.error}/>
         ]);
     }
 }

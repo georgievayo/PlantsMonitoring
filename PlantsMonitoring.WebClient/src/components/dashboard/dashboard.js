@@ -30,7 +30,7 @@ class Dashboard extends Component {
         this.props.getDevices();
         this.props.getTelemetry();
         this.props.getAlarms();
-        const socket = openSocket('http://localhost:5000');
+        const socket = openSocket(`${process.env.REACT_APP_TELEMETRY_URL}`);
         socket.on('SendMeasurement', (measurement) => {
             const mappedMeasurement = toMeasurementModel(measurement);
             this.props.addMeasurement(mappedMeasurement);
@@ -104,13 +104,13 @@ class Dashboard extends Component {
                                 {this.props.isFetching ?
                                     <Loader isFetching={this.props.isFetching}></Loader>
                                     :
-                                    [<div>
+                                    [<div key="all">
                                         <strong>{this.state.statistics.total}</strong> All Devices
                                     </div>,
-                                    <div>
+                                    <div key="online">
                                         <strong>{this.state.statistics.online}</strong> Online Devices
                                     </div>,
-                                    <div>
+                                    <div key="offline">
                                         <strong>{this.state.statistics.offline}</strong> Offline Devices
                                     </div>]
                                 }
@@ -162,7 +162,7 @@ class Dashboard extends Component {
                     </Col>
                 </Row>
             </div>,
-            <Alert message={this.props.error} />
+            <Alert key="alert" message={this.props.error} />
         ]);
     }
 }

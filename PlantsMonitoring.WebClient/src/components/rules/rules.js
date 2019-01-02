@@ -19,7 +19,7 @@ class Rules extends Component {
 
     render() {
         return ([
-            <Header title="Rules" button="New rule" showAddSection={this.openCreateRuleSection} />,
+            <Header key="header" title="Rules" button="New rule" showAddSection={this.openCreateRuleSection} />,
             <div key="content" className="content">
                 <div className="row">
                     <div className={this.state.showCreateRule ? "col-md-8" : "col-md-12"}>
@@ -80,7 +80,7 @@ class Rules extends Component {
                     {this.state.showCreateRule && <CreateRule close={this.closeCreateRuleSection} />}
                 </div>
             </div>,
-            <Alert message={this.props.error}/>
+            <Alert key="alert" message={this.props.error}/>
         ]);
     }
 }
