@@ -2,13 +2,34 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Card, CardBody, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
 import * as usersActions from '../../actions/users.actions';
+import SimpleReactValidator from 'simple-react-validator';
 
 class Signup extends Component {
-    state = {
-        username: '',
-        email: '',
-        password: '',
-        passwordRepeated: ''
+    constructor(props) {
+        super(props);
+        this.state = {
+            username: '',
+            email: '',
+            password: '',
+            passwordRepeated: '',
+        };
+        this.validator = new SimpleReactValidator({
+            className: 'text-danger',
+            validators: {
+                password: {
+                    message: 'The :attribute field must contain at least 8 characters, 1 number, 1 uppercase and 1 lowercase.',
+                    rule: (val, params, validator) => {
+                        return validator.helpers.testRegex(val, /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/) && params.indexOf(val) === -1;
+                    }
+                },
+                match: {
+                    message: 'The passwords must match.',
+                    rule: (val, params, validator) => {
+                        return this.state.password === val;
+                    }
+                }
+            }
+        });
     }
 
     handleUsernameChange = (event) => {
@@ -35,8 +56,13 @@ class Signup extends Component {
             password: this.state.password
         };
 
-        this.props.signUp(user)
-            .then(() => this.props.history.push('/signin'));
+        if (this.validator.allValid()) {
+            this.props.signUp(user)
+                .then(() => this.props.history.push('/signin'));
+        } else {
+            this.validator.showMessages();
+            this.forceUpdate();
+        }
     }
 
     render() {
@@ -57,6 +83,7 @@ class Signup extends Component {
                                                 </InputGroupText>
                                             </InputGroupAddon>
                                             <Input type="text" placeholder="Username" autoComplete="username" onChange={this.handleUsernameChange} />
+                                            {this.validator.message('username', this.state.username, 'required|min:3')}
                                         </InputGroup>
                                         <InputGroup className="mb-3">
                                             <InputGroupAddon addonType="prepend">
@@ -65,6 +92,7 @@ class Signup extends Component {
                                                 </InputGroupText>
                                             </InputGroupAddon>
                                             <Input type="email" placeholder="Email" autoComplete="email" onChange={this.handleEmailChange} />
+                                            {this.validator.message('email', this.state.email, 'required|email')}
                                         </InputGroup>
                                         <InputGroup className="mb-3">
                                             <InputGroupAddon addonType="prepend">
@@ -73,6 +101,7 @@ class Signup extends Component {
                                                 </InputGroupText>
                                             </InputGroupAddon>
                                             <Input type="password" placeholder="Password" autoComplete="new-password" onChange={this.handlePasswordChange} />
+                                            {this.validator.message('password', this.state.password, 'required|password')}
                                         </InputGroup>
                                         <InputGroup className="mb-4">
                                             <InputGroupAddon addonType="prepend">
@@ -81,6 +110,7 @@ class Signup extends Component {
                                                 </InputGroupText>
                                             </InputGroupAddon>
                                             <Input type="password" placeholder="Repeat password" autoComplete="new-password" onChange={this.handlePasswordRepeatedChange} />
+                                            {this.validator.message('repeat password', this.state.passwordRepeated, 'required|match')}
                                         </InputGroup>
                                         <Button style={{backgroundColor: '#F96332', borderColor: '#F96332'}} block>Create Account</Button>
                                     </Form>
