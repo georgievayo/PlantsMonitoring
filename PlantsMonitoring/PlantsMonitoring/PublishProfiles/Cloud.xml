@@ -20,13 +20,12 @@
                                     AzureActiveDirectory="true"
                                     ServerCertThumbprint="0123456789012345678901234567890123456789" />
   -->
-  <ClusterConnectionParameters ConnectionEndpoint="plantsmonitoring.westeurope.cloudapp.azure.com:19000"
+  <ClusterConnectionParameters ConnectionEndpoint="plants-monitoring.westeurope.cloudapp.azure.com:19000"
                                     X509Credential="true"
-                                    ServerCertThumbprint="585879335178E0E1A9651602AFD00BC3CE9FED2D"
+                                    ServerCertThumbprint="ADEC552E45BCEB12B107CA2738593D3B5FA18809"
                                     FindType="FindByThumbprint"
-                                    FindValue="585879335178E0E1A9651602AFD00BC3CE9FED2D"
+                                    FindValue="ADEC552E45BCEB12B107CA2738593D3B5FA18809"
                                     StoreLocation="CurrentUser"
                                     StoreName="My" />
   <ApplicationParameterFile Path="..\ApplicationParameters\Cloud.xml" />
-  <CopyPackageParameters CopyPackageTimeoutSec="3600" CompressPackage="true" />
 </PublishProfile>
