@@ -3,14 +3,21 @@ import Select from 'react-select'
 import { connect } from 'react-redux';
 import * as groupsActions from '../../actions/groups.actions';
 import * as devicesActions from '../../actions/devices.actions';
+import SimpleReactValidator from 'simple-react-validator';
 
 class CreateDevice extends Component {
-    state = {
-        newDevice: {
-            name: '',
-            groupId: ''
-        }
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            newDevice: {
+                name: '',
+                groupId: ''
+            }
+        };
+        this.validator = new SimpleReactValidator({
+            className: 'text-danger'
+        });
+    }
 
     componentDidMount() {
         this.props.getGroups();
@@ -25,8 +32,13 @@ class CreateDevice extends Component {
     }
 
     submit = (event) => {
-        this.props.createDevice(this.state.newDevice)
-            .then(() => this.props.close());
+        if (this.validator.allValid()) {
+            this.props.createDevice(this.state.newDevice)
+                .then(() => this.props.close());
+        } else {
+            this.validator.showMessages();
+            this.forceUpdate();
+        }
     }
 
     render() {
@@ -47,6 +59,7 @@ class CreateDevice extends Component {
                                 <div className="form-group">
                                     <label>Device Name</label>
                                     <input type="text" className="form-control" onChange={(event) => this.handleNameChange(event)} />
+                                    {this.validator.message('name', this.state.newDevice.name, 'required|min:2')}
                                 </div>
                             </div>
                         </div>
@@ -55,6 +68,7 @@ class CreateDevice extends Component {
                                 <div className="form-group">
                                     <label>Plant type</label>
                                     <Select options={groupsOptions} onChange={this.selectGroup} />
+                                    {this.validator.message('type', this.state.newDevice.groupId, 'required')}
                                 </div>
                             </div>
                         </div>

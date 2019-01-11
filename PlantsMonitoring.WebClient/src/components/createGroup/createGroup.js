@@ -1,14 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as groupsActions from '../../actions/groups.actions';
+import SimpleReactValidator from 'simple-react-validator';
 
 class CreateGroup extends Component {
-    state = {
-        newGroup: {
-            name: '',
-            description: ''
-        }
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            newGroup: {
+                name: '',
+                description: ''
+            }
+        };
+        this.validator = new SimpleReactValidator({
+            className: 'text-danger'
+        });
+    }
 
     handleNameChange = (event) => {
         this.setState({ newGroup: { ...this.state.newGroup, name: event.target.value } });
@@ -19,8 +26,13 @@ class CreateGroup extends Component {
     }
 
     submit = (event) => {
-        this.props.createGroup(this.state.newGroup)
-            .then(() => this.props.close());
+        if (this.validator.allValid()) {
+            this.props.createGroup(this.state.newGroup)
+                .then(() => this.props.close());
+        } else {
+            this.validator.showMessages();
+            this.forceUpdate();
+        }
     }
 
     render() {
@@ -36,6 +48,7 @@ class CreateGroup extends Component {
                                 <div className="form-group">
                                     <label>Name</label>
                                     <input type="text" className="form-control" onChange={(event) => this.handleNameChange(event)} />
+                                    {this.validator.message('name', this.state.newGroup.name, 'required|min:2')}
                                 </div>
                             </div>
                         </div>
