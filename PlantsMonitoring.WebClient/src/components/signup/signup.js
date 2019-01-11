@@ -71,7 +71,7 @@ class Signup extends Component {
                 <Container>
                     <Row className="justify-content-center">
                         <Col md="9" lg="7" xl="6">
-                            <Card className="mx-4">
+                            <Card className="center mx-4">
                                 <CardBody className="p-4">
                                     <Form onSubmit={this.submit}>
                                         <h1>Register</h1>

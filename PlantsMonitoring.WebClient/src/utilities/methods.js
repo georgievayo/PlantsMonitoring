@@ -1,21 +1,18 @@
+import ColorScheme from 'color-scheme';
+
 export const getResult = (response) => response.Result || response.result || [];
 
-const getRandomColor = () => {
-    var letters = '0123456789ABCDEF';
-    var color = '#';
-    for (var i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-}
-
 export const getColors = (devices) => {
+    let s = new ColorScheme();
+    let allColors = s.scheme('analogic').colors();
     let colors = [];
-    devices.forEach(device => {
-        const color = getRandomColor();
-        colors.push({ value: color, deviceId: device.id, deviceName: device.name });
-    });
 
+    devices.forEach(device => {
+        const color = allColors[Math.floor(Math.random()*allColors.length)];
+        allColors.splice(allColors.indexOf(color), 1);
+        colors.push({ value: `#${color}`, deviceId: device.id, deviceName: device.name });
+    });
+    
     return colors;
 }
 

@@ -34,7 +34,7 @@ class Signin extends Component {
                 <Container>
                     <Row className="justify-content-center">
                         <Col md="8">
-                            <CardGroup>
+                            <CardGroup className="center">
                                 <Card className="p-4">
                                     <CardBody>
                                         <Form onSubmit={this.submit}>
