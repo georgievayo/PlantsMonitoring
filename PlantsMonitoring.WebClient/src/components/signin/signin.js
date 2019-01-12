@@ -68,8 +68,7 @@ class Signin extends Component {
                                     <CardBody className="text-center">
                                         <div>
                                             <h2>Sign up</h2>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-                        labore et dolore magna aliqua.</p>
+                                            <p>Plants Monitoring is a real time system to monitor temperature, light exposure and soil moisture of your plants. If you do not have a user account yet, you can sign up for free.</p>
                                             <Link to="/signup">
                                                 <Button className="mt-3" style={{backgroundColor: '#F96332', borderColor: '#F96332'}} active tabIndex={-1}>Sign Up Now!</Button>
                                             </Link>
