@@ -49,11 +49,10 @@ export const lineChartOptions = {
         xAxes: [{
             type: 'time',
             display: false,
+            distribution: 'series',
             time: {
-                unit: 'second',
-                displayFormats: {
-                    second: 'h:mm:ss a'
-                }
+                minUnit: 'millisecond',
+                unit: 'second'
             }
         }]
     }
@@ -67,11 +66,10 @@ export const lineChartOptionsWithLegend = {
         xAxes: [{
             type: 'time',
             display: false,
+            distribution: 'series',
             time: {
-                unit: 'second',
-                displayFormats: {
-                    second: 'h:mm:ss a'
-                }
+                minUnit: 'millisecond',
+                unit: 'second'
             }
         }]
     }
