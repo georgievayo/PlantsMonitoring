@@ -36,9 +36,7 @@ namespace PlantsMonitoring.AlarmsService
         {
             var devicesIds = this.devicesManager.GetAll(userId)
                 .Select(d => d.Id);
-            var alarms = this.alarmsManager.GetAll(devicesIds)
-                            .Where(a => a.IsDeleted == false)
-                            .ToList();
+            var alarms = this.alarmsManager.GetAll(devicesIds);
 
             foreach (var alarm in alarms)
             {

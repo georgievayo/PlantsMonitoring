@@ -105,15 +105,17 @@ class Dashboard extends Component {
                                 {this.props.isFetching ?
                                     <Loader isFetching={this.props.isFetching}></Loader>
                                     :
-                                    [<div key="all">
-                                        <strong>{this.state.statistics.total}</strong> All Devices
-                                    </div>,
-                                    <div key="online">
-                                        <strong>{this.state.statistics.online}</strong> Online Devices
-                                    </div>,
-                                    <div key="offline">
-                                        <strong>{this.state.statistics.offline}</strong> Offline Devices
-                                    </div>]
+                                    <Row>
+                                        <Col key="all" className="devices-statistics">
+                                        <strong className="count">{this.state.statistics.total}</strong> All Devices
+                                    </Col>
+                                    <Col key="online" className="devices-statistics">
+                                        <strong className="count">{this.state.statistics.online}</strong> Online Devices
+                                    </Col>
+                                    <Col key="offline" className="devices-statistics">
+                                        <strong className="count">{this.state.statistics.offline}</strong> Offline Devices
+                                    </Col>
+                                    </Row>
                                 }
                             </CardBody>
                         </Card>

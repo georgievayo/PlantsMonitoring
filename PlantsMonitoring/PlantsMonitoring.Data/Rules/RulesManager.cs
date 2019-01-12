@@ -34,10 +34,10 @@ namespace PlantsMonitoring.Data.Rules
 
         public Rule GetById(string id)
         {
-            return this.client.CreateDocumentQuery<Rule>(rulesUri)
-                .Where(r => r.Id == id)
-                .ToList()
-                .FirstOrDefault();
+            var rules = this.client.CreateDocumentQuery<Rule>(rulesUri)
+                .ToList();
+             
+            return rules.FirstOrDefault(r => r.Id == id);
         }
 
         public List<Rule> GetGroupRules(string groupId)

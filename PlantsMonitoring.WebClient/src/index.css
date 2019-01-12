@@ -17,3 +17,10 @@ code {
   margin-top: 35%;
   margin-bottom: 35%;
 }
+
+.devices-statistics {
+  font-size: 15pt;
+}
+.devices-statistics .count {
+  font-size: 30pt;
+}

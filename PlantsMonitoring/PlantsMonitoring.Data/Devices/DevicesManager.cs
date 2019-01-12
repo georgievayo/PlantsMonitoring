@@ -14,12 +14,14 @@ namespace PlantsMonitoring.Data.Devices
         private readonly DocumentClient client;
         private readonly Uri devicesUri;
         private readonly Uri telemetryUri;
+        private readonly FeedOptions options;
 
         public DevicesManager(DocumentClient client)
         {
             this.client = client;
             devicesUri = UriFactory.CreateDocumentCollectionUri(Constants.DATABASE_ID, Constants.DEVICES_COLLECTION_NAME);
             telemetryUri = UriFactory.CreateDocumentCollectionUri(Constants.DATABASE_ID, Constants.TELEMETRY_COLLECTION_NAME);
+            this.options = new FeedOptions { EnableCrossPartitionQuery = true };
         }
 
         public async Task<Document> Add(Device device)
@@ -54,14 +56,14 @@ namespace PlantsMonitoring.Data.Devices
         {
             var minDate = DateTime.Now.Subtract(new TimeSpan(3, 0, 0, 0, 0));
 
-            return this.client.CreateDocumentQuery<Measurement>(telemetryUri)
+            return this.client.CreateDocumentQuery<Measurement>(telemetryUri, options)
                 .Where(m => m.ReceivedAt >= minDate && m.DeviceId == deviceId)
                 .ToList();
         }
 
         public Measurement GetLastMessage(string deviceId)
         {
-            return this.client.CreateDocumentQuery<Measurement>(telemetryUri)
+            return this.client.CreateDocumentQuery<Measurement>(telemetryUri, options)
                 .Where(entry => entry.DeviceId == deviceId)
                 .OrderByDescending(entry => entry.ReceivedAt)
                 .ToList()
@@ -70,7 +72,7 @@ namespace PlantsMonitoring.Data.Devices
 
         public List<Measurement> GetLastMessages(string deviceId)
         {
-            return this.client.CreateDocumentQuery<Measurement>(telemetryUri)
+            return this.client.CreateDocumentQuery<Measurement>(telemetryUri, options)
                 .Where(entry => entry.DeviceId == deviceId)
                 .OrderByDescending(entry => entry.ReceivedAt)
                 .ToList();
@@ -80,7 +82,7 @@ namespace PlantsMonitoring.Data.Devices
         {
             var minDate = DateTime.Now.Subtract(new TimeSpan(3, 0, 0, 0));
 
-            return this.client.CreateDocumentQuery<Measurement>(telemetryUri)
+            return this.client.CreateDocumentQuery<Measurement>(telemetryUri, options)
                 .Where(m => m.ReceivedAt >= minDate && devicesIds.Contains(m.DeviceId))
                 .ToList();
         }

@@ -45,7 +45,7 @@ class Rules extends Component {
                                                         Importance
                       </th>
                                                     <th>
-                                                        Rule For
+                                                        Condition
                       </th>
                                                     <th className="text-right">
                                                         Plant Type
@@ -63,7 +63,7 @@ class Rules extends Component {
                                                             {rule.type}
                                                         </td>
                                                         <td>
-                                                            {rule.field}
+                                                            {rule.field} {rule.operator} {rule.value}
                                                         </td>
                                                         <td className="text-right">
                                                             {rule.group}
