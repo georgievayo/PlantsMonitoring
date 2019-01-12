@@ -14,6 +14,8 @@ namespace PlantsMonitoring.Models
 
         public Group Group { get; set; }
 
+        public string PhotoUrl { get; set; }
+
         public Measurement LastMeasurement { get; set; }
 
         public DeviceStatus Status { get; set; }

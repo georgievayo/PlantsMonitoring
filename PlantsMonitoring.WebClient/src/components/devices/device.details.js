@@ -52,31 +52,23 @@ class DeviceDetails extends Component {
                                     :
                                     [<Row key="details">
                                         <Col xs={12} md={4}>
-                                            <Card>
-                                                <CardHeader>
-                                                    <CardTitle>Details</CardTitle>
-                                                </CardHeader>
+                                            <Card className="card-user">
                                                 <CardBody>
-                                                    <Row>
-                                                        <Col>
-                                                            Device Id: {device.id}
-                                                        </Col>
-                                                    </Row>
-                                                    <Row>
-                                                        <Col>
-                                                            Device Name: {device.name}
-                                                        </Col>
-                                                    </Row>
-                                                    <Row>
-                                                        <Col>
-                                                            Plant type: {device.group}
-                                                        </Col>
-                                                    </Row>
-                                                    <Row>
-                                                        <Col>
-                                                            Status: {device.status}
-                                                        </Col>
-                                                    </Row>
+                                                    <div class="image">
+                                                        <img src="https://t4.ftcdn.net/jpg/01/35/80/47/240_F_135804754_lHZGxOQ4d6BdBMrAI71HqVZ21j0yCY1n.jpg" alt="..." />
+                                                    </div>
+                                                    <div class="author">
+                                                            <img class="avatar border-gray" src={device.photoUrl || "https://4.imimg.com/data4/WL/IT/MY-34139455/indoor-ornamental-plant-500x500.jpg"} alt="..." />
+                                                            <h5 class="title">{device.name}</h5>
+                                                        <p class="description">
+                                                        {device.status}
+                  </p>
+                                                    </div>
+                                                    <p class="description text-center">
+                                                    ID: {device.id}
+                  <br /> Plant Type: {device.group}
+                </p>
+     
                                                 </CardBody>
                                             </Card>
                                         </Col>

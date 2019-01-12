@@ -11,7 +11,8 @@ class CreateDevice extends Component {
         this.state = {
             newDevice: {
                 name: '',
-                groupId: ''
+                groupId: '',
+                photoUrl: ''
             }
         };
         this.validator = new SimpleReactValidator({
@@ -29,6 +30,10 @@ class CreateDevice extends Component {
 
     selectGroup = (group) => {
         this.setState({ newDevice: { ...this.state.newDevice, groupId: group.option } });
+    }
+
+    handlePhotoChange = (event) => {
+        this.setState({ newDevice: { ...this.state.newDevice, photoUrl: event.target.value } });
     }
 
     submit = (event) => {
@@ -69,6 +74,15 @@ class CreateDevice extends Component {
                                     <label>Plant type</label>
                                     <Select options={groupsOptions} onChange={this.selectGroup} />
                                     {this.validator.message('type', this.state.newDevice.groupId, 'required')}
+                                </div>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-md-12">
+                                <div className="form-group">
+                                    <label>Photo Url</label>
+                                    <input type="text" className="form-control" onChange={(event) => this.handlePhotoChange(event)} />
+                                    {this.validator.message('photo url', this.state.newDevice.photoUrl, 'required|min:2|url')}
                                 </div>
                             </div>
                         </div>

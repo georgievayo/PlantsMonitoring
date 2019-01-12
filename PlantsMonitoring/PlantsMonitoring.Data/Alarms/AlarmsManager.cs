@@ -24,7 +24,8 @@ namespace PlantsMonitoring.Data.Alarms
         public async Task Delete(Alarm alarm)
         {
             alarm.IsDeleted = true;
-            await this.client.ReplaceDocumentAsync(alarmsUri, alarm);
+            var alarmUri = UriFactory.CreateDocumentUri(Constants.DATABASE_ID, Constants.ALARMS_COLLECTION_NAME, alarm.Id);
+            await this.client.ReplaceDocumentAsync(alarmUri, alarm);
         }
 
         public List<Alarm> GetAll(IEnumerable<string> devicesIds)

@@ -126,7 +126,7 @@ namespace PlantsMonitoring.DevicesService
                     var lastMessage = this.devicesManager.GetLastMessage(device.Id);
                     if(lastMessage != null)
                     {
-                        if (lastMessage.ReceivedAt < DateTime.Now.Subtract(new TimeSpan(0, 20, 0)))
+                        if (lastMessage.ReceivedAt < DateTime.Now.Subtract(new TimeSpan(1, 0, 0)))
                         {
                             device.Status = DeviceStatus.Offline;
                         }

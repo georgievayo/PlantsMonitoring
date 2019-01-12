@@ -77,15 +77,22 @@ namespace PlantsMonitoring.AlarmsService
             while (true)
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                var alarms = this.alarmsManager.GetAll();
-                foreach (var alarm in alarms)
+                try
                 {
-                    var rule = this.rulesManager.GetById(alarm.RuleId);
-                    var lastMessage = this.devicesManager.GetLastMessage(alarm.DeviceId);
-                    if (rule != null && lastMessage != null && ShouldDeleteAlarm(rule, lastMessage))
+                    var alarms = this.alarmsManager.GetAll();
+                    foreach (var alarm in alarms)
                     {
-                        await this.alarmsManager.Delete(alarm);
+                        var rule = this.rulesManager.GetById(alarm.RuleId);
+                        var lastMessage = this.devicesManager.GetLastMessage(alarm.DeviceId);
+                        if (rule != null && lastMessage != null && ShouldDeleteAlarm(rule, lastMessage))
+                        {
+                            await this.alarmsManager.Delete(alarm);
+                        }
                     }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
                 }
 
                 await Task.Delay(TimeSpan.FromSeconds(20), cancellationToken);

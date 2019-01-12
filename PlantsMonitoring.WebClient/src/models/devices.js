@@ -45,6 +45,7 @@ export const toDeviceExtendedModel = (response) => {
         name: device.Name,
         status: device.Status === 1 ? 'Offline' : 'Online',
         group: device.Group.Name,
+        photoUrl: device.PhotoUrl,
         temperatureData: temperatureData,
         humidityData: humidityData,
         lightData: lightData,
