@@ -6,15 +6,17 @@ module.exports = ({ telemetryData, devicesData, alarmsData, rulesData }, io) => 
             const measurement = req.body;
             const createdDocument = await telemetryData.addMeasurement(measurement);
             io.emit('SendMeasurement', createdDocument);
-            const groupId = await devicesData.getGroupOfDevice(measurement.DeviceId);
+            const deviceId = measurement.DeviceId;
+            const groupId = await devicesData.getGroupOfDevice(deviceId);
             const rules = await rulesData.getRulesOfGroup(groupId);
-            let breakingRules = getBreakingRules(measurement, rules);
-            if(breakingRules.length > 0) {
+            const alarms = await alarmsData.getAlarmsOfDevice(deviceId);
+            let breakingRules = getBreakingRules(measurement, rules, alarms);
+            if (breakingRules.length > 0) {
                 const alarms = createAlarms(breakingRules, measurement.DeviceId);
                 await asyncForEach(alarms, async alarm => {
                     const createdAlarm = await alarmsData.addAlarm(alarm);
                     io.emit('SendAlarm', createdAlarm);
-                }); 
+                });
             }
 
             res.status(200)

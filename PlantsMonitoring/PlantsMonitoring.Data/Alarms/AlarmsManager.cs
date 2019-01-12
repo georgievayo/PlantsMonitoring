@@ -30,13 +30,14 @@ namespace PlantsMonitoring.Data.Alarms
         public List<Alarm> GetAll(IEnumerable<string> devicesIds)
         {
             return this.client.CreateDocumentQuery<Alarm>(alarmsUri, options)
-                .Where(a => devicesIds.Contains(a.DeviceId))
+                .Where(a => devicesIds.Contains(a.DeviceId) && a.IsDeleted == false)
                 .ToList();
         }
 
         public List<Alarm> GetAll()
         {
             return this.client.CreateDocumentQuery<Alarm>(alarmsUri, options)
+                .Where(a => a.IsDeleted == false)
                 .ToList();
         }
 

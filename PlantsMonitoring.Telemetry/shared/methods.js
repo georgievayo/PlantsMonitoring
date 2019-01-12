@@ -28,8 +28,12 @@ module.exports = {
             await callback(array[index], index, array);
         }
     },
-    getBreakingRules: (measurement, rules) => {
+    getBreakingRules: (measurement, rules, alarms) => {
         let breakingRules = rules.filter(rule => isBreakingRule(measurement, rule))
+            .filter(rule => {
+                const alarmIndex = alarms.findIndex(a => a.RuleId === rule.id);
+                return alarmIndex < 0;
+            })
             .map(rule => {
                 return { id: rule.id, type: rule.Type, field: rule.Field };
             });
