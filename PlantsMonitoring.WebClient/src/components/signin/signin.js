@@ -3,13 +3,20 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Button, Card, CardBody, CardGroup, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
 import * as usersActions from '../../actions/users.actions';
+import SimpleReactValidator from 'simple-react-validator';
 
 class Signin extends Component {
-    state = {
-        username: '',
-        password: ''
+    constructor(props) {
+        super(props);
+        this.state = {
+            username: '',
+            password: ''
+        };
+        this.validator = new SimpleReactValidator({
+            className: 'text-danger login-error'
+        });
     }
-
+    
     handleUsernameChange = (event) => {
         this.setState({ username: event.target.value });
     }
@@ -24,8 +31,13 @@ class Signin extends Component {
             password: this.state.password
         };
 
-        this.props.signIn(user)
-            .then(() => this.props.history.push('/dashboard'));
+        if (this.validator.allValid()) {
+            this.props.signIn(user)
+                .then(() => this.props.history.push('/dashboard'));
+        } else {
+            this.validator.showMessages();
+            this.forceUpdate();
+        }
     }
 
     render() {
@@ -48,6 +60,7 @@ class Signin extends Component {
                                                 </InputGroupAddon>
                                                 <Input type="text" placeholder="Username" autoComplete="username" onChange={this.handleUsernameChange} />
                                             </InputGroup>
+                                            {this.validator.message('username', this.state.username, 'required')}
                                             <InputGroup className="mb-4">
                                                 <InputGroupAddon addonType="prepend">
                                                     <InputGroupText>
@@ -56,6 +69,7 @@ class Signin extends Component {
                                                 </InputGroupAddon>
                                                 <Input type="password" placeholder="Password" autoComplete="current-password" onChange={this.handlePasswordChange} />
                                             </InputGroup>
+                                            {this.validator.message('password', this.state.password, 'required')}
                                             <Row>
                                                 <Col xs="6">
                                                     <Button className="px-4" style={{backgroundColor: '#F96332', borderColor: '#F96332'}}>Sign In</Button>
