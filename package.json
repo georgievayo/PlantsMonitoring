@@ -3,7 +3,11 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-      "start": "cd ./PlantsMonitoring.WebClient && npm install && npm start"
+      "postinstall": "cd PlantsMonitoring.WebClient && npm install",
+      "start": "npm start"
+    },
+    "engines": {
+      "node": "10.13.0"
     }
   }
   
