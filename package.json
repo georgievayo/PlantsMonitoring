@@ -4,7 +4,7 @@
     "private": true,
     "scripts": {
       "postinstall": "cd PlantsMonitoring.WebClient && npm install",
-      "start": "npm start"
+      "start": "cd PlantsMonitoring.WebClient && npm start"
     },
     "engines": {
       "node": "10.13.0"
